@@ -1,8 +1,10 @@
+import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/dimens.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/extension/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
 abstract class AppUtility {
@@ -40,7 +42,7 @@ abstract class AppUtility {
 
   /// Show SnackBar
 
-  static void showSnackBar(String message, String type, {int? duration}) {
+  static void showSnackBar(String message, {int? duration}) {
     closeSnackBar();
     Get.showSnackbar(
       GetSnackBar(
@@ -58,7 +60,7 @@ abstract class AppUtility {
         messageText: Text(
           message.toCapitalized(),
           style: AppStyles.style14Normal.copyWith(
-            color: renderTextColor(type),
+            color: ColorValues.whiteColor,
           ),
         ),
         shouldIconPulse: false,
@@ -69,8 +71,12 @@ abstract class AppUtility {
     );
   }
 
-  /// Render Text Color
-  static Color renderTextColor(String type) {
-    return Theme.of(Get.context!).snackBarTheme.contentTextStyle!.color!;
+  /// format number
+  static String formatNumber(double value) {
+    return NumberFormat('#,###').format(value);
+  }
+
+  static String formatNumberAsMarketValue({required double value, required bool isMarketValueUp}) {
+    return isMarketValueUp ? '+${value.toString()}%' : '-${value.toString()}%';
   }
 }

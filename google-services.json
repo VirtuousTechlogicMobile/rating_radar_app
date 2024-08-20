@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "662742740036",
+    "project_id": "rating-reviews-app",
+    "storage_bucket": "rating-reviews-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:662742740036:android:3a4e6c2793554b47aee011",
+        "android_client_info": {
+          "package_name": "com.RatingRadar.app.RatingRadar_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAqxlt1gEOZ5114UoOTykPqC7nXxsvXGl8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

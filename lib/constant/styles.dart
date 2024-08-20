@@ -1,11 +1,20 @@
 import 'package:RatingRadar_app/constant/dimens.dart';
 import 'package:flutter/material.dart';
 
+import 'colors.dart';
+
 abstract class AppStyles {
   static const Color kShadowColor = Color.fromRGBO(0, 0, 0, 0.1);
   static TextStyle style10Bold = TextStyle(
     fontSize: Dimens.ten,
     fontWeight: FontWeight.w700,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style9SemiBold = TextStyle(
+    fontSize: Dimens.nine,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -17,9 +26,9 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
-  static TextStyle style11Bold = TextStyle(
+  static TextStyle style11SemiBold = TextStyle(
     fontSize: Dimens.eleven,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -45,6 +54,13 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style12SemiLight = TextStyle(
+    fontSize: Dimens.twelve,
+    fontWeight: FontWeight.w300,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style13Black = TextStyle(
     fontSize: Dimens.thirteen,
     fontWeight: FontWeight.w900,
@@ -66,16 +82,33 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
-  static TextStyle style14Black = TextStyle(
-    fontSize: Dimens.fourteen,
-    fontWeight: FontWeight.w900,
+  static TextStyle style13semiBold = TextStyle(
+    fontSize: Dimens.thirteen,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
+  static TextStyle style14SemiLight = TextStyle(
+    fontSize: Dimens.fourteen,
+    fontWeight: FontWeight.w300,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style14Black =
+      TextStyle(fontSize: Dimens.fourteen, fontWeight: FontWeight.w300, fontFamily: defaultFontFamily, height: defaultFontHeight, color: ColorValues.blackColor);
+
   static TextStyle style14Bold = TextStyle(
     fontSize: Dimens.fourteen,
     fontWeight: FontWeight.w700,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style14SemiBold = TextStyle(
+    fontSize: Dimens.fourteen,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -108,9 +141,9 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
-  static TextStyle style16Black = TextStyle(
+  static TextStyle style16Light = TextStyle(
     fontSize: Dimens.sixTeen,
-    fontWeight: FontWeight.w900,
+    fontWeight: FontWeight.w300,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -129,9 +162,16 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style17Normal = TextStyle(
+    fontSize: Dimens.sevenTeen,
+    fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style18Bold = TextStyle(
     fontSize: Dimens.eighteen,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -164,6 +204,20 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style21Normal = TextStyle(
+    fontSize: Dimens.twenty,
+    fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style21Bold = TextStyle(
+    fontSize: Dimens.twenty,
+    fontWeight: FontWeight.w600,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style24Black = TextStyle(
     fontSize: Dimens.twentyFour,
     fontWeight: FontWeight.w900,
@@ -173,12 +227,26 @@ abstract class AppStyles {
 
   static TextStyle style24Bold = TextStyle(
     fontSize: Dimens.twentyFour,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style24SemiBold = TextStyle(
+    fontSize: Dimens.twentyFour,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
   static TextStyle style24Normal = TextStyle(
+    fontSize: Dimens.twentyFour,
+    fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style26Normal = TextStyle(
     fontSize: Dimens.twentyFour,
     fontWeight: FontWeight.w400,
     fontFamily: defaultFontFamily,
@@ -242,50 +310,55 @@ abstract class AppStyles {
   );
 
   static TextStyle style40Black = TextStyle(
-    fontSize: Dimens.fourty,
+    fontSize: Dimens.forty,
     fontWeight: FontWeight.w900,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
   static TextStyle style40Bold = TextStyle(
-    fontSize: Dimens.fourty,
+    fontSize: Dimens.forty,
     fontWeight: FontWeight.w700,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
   static TextStyle style40Normal = TextStyle(
-    fontSize: Dimens.fourty,
+    fontSize: Dimens.forty,
     fontWeight: FontWeight.w400,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
   static TextStyle style48Black = TextStyle(
-    fontSize: Dimens.fourtyEight,
+    fontSize: Dimens.fortyEight,
     fontWeight: FontWeight.w900,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
   static TextStyle style48Bold = TextStyle(
-    fontSize: Dimens.fourtyEight,
+    fontSize: Dimens.fortyEight,
     fontWeight: FontWeight.w700,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
   static TextStyle style48Normal = TextStyle(
-    fontSize: Dimens.fourtyEight,
+    fontSize: Dimens.fortyEight,
     fontWeight: FontWeight.w400,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
-  static String get defaultFontFamily => 'Poppins';
+  static TextStyle style55SemiBold = TextStyle(
+    fontSize: Dimens.fiftyFive,
+    fontWeight: FontWeight.w500,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
 
-  static String get mugeFontFamily => 'Muge';
+  static String get defaultFontFamily => 'Poppins';
 
   static double get defaultFontHeight => 1.2;
 

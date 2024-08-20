@@ -1,20 +1,36 @@
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/services/translations/app_translations.dart';
 import 'package:RatingRadar_app/theme/theme_controller.dart';
-import 'package:flutter/material.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'constant/hive_box_names.dart';
-import 'routes/app_pages.dart';
-import 'services/network/network_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'constant/hive_box_names.dart';
+import 'routes/app_pages.dart';
+import 'services/network/network_controller.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+          apiKey: "AIzaSyDaiPmQawxczPefXWObn9npnFR31eylpFY",
+          authDomain: "rating-reviews-app.firebaseapp.com",
+          projectId: "rating-reviews-app",
+          storageBucket: "rating-reviews-app.appspot.com",
+          messagingSenderId: "662742740036",
+          appId: "1:662742740036:web:e8f8a7b40602ac1daee011",
+          measurementId: "G-56MTP8JR3J"),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
   await _initPreAppServices();
   final networkService = NetworkController.instance;
   await networkService.init();
@@ -64,7 +80,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   String _handleAppInitialRoute() {
-    return AppRoutes.welcome;
+    return AppRoutes.signIn;
   }
 
   ThemeMode _handleAppTheme(String mode) {
@@ -83,17 +99,23 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(392, 744),
       builder: (ctx, child) {
-        return GetMaterialApp(
-          title: StringValues.appName,
-          debugShowCheckedModeBanner: false,
-          themeMode: _handleAppTheme(appController.themeMode),
-          theme: appController.getLightThemeData(context),
-          darkTheme: appController.getDarkThemeData(context),
-          getPages: AppPages.pages,
-          initialRoute: _handleAppInitialRoute(),
-          translations: AppTranslation(),
-          locale: Get.deviceLocale,
-          fallbackLocale: const Locale('en', 'IN'),
+        return Obx(
+          () {
+            return GlobalLoaderOverlay(
+              child: GetMaterialApp(
+                title: StringValues.appName,
+                debugShowCheckedModeBanner: false,
+                themeMode: _handleAppTheme(appController.themeMode),
+                theme: appController.getLightThemeData(context),
+                darkTheme: appController.getDarkThemeData(context),
+                getPages: AppPages.pages,
+                initialRoute: _handleAppInitialRoute(),
+                translations: AppTranslation(),
+                locale: Get.deviceLocale,
+                fallbackLocale: const Locale('en', 'IN'),
+              ),
+            );
+          },
         );
       },
     );

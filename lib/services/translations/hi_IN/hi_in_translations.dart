@@ -1,4 +1,4 @@
 final Map<String, String> hiIn = {
   'hi': 'Hi',
-  'app_name': 'Rippl',
+  'app_name': 'Rating Radar',
 };

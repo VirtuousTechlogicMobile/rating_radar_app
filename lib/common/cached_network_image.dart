@@ -1,14 +1,16 @@
-import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:developer';
+
 import 'package:RatingRadar_app/common/custom_colored_box.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/dimens.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 
 class NxNetworkImage extends StatelessWidget {
   const NxNetworkImage({
     super.key,
     required this.imageUrl,
-    this.radius,
+    this.borderRadius,
     this.width,
     this.height,
     this.maxWidth,
@@ -17,7 +19,7 @@ class NxNetworkImage extends StatelessWidget {
   });
 
   final String imageUrl;
-  final double? radius;
+  final BorderRadiusGeometry? borderRadius;
   final double? width;
   final double? height;
   final double? maxWidth;
@@ -34,7 +36,7 @@ class NxNetworkImage extends StatelessWidget {
         maxHeight: maxHeight ?? Dimens.screenHeight,
       ),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(radius ?? 0.0),
+        borderRadius: borderRadius ?? BorderRadius.zero,
         child: CachedNetworkImage(
           imageUrl: imageUrl,
           fit: imageFit ?? BoxFit.cover,
@@ -42,10 +44,13 @@ class NxNetworkImage extends StatelessWidget {
             width: width,
             height: height,
           ),
-          errorWidget: (ctx, url, err) => const Icon(
-            CupertinoIcons.info,
-            color: ColorValues.errorColor,
-          ),
+          errorWidget: (ctx, url, err) {
+            log("image error : $err");
+            return const Icon(
+              CupertinoIcons.info,
+              color: ColorValues.errorColor,
+            );
+          },
         ),
       ),
     );

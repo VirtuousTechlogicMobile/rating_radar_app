@@ -1,4 +1,3 @@
-import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:intl/intl.dart';
 
 const String dateFormatter = 'dd MMM';
