@@ -6,13 +6,19 @@ abstract class PreferencesManager {
     await SharedPrefGetterSetters().setString('userId', uid);
   }
 
+  static Future setAdminUid({required String adminUid}) async {
+    await SharedPrefGetterSetters().clearKey('AdminId');
+    await SharedPrefGetterSetters().setString('AdminId', adminUid);
+  }
+
   static Future deleteUserUid({required String uid}) async {
     await SharedPrefGetterSetters().clearKey('userId');
   }
 
   static Future<String?> getUserId() async {
     String? userId = await SharedPrefGetterSetters().getString('userId');
-    String? managerId = await SharedPrefGetterSetters().getString('managerUserId');
+    String? managerId =
+        await SharedPrefGetterSetters().getString('managerUserId');
     return userId ?? managerId;
   }
 

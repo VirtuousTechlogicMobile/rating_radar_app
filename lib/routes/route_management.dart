@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../modules/user/user_signup/model/user_signup_model.dart';
+
 import 'app_pages.dart';
 
 abstract class RouteManagement {
@@ -26,7 +26,8 @@ abstract class RouteManagement {
   }
 
   static void goToUserSubmitAdScreenView({required String adDocumentId}) {
-    Get.toNamed(AppRoutes.userSubmitAd, parameters: {'adDocumentId': adDocumentId});
+    Get.toNamed(AppRoutes.userSubmitAd,
+        parameters: {'adDocumentId': adDocumentId});
   }
 
   static void goToUserAdsListMenuView() {
@@ -35,10 +36,14 @@ abstract class RouteManagement {
 
   /// manager module --------------------------------------------------------------------------
 
-  /// admin module --------------------------------------------------------------------------
-
   static void goToManagerSignUpView() {
     Get.toNamed(AppRoutes.managerSignUp);
+  }
+
+  /// admin module --------------------------------------------------------------------------
+
+  static void goToAdminSignInView() {
+    Get.toNamed(AppRoutes.adminSignIn);
   }
 
   /// Go to back Page / Close Pages --------------------------------------------

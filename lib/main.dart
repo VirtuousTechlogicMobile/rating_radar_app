@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+
 import 'constant/hive_box_names.dart';
 import 'routes/app_pages.dart';
 import 'services/network/network_controller.dart';
@@ -80,7 +81,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   String _handleAppInitialRoute() {
-    return AppRoutes.signIn;
+    return AppRoutes.adminSignIn;
   }
 
   ThemeMode _handleAppTheme(String mode) {
