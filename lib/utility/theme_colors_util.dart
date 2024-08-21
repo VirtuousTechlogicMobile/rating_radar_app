@@ -68,4 +68,12 @@ class ThemeColorsUtil {
   Color get darkGrayOfWhiteSwitchColor {
     return isDarkTheme ? ColorValues.darkGrayColor : ColorValues.ofWhiteColor;
   }
+
+  Color get fontColorBlackWhiteSwitchColor {
+    return isDarkTheme ? ColorValues.whiteColor : ColorValues.fontColorBlack;
+  }
+
+  Color get dividerSwitchColor {
+    return isDarkTheme ? ColorValues.dividerGreyColor.withOpacity(0.50) : ColorValues.dividerGreyColor;
+  }
 }

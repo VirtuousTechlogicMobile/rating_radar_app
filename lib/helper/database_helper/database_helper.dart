@@ -1,5 +1,4 @@
 import 'dart:developer';
-import 'dart:html' as html;
 
 import 'package:RatingRadar_app/helper/database_helper/database_synonyms.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/model/manager_signup_model.dart';
@@ -13,6 +12,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../constant/strings.dart';
 import '../../modules/signin/model/signin_model.dart';
+import '../../modules/user/user_ads_list_menu/model/user_submitted_ads_list_data_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
 import '../shared_preferences_manager/preferences_manager.dart';
@@ -218,6 +218,22 @@ class DatabaseHelper {
     }
   }
 
+  /// check user submitted ad or not
+  Future<bool?> isUserSubmittedAd({required String uId, required String adId}) async {
+    try {
+      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+      QuerySnapshot querySnapshot = await collectionRef.where(DatabaseSynonyms.uIdField, isEqualTo: uId).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
   Future<List<UserAdsListDataModel>?> getLimitedAdsList({
     required int limit,
   }) async {
@@ -359,7 +375,6 @@ class DatabaseHelper {
   Future<UserAdsListDataModel?> documentData({required String docId}) async {
     try {
       CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      FirebaseFirestore.instance.collection('adsListCollection');
 
       UserAdsListDataModel? usersAdData;
 
@@ -411,6 +426,49 @@ class DatabaseHelper {
       DocumentReference documentReference = await collectionRef.add(userSubmitAdDataModel.toMap());
       return documentReference.id;
     } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<UserSubmittedAdsListDataModel>?> getsUserSubmittedAdsList({required int nDataPerPage, UserSubmittedAdsListDataModel? adLastDocument}) async {
+    try {
+      CollectionReference userAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+      CollectionReference userCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+
+      /// store the last document id
+      String? lastDocumentId = adLastDocument?.submittedAdId;
+      List<UserSubmittedAdsListDataModel> usersSubmittedAdsList = [];
+      Query query = userAdsCollectionReference.limit(nDataPerPage);
+
+      if (lastDocumentId != null) {
+        /// get the data after last document id
+        DocumentSnapshot lastDocumentSnapshot = await userAdsCollectionReference.doc(lastDocumentId).get();
+        query = query.startAfterDocument(lastDocumentSnapshot);
+      }
+
+      QuerySnapshot querySnapshot = await query.get();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var snapshotData in querySnapshot.docs) {
+          DocumentSnapshot adData = await adsCollectionReference.doc(snapshotData[DatabaseSynonyms.adIdField]).get();
+          DocumentSnapshot userData = await userCollectionReference.doc(snapshotData[DatabaseSynonyms.uIdField]).get();
+          usersSubmittedAdsList.add(
+            UserSubmittedAdsListDataModel(
+              email: userData['email'],
+              userName: userData['username'],
+              date: (snapshotData['addedDate'] as Timestamp).toDate(),
+              submittedAdId: snapshotData.id,
+              adStatus: adData['adStatus'],
+              company: adData['byCompany'],
+              taskPrice: adData['adPrice'],
+            ),
+          );
+        }
+        // usersSubmittedAdsList.addAll(querySnapshot.docs.map((docs) => UserAdsListDataModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList());
+      }
+      return usersSubmittedAdsList;
+    } catch (e) {
+      log("Exception: $e");
       return null;
     }
   }

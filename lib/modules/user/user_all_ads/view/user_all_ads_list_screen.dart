@@ -8,6 +8,7 @@ import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../constant/dimens.dart';
+import '../../../../routes/route_management.dart';
 import '../../drawer/view/drawer_view.dart';
 import '../../header/view/header_view.dart';
 
@@ -135,6 +136,9 @@ Widget screenMainLayout({required ThemeColorsUtil themeUtils, required UserAllAd
                                         imageUrl: userAllAdsController.adsList[index].imageUrl,
                                         adPrice: 200,
                                       ),
+                                      onViewButtonTap: () {
+                                        RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAllAdsController.adsList[index].docId ?? '');
+                                      },
                                     );
                                   },
                                 ),

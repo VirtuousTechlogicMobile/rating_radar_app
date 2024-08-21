@@ -35,11 +35,11 @@ abstract class RouteManagement {
 
   /// manager module --------------------------------------------------------------------------
 
-  /// admin module --------------------------------------------------------------------------
-
   static void goToManagerSignUpView() {
     Get.toNamed(AppRoutes.managerSignUp);
   }
+
+  /// admin module --------------------------------------------------------------------------
 
   /// Go to back Page / Close Pages --------------------------------------------
 
