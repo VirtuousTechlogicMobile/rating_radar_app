@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import '../../../../constant/assets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../utility/theme_colors_util.dart';
-import '../model/menu_data_model.dart';
+import '../model/admin_menu_data_model.dart';
 
-class DrawerMenuComponent extends StatelessWidget {
-  final MenuDataModel menuDataModel;
+class AdminDrawerMenuComponent extends StatelessWidget {
+  final AdminMenuDataModel adminMenuDataModel;
   final bool isSelected;
-  final Function(MenuDataModel selectedMenu) onSelectMenuItem;
+  final Function(AdminMenuDataModel selectedMenu) onSelectMenuItem;
 
-  const DrawerMenuComponent({
+  const AdminDrawerMenuComponent({
     super.key,
-    required this.menuDataModel,
+    required this.adminMenuDataModel,
     required this.isSelected,
     required this.onSelectMenuItem,
   });
@@ -26,7 +26,7 @@ class DrawerMenuComponent extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        onSelectMenuItem(menuDataModel);
+        onSelectMenuItem(adminMenuDataModel);
       },
       child: Container(
         padding: EdgeInsets.only(
@@ -41,17 +41,17 @@ class DrawerMenuComponent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CommonWidgets.fromSvg(
-              svgAsset: menuDataModel.prefixSvgIcon,
+              svgAsset: adminMenuDataModel.prefixSvgIcon,
               color: isSelected
                   ? themeUtils.blackWhiteSwitchColor
                   : themeUtils.whiteBlackSwitchColor,
-              height: menuDataModel.svgIconHeight ?? Dimens.twentyFour,
-              width: menuDataModel.svgIconWidth ?? Dimens.twentyFour,
+              height: adminMenuDataModel.svgIconHeight ?? Dimens.twentyFour,
+              width: adminMenuDataModel.svgIconWidth ?? Dimens.twentyFour,
             ),
             Padding(
               padding: EdgeInsets.only(left: Dimens.fourteen),
               child: Text(
-                menuDataModel.menuName,
+                adminMenuDataModel.menuName,
                 style: AppStyles.style14SemiBold.copyWith(
                   color: isSelected
                       ? themeUtils.blackWhiteSwitchColor
@@ -59,7 +59,7 @@ class DrawerMenuComponent extends StatelessWidget {
                 ),
               ),
             ),
-            if (menuDataModel.isShowRightIcon)
+            if (adminMenuDataModel.isShowRightIcon)
               Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,

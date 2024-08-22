@@ -1,5 +1,7 @@
 import 'package:RatingRadar_app/modules/admin/admin_signin/bindings/admin_signin_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/view/admin_signin_screen.dart';
+import 'package:RatingRadar_app/modules/admin/homepage/bindings/admin_homepage_binding.dart';
+import 'package:RatingRadar_app/modules/admin/homepage/view/admin_homepage_screen.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/bindings/manager_signup_binding.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/view/manager_signup_screen.dart';
 import 'package:RatingRadar_app/modules/user/homepage/bindings/user_homepage_binding.dart';
@@ -98,6 +100,14 @@ abstract class AppPages {
       name: _Routes.adminSignIn,
       page: AdmSignInScreen.new,
       binding: AdminSignInBinding(),
+      transitionDuration: transitionDuration,
+      transition: defaultTransition,
+    ),
+
+    GetPage(
+      name: _Routes.adminHomePage,
+      page: AdminHomepageScreen.new,
+      binding: AdminHomepageBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
     ),

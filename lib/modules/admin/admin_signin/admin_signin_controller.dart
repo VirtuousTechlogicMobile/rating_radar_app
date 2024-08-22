@@ -2,7 +2,7 @@ import 'package:RatingRadar_app/helper/database_helper/database_helper.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import '../../signin/model/signin_model.dart';
+import 'model/admin_signin_model.dart';
 
 class AdminSignInController extends GetxController {
   TextEditingController emailController = TextEditingController();
@@ -15,7 +15,8 @@ class AdminSignInController extends GetxController {
     isShowLoadingOnButton.value = true;
     return await DatabaseHelper.instance
         .signInAdmin(
-            userSignInModel: UserSignInModel(email: email, password: password))
+            adminSignInModel:
+                AdminSignInModel(email: email, password: password))
         .then(
       (value) async {
         isShowLoadingOnButton.value = false;

@@ -1,32 +1,29 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
-import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
-import 'package:RatingRadar_app/modules/user/homepage/model/user_ads_list_data_model.dart';
-import 'package:RatingRadar_app/modules/user/homepage/user_homepage_controller.dart';
-import 'package:RatingRadar_app/modules/user/user_all_ads/bindings/user_all_ads_binding.dart';
-import 'package:RatingRadar_app/routes/route_management.dart';
+import 'package:RatingRadar_app/modules/admin/admin_header/view/admin_header_view.dart';
+import 'package:RatingRadar_app/modules/admin/drawer/view/admin_drawer_view.dart';
+import 'package:RatingRadar_app/modules/admin/homepage/admin_homepage_controller.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../constant/dimens.dart';
-import '../../drawer/view/drawer_view.dart';
-import '../../header/view/header_view.dart';
-import '../components/custom_dropdown.dart';
-import '../components/user_homepage_components.dart';
-import '../components/user_homepage_view_component.dart';
-import '../model/user_homepage_adsviews_data_model.dart';
+import '../../../../constant/styles.dart';
+import '../../../../routes/route_management.dart';
+import '../../../user/homepage/components/user_homepage_components.dart';
+import '../../../user/homepage/model/user_ads_list_data_model.dart';
+import '../../../user/user_all_ads/bindings/user_all_ads_binding.dart';
+import '../../admin_header/bindings/admin_header_binding.dart';
+import '../components/admin_custom_dropdown.dart';
+import '../components/admin_homepage_view_component.dart';
+import '../model/admin_homepage_adsviews_data_model.dart';
 
-class UserHomepageScreen extends StatelessWidget {
-  final userHomePageController = Get.find<UserHomepageController>();
-
-  UserHomepageScreen({super.key}) {
+class AdminHomepageScreen extends StatelessWidget {
+  final adminHomePageController = Get.find<AdminHomepageController>();
+  AdminHomepageScreen({super.key}) {
     UserAllAdsBinding().dependencies();
-    userHomePageController.getAdsList();
+    adminHomePageController.getAdsList();
   }
-
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
-
   @override
   Widget build(BuildContext context) {
     final themeUtils = ThemeColorsUtil(context);
@@ -34,13 +31,13 @@ class UserHomepageScreen extends StatelessWidget {
       backgroundColor: themeUtils.screensBgSwitchColor,
       body: Row(
         children: [
-          DrawerView(scaffoldKey: scaffoldKey),
+          AdminDrawerView(scaffoldKey: scaffoldKey),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                header(),
-                screenMainLayout(
+                adminHeader(),
+                adminScreenMainLayout(
                   themeUtils: themeUtils,
                 ),
               ],
@@ -51,14 +48,14 @@ class UserHomepageScreen extends StatelessWidget {
     );
   }
 
-  Widget header() {
-    HeaderBinding().dependencies();
-    return HeaderView(
+  Widget adminHeader() {
+    AdminHeaderBinding().dependencies();
+    return AdminHeaderView(
       isDashboardScreen: true,
     );
   }
 
-  Widget screenMainLayout({required ThemeColorsUtil themeUtils}) {
+  Widget adminScreenMainLayout({required ThemeColorsUtil themeUtils}) {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
@@ -97,17 +94,17 @@ class UserHomepageScreen extends StatelessWidget {
                         ],
                       ),
                       Obx(
-                        () => CustomDropdown(
+                        () => AdminCustomDropdown(
                           dropDownItems:
-                              userHomePageController.dropdownItemsList,
+                              adminHomePageController.adminDropdownItemList,
                           selectedItem:
-                              userHomePageController.dropdownItemsList[
-                                  userHomePageController
-                                      .selectedDropDownItemIndex.value],
+                              adminHomePageController.adminDropdownItemList[
+                                  adminHomePageController
+                                      .selectedDropdownItemIndex.value],
                           onItemSelected: (index) async {
-                            userHomePageController
-                                .selectedDropDownItemIndex.value = index;
-                            await userHomePageController.getAdsList();
+                            adminHomePageController
+                                .selectedDropdownItemIndex.value = index;
+                            await adminHomePageController.getAdsList();
                           },
                         ),
                       ),
@@ -138,11 +135,11 @@ class UserHomepageScreen extends StatelessWidget {
                     children: List.generate(
                       4,
                       (index) {
-                        return UserHomepageViewComponent(
+                        return AdminHomepageViewComponent(
                           themeUtils: themeUtils,
                           index: index,
                           listLength: 4,
-                          viewsModel: UserHomepageAdsViewsDataModel(
+                          viewsModel: AdminHomepageAdsViewsDataModel(
                               totalViews: 1265,
                               isMarketValueUp: true,
                               marketValuePercentage: 11.02),
@@ -215,30 +212,30 @@ class UserHomepageScreen extends StatelessWidget {
                                       1))
                               : Dimens.sixTeen,
                           children: List.generate(
-                            userHomePageController.adsList.value?.length ?? 0,
+                            adminHomePageController.adsList.value?.length ?? 0,
                             (index) {
                               return UserAdViewComponent(
                                 themeColorUtil: themeUtils,
                                 userAdsListDataModel: UserAdsListDataModel(
-                                  adName: userHomePageController
+                                  adName: adminHomePageController
                                           .adsList.value?[index].adName ??
                                       '',
-                                  adContent: userHomePageController
+                                  adContent: adminHomePageController
                                           .adsList.value?[index].adContent ??
                                       '',
-                                  byCompany: userHomePageController
+                                  byCompany: adminHomePageController
                                           .adsList.value?[index].byCompany ??
                                       '',
-                                  imageUrl: userHomePageController
+                                  imageUrl: adminHomePageController
                                           .adsList.value?[index].imageUrl ??
                                       '',
-                                  adPrice: userHomePageController
+                                  adPrice: adminHomePageController
                                           .adsList.value?[index].adPrice ??
                                       0,
                                 ),
                                 onViewButtonTap: () {
                                   RouteManagement.goToUserSubmitAdScreenView(
-                                      adDocumentId: userHomePageController
+                                      adDocumentId: adminHomePageController
                                               .adsList.value?[index].docId ??
                                           '');
                                 },

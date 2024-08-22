@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../constant/strings.dart';
+import '../../modules/admin/admin_signin/model/admin_signin_model.dart';
+import '../../modules/admin/homepage/model/admin_ads_list_data_model.dart';
 import '../../modules/signin/model/signin_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
@@ -479,12 +481,13 @@ class DatabaseHelper {
 
   ///  ---------------------------------------------- Admin Methods -------------------------------------------------
 
-  Future<String> signInAdmin({required UserSignInModel userSignInModel}) async {
+  Future<String> signInAdmin(
+      {required AdminSignInModel adminSignInModel}) async {
     try {
       UserCredential userCredential =
           await firebaseAuth.signInWithEmailAndPassword(
-        email: userSignInModel.email,
-        password: userSignInModel.password,
+        email: adminSignInModel.email,
+        password: adminSignInModel.password,
       );
       if (userCredential.user != null) {
         /// store data in shared preferences
@@ -506,6 +509,30 @@ class DatabaseHelper {
     } catch (e) {
       print(e);
       return CustomStatus.userNotFound;
+    }
+  }
+
+  Future<List<AdminAdsListDataModel>?> admingetLimitedAdsList({
+    required int limit,
+  }) async {
+    try {
+      Query query = fireStoreInstance
+          .collection(DatabaseSynonyms.adsListCollection)
+          .where(DatabaseSynonyms.adStatusField,
+              isEqualTo: DatabaseStatusSynonyms.showAdStatus)
+          .orderBy(DatabaseSynonyms.adStatusField, descending: false)
+          .limit(limit);
+
+      QuerySnapshot querySnapshot = await query.get();
+      List<AdminAdsListDataModel> adsList = querySnapshot.docs
+          .map((docs) => AdminAdsListDataModel.fromMap(
+              docs.data() as Map<String, dynamic>,
+              docId: docs.id))
+          .toList();
+      return adsList;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
     }
   }
 }

@@ -1,47 +1,43 @@
-import 'package:RatingRadar_app/constant/styles.dart';
+import 'package:RatingRadar_app/common/common_widgets.dart';
+import 'package:RatingRadar_app/constant/assets.dart';
+import 'package:RatingRadar_app/constant/colors.dart';
+import 'package:RatingRadar_app/modules/admin/drawer/admin_drawer_controller.dart';
+import 'package:RatingRadar_app/modules/admin/drawer/components/admin_drawer_menu_component.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
+import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../../common/common_widgets.dart';
-import '../../../../constant/assets.dart';
-import '../../../../constant/colors.dart';
 import '../../../../constant/dimens.dart';
+import '../../../../constant/styles.dart';
 import '../../../../utility/theme_assets_util.dart';
-import '../../../../utility/theme_colors_util.dart';
 import '../../../../utility/theme_strings_util.dart';
-import '../bindings/drawer_binding.dart';
-import '../component/drawer_menu_component.dart';
-import '../drawer_controller.dart';
+import '../bindings/admin_drawer_binding.dart';
 
-class DrawerView extends StatefulWidget {
+class AdminDrawerView extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  DrawerView({super.key, required this.scaffoldKey}) {
-    DrawerBinding().dependencies();
+  AdminDrawerView({super.key, required this.scaffoldKey}) {
+    AdminDrawerBinding().dependencies();
   }
 
   @override
-  State<DrawerView> createState() => _DrawerViewState();
+  State<AdminDrawerView> createState() => _AdminDrawerViewState();
 }
 
-class _DrawerViewState extends State<DrawerView>
+class _AdminDrawerViewState extends State<AdminDrawerView>
     with SingleTickerProviderStateMixin {
-  final drawerController = Get.find<DrawerMenuController>();
-
+  final adminDrawerController = Get.find<AdminDrawerMenuController>();
   @override
   void initState() {
     super.initState();
-    drawerController.getUserName();
-    drawerController.animationController = AnimationController(
-      duration: const Duration(milliseconds: 300), // Duration of the animation
+    adminDrawerController.animationController = AnimationController(
       vsync: this,
+      duration: const Duration(microseconds: 300),
     );
-
-    drawerController.animation = Tween<double>(begin: 0, end: 1).animate(
+    adminDrawerController.animation = Tween<double>(begin: 0, end: 1).animate(
       CurvedAnimation(
-        parent: drawerController.animationController,
-        curve: Curves.linear, // Linear rotation
-      ),
+          parent: adminDrawerController.animationController,
+          curve: Curves.linear),
     );
   }
 
@@ -76,20 +72,22 @@ class _DrawerViewState extends State<DrawerView>
                 top: Dimens.sixtyFive + Dimens.thirtyFour,
                 left: 0,
                 right: 0,
-                child: menuList(drawerController: drawerController),
+                child:
+                    adminMenuList(adminDrawerController: adminDrawerController),
               ),
               Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: endMenuList(drawerController: drawerController),
+                child: adminEndMenuList(
+                    adminDrawerController: adminDrawerController),
               ),
               Positioned(
                 top: 0,
                 left: 0,
                 right: 0,
                 child: animatedContainer(
-                    drawerController: drawerController,
+                    adminDrawerController: adminDrawerController,
                     themeUtils: themeUtils,
                     context: context),
               ),
@@ -101,24 +99,23 @@ class _DrawerViewState extends State<DrawerView>
   }
 }
 
-Widget menuList({required DrawerMenuController drawerController}) {
+Widget adminMenuList(
+    {required AdminDrawerMenuController adminDrawerController}) {
   return ListView.builder(
     shrinkWrap: true,
-    itemCount: drawerController.menuDataList.length,
+    itemCount: adminDrawerController.adminMenuDataList.length,
     itemBuilder: (context, index) {
       return Obx(
-        () => DrawerMenuComponent(
-          menuDataModel: drawerController.menuDataList[index],
-          isSelected: index == drawerController.selectedMenuIndex.value,
-          onSelectMenuItem: (selectedMenu) {
-            drawerController.selectedMenuIndex.value =
-                drawerController.menuDataList.indexOf(selectedMenu);
-            if (drawerController.selectedMenuIndex.value == 0) {
-              RouteManagement.goToUserHomePageView();
-            } else if (drawerController.selectedMenuIndex.value == 1) {
-              RouteManagement.goToUserAdsListMenuView();
-            } else {
-              // RouteManagement.goToUserSignInView();
+        () => AdminDrawerMenuComponent(
+          adminMenuDataModel: adminDrawerController.adminMenuDataList[index],
+          isSelected: index == adminDrawerController.selectedMenuIndex.value,
+          onSelectMenuItem: (selecedMenu) {
+            adminDrawerController.selectedMenuIndex.value =
+                adminDrawerController.adminMenuDataList.indexOf(selecedMenu);
+            if (adminDrawerController.selectedMenuIndex.value == 0) {
+              RouteManagement.goToAdminHomePageView();
+            } else if (adminDrawerController.selectedMenuIndex.value == 1) {
+              // RouteManagement.goToUserAdsListMenuView();
             }
           },
         ).marginOnly(bottom: 16),
@@ -127,20 +124,23 @@ Widget menuList({required DrawerMenuController drawerController}) {
   );
 }
 
-Widget endMenuList({required DrawerMenuController drawerController}) {
-  int firstMenuListLength = drawerController.menuDataList.length;
+Widget adminEndMenuList(
+    {required AdminDrawerMenuController adminDrawerController}) {
+  int firstMenuListLength = adminDrawerController.adminMenuDataList.length;
   return ListView.builder(
     shrinkWrap: true,
-    itemCount: drawerController.endMenuDataList.length,
+    itemCount: adminDrawerController.adminEndMenuDataList.length,
     itemBuilder: (context, index) {
       return Obx(
-        () => DrawerMenuComponent(
-          menuDataModel: drawerController.endMenuDataList[index],
+        () => AdminDrawerMenuComponent(
+          adminMenuDataModel: adminDrawerController.adminEndMenuDataList[index],
           isSelected: (index + firstMenuListLength) ==
-              drawerController.selectedMenuIndex.value,
+              adminDrawerController.selectedMenuIndex.value,
           onSelectMenuItem: (selectedMenu) {
-            drawerController.selectedMenuIndex.value = firstMenuListLength +
-                drawerController.endMenuDataList.indexOf(selectedMenu);
+            adminDrawerController.selectedMenuIndex.value =
+                firstMenuListLength +
+                    adminDrawerController.adminEndMenuDataList
+                        .indexOf(selectedMenu);
           },
         ).marginOnly(bottom: 16),
       );
@@ -149,20 +149,20 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
 }
 
 Widget animatedContainer(
-    {required DrawerMenuController drawerController,
+    {required AdminDrawerMenuController adminDrawerController,
     required ThemeColorsUtil themeUtils,
     required BuildContext context}) {
   return Obx(
     () => AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: drawerController.isExpanded.value
+      height: adminDrawerController.isExpanded.value
           ? Dimens.oneHundredFortyFive
           : Dimens.sixtyFive,
       width: Dimens.twoHundredFifty,
       padding: EdgeInsets.all(Dimens.seven),
       decoration: BoxDecoration(
           color: themeUtils.primaryColorSwitch,
-          borderRadius: drawerController.isExpanded.value
+          borderRadius: adminDrawerController.isExpanded.value
               ? BorderRadius.circular(Dimens.thirty)
               : BorderRadius.circular(Dimens.fifty)),
       child: Column(
@@ -186,15 +186,9 @@ Widget animatedContainer(
               Padding(
                 padding: EdgeInsets.only(left: Dimens.twentyEight),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      drawerController.userName.value.split(' ')[0],
-                      style: AppStyles.style14SemiBold
-                          .copyWith(color: themeUtils.blackWhiteSwitchColor),
-                    ),
-                    Text(
-                      'user'.tr,
+                      'admin'.tr,
                       style: AppStyles.style12Normal.copyWith(
                         color:
                             themeUtils.blackWhiteSwitchColor.withOpacity(0.70),
@@ -206,30 +200,29 @@ Widget animatedContainer(
               Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 6),
-                    child: AnimatedBuilder(
-                      animation: drawerController.animation,
-                      builder: (context, child) {
-                        return Transform.rotate(
-                          angle: drawerController.animation.value * -3.1415927,
-                          child: child,
-                        );
+                  child: AnimatedBuilder(
+                    animation: adminDrawerController.animation,
+                    builder: (context, child) {
+                      return Transform.rotate(
+                        angle:
+                            adminDrawerController.animation.value * -3.1415927,
+                        child: child,
+                      );
+                    },
+                    child: InkWell(
+                      onTap: () async {
+                        adminDrawerController.toggleDashboardProfileMenu();
                       },
-                      child: InkWell(
-                        onTap: () async {
-                          drawerController.toggleDashboardProfileMenu();
-                        },
-                        child: CommonWidgets.fromSvg(
-                            svgAsset: SvgAssets.downArrowIcon,
-                            color: themeUtils.blackWhiteSwitchColor,
-                            width: Dimens.twentyFour,
-                            height: Dimens.twentyFour),
+                      child: CommonWidgets.fromSvg(
+                        svgAsset: SvgAssets.downArrowIcon,
+                        color: themeUtils.blackWhiteSwitchColor,
+                        width: Dimens.twentyFour,
+                        height: Dimens.twentyFour,
                       ),
                     ),
                   ),
                 ),
-              )
+              ),
             ],
           ),
           Flexible(
@@ -245,7 +238,7 @@ Widget animatedContainer(
               ),
             ),
           ),
-          if (drawerController.isShowExpandedContent.value)
+          if (adminDrawerController.isShowExpandedContent.value)
             Flexible(
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: Dimens.twentySeven),
@@ -270,8 +263,8 @@ Widget animatedContainer(
                         alignment: Alignment.centerRight,
                         child: InkWell(
                           onTap: () {
-                            if (drawerController.isExpanded.value) {
-                              drawerController.changeTheme();
+                            if (adminDrawerController.isExpanded.value) {
+                              adminDrawerController.changeTheme();
                             }
                           },
                           child: CommonWidgets.fromSvg(

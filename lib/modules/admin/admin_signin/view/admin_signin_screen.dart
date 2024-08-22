@@ -187,7 +187,7 @@ class AdmSignInScreen extends StatelessWidget {
                           );
 
                           if (signInStatus == CustomStatus.success) {
-                            RouteManagement.goToUserHomePageView();
+                            RouteManagement.goToAdminHomePageView();
                             adminsignInScreenController.clearControllers();
                           } else if (signInStatus ==
                               CustomStatus.wrongEmailPassword) {

@@ -46,6 +46,10 @@ abstract class RouteManagement {
     Get.toNamed(AppRoutes.adminSignIn);
   }
 
+  static void goToAdminHomePageView() {
+    Get.offAllNamed(AppRoutes.adminHomePage);
+  }
+
   /// Go to back Page / Close Pages --------------------------------------------
 
   static void goToBack() {
