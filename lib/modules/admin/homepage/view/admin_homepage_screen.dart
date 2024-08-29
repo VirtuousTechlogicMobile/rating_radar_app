@@ -2,28 +2,54 @@ import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/modules/admin/admin_header/view/admin_header_view.dart';
 import 'package:RatingRadar_app/modules/admin/drawer/view/admin_drawer_view.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/admin_homepage_controller.dart';
+import 'package:RatingRadar_app/modules/admin/homepage/components/admin_homepage_recent_user_component.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
-import '../../../../routes/route_management.dart';
-import '../../../user/homepage/components/user_homepage_components.dart';
-import '../../../user/homepage/model/user_ads_list_data_model.dart';
-import '../../../user/user_all_ads/bindings/user_all_ads_binding.dart';
 import '../../admin_header/bindings/admin_header_binding.dart';
 import '../components/admin_custom_dropdown.dart';
 import '../components/admin_homepage_view_component.dart';
-import '../model/admin_homepage_adsviews_data_model.dart';
+import '../model/admin_homepage_ads_view_model.dart';
 
-class AdminHomepageScreen extends StatelessWidget {
-  final adminHomePageController = Get.find<AdminHomepageController>();
-  AdminHomepageScreen({super.key}) {
-    UserAllAdsBinding().dependencies();
-    adminHomePageController.getAdsList();
-  }
+class AdminHomepageScreen extends StatefulWidget {
+  AdminHomepageScreen({super.key});
+
+  @override
+  State<AdminHomepageScreen> createState() => _AdminHomepageScreenState();
+}
+
+class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
+  final AdminHomepageController adminHomePageController =
+      Get.find<AdminHomepageController>();
+
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
+
+  @override
+  void initState() {
+    super.initState();
+    adminHomePageController.scrollController1
+        .addListener(adminHomePageController.updateScrollbar1Position);
+
+    adminHomePageController.scrollController2
+        .addListener(adminHomePageController.updateScrollbar2Position);
+    adminHomePageController.getUserList();
+  }
+
+  @override
+  void dispose() {
+    adminHomePageController.scrollController1
+        .removeListener(adminHomePageController.updateScrollbar1Position);
+    adminHomePageController.scrollController1.dispose();
+
+    adminHomePageController.scrollController2
+        .removeListener(adminHomePageController.updateScrollbar1Position);
+    adminHomePageController.scrollController2.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final themeUtils = ThemeColorsUtil(context);
@@ -37,9 +63,7 @@ class AdminHomepageScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 adminHeader(),
-                adminScreenMainLayout(
-                  themeUtils: themeUtils,
-                ),
+                adminScreenMainLayout(themeUtils: themeUtils),
               ],
             ),
           )
@@ -61,197 +85,138 @@ class AdminHomepageScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(
               horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
-          child: LayoutBuilder(
-            builder: (context, constraints) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Overview Section
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: Dimens.eight),
-                            child: CommonWidgets.autoSizeText(
-                              text: 'overview'.tr,
-                              textStyle: AppStyles.style24SemiBold.copyWith(
-                                  color: themeUtils.whiteBlackSwitchColor),
-                              minFontSize: 20,
-                              maxFontSize: 24,
-                            ),
-                          ),
-                          CommonWidgets.autoSizeText(
-                            text: 'overall_your_progress'.tr,
-                            textStyle: AppStyles.style14Normal
-                                .copyWith(color: themeUtils.primaryColorSwitch),
-                            minFontSize: 8,
-                            maxFontSize: 14,
-                          ),
-                        ],
-                      ),
-                      Obx(
-                        () => AdminCustomDropdown(
-                          dropDownItems:
-                              adminHomePageController.adminDropdownItemList,
-                          selectedItem:
-                              adminHomePageController.adminDropdownItemList[
-                                  adminHomePageController
-                                      .selectedDropdownItemIndex.value],
-                          onItemSelected: (index) async {
-                            adminHomePageController
-                                .selectedDropdownItemIndex.value = index;
-                            await adminHomePageController.getAdsList();
-                          },
+                      Padding(
+                        padding: EdgeInsets.only(bottom: Dimens.eight),
+                        child: CommonWidgets.autoSizeText(
+                          text: 'overview'.tr,
+                          textStyle: AppStyles.style24SemiBold.copyWith(
+                              color: themeUtils.whiteBlackSwitchColor),
+                          minFontSize: 20,
+                          maxFontSize: 24,
                         ),
                       ),
-                    ],
-                  ),
-
-                  /// views
-                  Wrap(
-                    spacing: ((constraints.maxWidth -
-                                    (((constraints.maxWidth /
-                                                Dimens.twoHundredTwenty)
-                                            .floor()) *
-                                        Dimens.twoHundredTwenty)) /
-                                (((constraints.maxWidth /
-                                            Dimens.twoHundredTwenty)
-                                        .floor()) -
-                                    1)) >
-                            0
-                        ? ((constraints.maxWidth -
-                                (((constraints.maxWidth /
-                                            Dimens.twoHundredTwenty)
-                                        .floor()) *
-                                    Dimens.twoHundredTwenty)) /
-                            (((constraints.maxWidth / Dimens.twoHundredTwenty)
-                                    .floor()) -
-                                1))
-                        : Dimens.thirty,
-                    children: List.generate(
-                      4,
-                      (index) {
-                        return AdminHomepageViewComponent(
-                          themeUtils: themeUtils,
-                          index: index,
-                          listLength: 4,
-                          viewsModel: AdminHomepageAdsViewsDataModel(
-                              totalViews: 1265,
-                              isMarketValueUp: true,
-                              marketValuePercentage: 11.02),
-                        );
-                      },
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: Dimens.twentySix, bottom: Dimens.nine),
-                    child: CommonWidgets.autoSizeText(
-                      text: 'recent_ads'.tr,
-                      textStyle: AppStyles.style24Normal.copyWith(
-                          color: themeUtils.whiteBlackSwitchColor,
-                          fontWeight: FontWeight.w600),
-                      minFontSize: 15,
-                      maxFontSize: 24,
-                    ),
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
                       CommonWidgets.autoSizeText(
-                        text: 'best_recent_ads'.tr,
+                        text: 'overall_your_progress'.tr,
                         textStyle: AppStyles.style14Normal
                             .copyWith(color: themeUtils.primaryColorSwitch),
                         minFontSize: 8,
                         maxFontSize: 14,
                       ),
-                      InkWell(
-                        onTap: () {
-                          RouteManagement.goToUserAllAdsListScreenView();
-                        },
-                        child: CommonWidgets.autoSizeText(
-                          text: 'view_all'.tr,
-                          textStyle: AppStyles.style14Normal
-                              .copyWith(color: themeUtils.primaryColorSwitch),
-                          minFontSize: 8,
-                          maxFontSize: 14,
-                        ),
-                      ),
                     ],
                   ),
-                  Hero(
-                    tag: 'userAllAdsList',
-                    child: Material(
-                      color: Colors.transparent,
-                      child: Obx(
-                        () => Wrap(
-                          /// calculate the spacing between items
-                          spacing: ((constraints.maxWidth -
-                                          (((constraints.maxWidth /
-                                                      Dimens.threeHundredTwenty)
-                                                  .floor()) *
-                                              Dimens.threeHundredTwenty)) /
-                                      (((constraints.maxWidth /
-                                                  Dimens.threeHundredTwenty)
-                                              .floor()) -
-                                          1)) >
-                                  0
-                              ? ((constraints.maxWidth -
-                                      (((constraints.maxWidth /
-                                                  Dimens.threeHundredTwenty)
-                                              .floor()) *
-                                          Dimens.threeHundredTwenty)) /
-                                  (((constraints.maxWidth /
-                                              Dimens.threeHundredTwenty)
-                                          .floor()) -
-                                      1))
-                              : Dimens.sixTeen,
-                          children: List.generate(
-                            adminHomePageController.adsList.value?.length ?? 0,
-                            (index) {
-                              return UserAdViewComponent(
-                                themeColorUtil: themeUtils,
-                                userAdsListDataModel: UserAdsListDataModel(
-                                  adName: adminHomePageController
-                                          .adsList.value?[index].adName ??
-                                      '',
-                                  adContent: adminHomePageController
-                                          .adsList.value?[index].adContent ??
-                                      '',
-                                  byCompany: adminHomePageController
-                                          .adsList.value?[index].byCompany ??
-                                      '',
-                                  imageUrl: adminHomePageController
-                                          .adsList.value?[index].imageUrl ??
-                                      '',
-                                  adPrice: adminHomePageController
-                                          .adsList.value?[index].adPrice ??
-                                      0,
-                                ),
-                                onViewButtonTap: () {
-                                  RouteManagement.goToUserSubmitAdScreenView(
-                                      adDocumentId: adminHomePageController
-                                              .adsList.value?[index].docId ??
-                                          '');
-                                },
-                              );
-                            },
-                          ),
-                        ),
+                  Obx(() => AdminCustomDropdown(
+                        dropDownItems:
+                            adminHomePageController.adminDropdownItemList,
+                        selectedItem:
+                            adminHomePageController.adminDropdownItemList[
+                                adminHomePageController
+                                    .selectedDropdownItemIndex.value],
+                        onItemSelected: (index) async {
+                          adminHomePageController
+                              .selectedDropdownItemIndex.value = index;
+                          // await adminHomePageController.getAdsList();
+                        },
+                      )),
+                ],
+              ),
+              // Grid Section
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  double spacing = _calculateGridSpacing(
+                      constraints.maxWidth, Dimens.twoHundredTwenty);
+
+                  return Wrap(
+                    spacing: spacing,
+                    runSpacing: Dimens.sixTeen, // Vertical spacing
+                    children: List.generate(
+                      4,
+                      (index) => AdminHomepageViewComponent(
+                        themeUtils: themeUtils,
+                        index: index,
+                        listLength: 4,
+                        viewsModel: AdminHomepageAdsViewsDataModel(
+                            totalViews: 1265,
+                            isMarketValueUp: true,
+                            marketValuePercentage: 11.02),
                       ),
                     ),
+                  );
+                },
+              ),
+              // Members Section
+              Padding(
+                padding:
+                    EdgeInsets.only(top: Dimens.twentySix, bottom: Dimens.nine),
+                child: CommonWidgets.autoSizeText(
+                  text: 'members'.tr,
+                  textStyle: AppStyles.style24Normal.copyWith(
+                      color: themeUtils.whiteBlackSwitchColor,
+                      fontWeight: FontWeight.w600),
+                  minFontSize: 15,
+                  maxFontSize: 24,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  CommonWidgets.autoSizeText(
+                    text: 'recent_joined_members'.tr,
+                    textStyle: AppStyles.style14Normal
+                        .copyWith(color: themeUtils.primaryColorSwitch),
+                    minFontSize: 8,
+                    maxFontSize: 14,
                   ),
                 ],
-              );
-            },
+              ),
+              // Recent User/Company Section
+              Obx(
+                () => Row(
+                  children: [
+                    Expanded(
+                      child: AdminHomepageRecentUserComponent(
+                        listController:
+                            adminHomePageController.scrollController1,
+                        scrollBarTop:
+                            adminHomePageController.scrollbar1Top.value,
+                        scrollBarHeight:
+                            adminHomePageController.scrollbar1Height.value,
+                        isUser: true,
+                      ),
+                    ),
+                    Expanded(
+                      child: AdminHomepageRecentUserComponent(
+                        listController:
+                            adminHomePageController.scrollController2,
+                        scrollBarTop:
+                            adminHomePageController.scrollbar2Top.value,
+                        scrollBarHeight:
+                            adminHomePageController.scrollbar2Height.value,
+                        isUser: false,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
+  }
+
+  double _calculateGridSpacing(double maxWidth, double itemWidth) {
+    int itemCount = (maxWidth / itemWidth).floor();
+    double spacing = ((maxWidth - (itemCount * itemWidth)) / (itemCount - 1));
+    return spacing > 0 ? spacing : Dimens.sixTeen;
   }
 }

@@ -25,6 +25,7 @@ abstract class SvgAssets {
   static const drawerPaymentsIcon = 'assets/svgs/drawer_payments_icon.svg';
   static const drawerWalletIcon = 'assets/svgs/drawer_wallet_icon.svg';
   static const dropdownCheckIcon = 'assets/svgs/dropdown_check_icon.svg';
+  static const cardMenuIcon = 'assets/svgs/card_more_icon.svg';
   static const drawerReferralIcon = 'assets/svgs/drawer_referral_icon.svg';
   static const settingsIcon = 'assets/svgs/settings_icon.svg';
   static const notificationsBellIcon =

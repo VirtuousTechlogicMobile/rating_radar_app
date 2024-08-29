@@ -96,8 +96,12 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
-  static TextStyle style14Black =
-      TextStyle(fontSize: Dimens.fourteen, fontWeight: FontWeight.w300, fontFamily: defaultFontFamily, height: defaultFontHeight, color: ColorValues.blackColor);
+  static TextStyle style14Black = TextStyle(
+      fontSize: Dimens.fourteen,
+      fontWeight: FontWeight.w300,
+      fontFamily: defaultFontFamily,
+      height: defaultFontHeight,
+      color: ColorValues.blackColor);
 
   static TextStyle style14Bold = TextStyle(
     fontSize: Dimens.fourteen,
@@ -150,7 +154,7 @@ abstract class AppStyles {
 
   static TextStyle style16Bold = TextStyle(
     fontSize: Dimens.sixTeen,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -362,7 +366,8 @@ abstract class AppStyles {
 
   static double get defaultFontHeight => 1.2;
 
-  static BorderRadius get defaultBorderRadius => BorderRadius.circular(Dimens.twenty);
+  static BorderRadius get defaultBorderRadius =>
+      BorderRadius.circular(Dimens.twenty);
 
   /// Text Styles
 

@@ -11,7 +11,7 @@ import '../../../../constant/styles.dart';
 import '../../../../utility/theme_colors_util.dart';
 import '../../../../utility/utility.dart';
 import '../admin_homepage_controller.dart';
-import '../model/admin_homepage_adsviews_data_model.dart';
+import '../model/admin_homepage_ads_view_model.dart';
 
 class AdminHomepageViewComponent extends StatelessWidget {
   final ThemeColorsUtil themeUtils;

@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 
 class ThemeAssetsUtil {
   final bool isDarkTheme;
-  ThemeAssetsUtil(BuildContext context) : isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+  ThemeAssetsUtil(BuildContext context)
+      : isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
   String get themeButton {
-    return isDarkTheme ? SvgAssets.darkBrightnessIcon : SvgAssets.lightBrightnessIcon;
+    return isDarkTheme
+        ? SvgAssets.darkBrightnessIcon
+        : SvgAssets.lightBrightnessIcon;
   }
 
   String get themeSwitchSmallButton {
-    return isDarkTheme ? SvgAssets.darkThemeSmallSwitchIcon : SvgAssets.lightThemeSmallSwitchIcon;
+    return isDarkTheme
+        ? SvgAssets.darkThemeSmallSwitchIcon
+        : SvgAssets.lightThemeSmallSwitchIcon;
   }
 }

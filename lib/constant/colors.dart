@@ -17,6 +17,8 @@ abstract class ColorValues {
   static const Color ofWhiteColor = Color(0xFFEEEFF3);
   static const Color drawerBgColor = Color(0xff111111);
   static const Color drawerShadowColor = Color(0xffE2ECF9);
+  static const Color blackColorRecentText = Color(0xff16192C);
+  static const Color cardTextColor = Color(0xff425466);
   static const Color darkBgColor = Color.fromARGB(255, 20, 20, 29);
   static const Color darkBodyTextColor = Color.fromARGB(255, 240, 240, 240);
   static const Color darkDialogColor = Color.fromARGB(255, 36, 36, 56);

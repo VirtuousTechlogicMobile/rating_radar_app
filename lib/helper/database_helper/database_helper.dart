@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import '../../constant/strings.dart';
 import '../../modules/admin/admin_signin/model/admin_signin_model.dart';
 import '../../modules/admin/homepage/model/admin_ads_list_data_model.dart';
+import '../../modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
 import '../../modules/signin/model/signin_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
@@ -530,6 +531,30 @@ class DatabaseHelper {
               docId: docs.id))
           .toList();
       return adsList;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+// fetch users data
+  Future<List<AdminHomepageRecentUserCompanyModel>?> getLimitedUserList({
+    required int limit,
+  }) async {
+    try {
+      Query query = fireStoreInstance
+          .collection(DatabaseSynonyms.usersCollection)
+          .orderBy(DatabaseSynonyms.createdAt, descending: false)
+          .limit(limit);
+
+      QuerySnapshot querySnapshot = await query.get();
+      List<AdminHomepageRecentUserCompanyModel> userList = querySnapshot.docs
+          .map((docs) => AdminHomepageRecentUserCompanyModel.fromMap(
+              docs.data() as Map<String, dynamic>,
+              docId: docs.id))
+          .toList();
+      print("Query : ${userList}");
+      return userList;
     } catch (e) {
       log("Exception: $e");
       return null;

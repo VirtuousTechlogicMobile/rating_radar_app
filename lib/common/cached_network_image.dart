@@ -45,6 +45,7 @@ class NxNetworkImage extends StatelessWidget {
             height: height,
           ),
           errorWidget: (ctx, url, err) {
+            print("ImageUrl ${url}");
             log("image error : $err");
             return const Icon(
               CupertinoIcons.info,

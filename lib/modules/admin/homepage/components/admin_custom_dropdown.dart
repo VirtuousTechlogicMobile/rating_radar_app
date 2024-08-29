@@ -165,11 +165,13 @@ class _AdminCustomDropdownState extends State<AdminCustomDropdown> {
                                     ),
                                     widget.selectedItem ==
                                             widget.dropDownItems[index]
-                                        ? Icon(
-                                            Icons.check_rounded,
+                                        ? CommonWidgets.fromSvg(
+                                            svgAsset:
+                                                SvgAssets.dropdownCheckIcon,
                                             color: themeUtils
                                                 .blackWhiteSwitchColor,
-                                          )
+                                            width: 12.0,
+                                            height: 12.0)
                                         : SizedBox.shrink(),
                                   ]),
                             ),
