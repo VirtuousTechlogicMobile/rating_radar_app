@@ -1,18 +1,16 @@
 import 'dart:developer';
-
 import 'package:RatingRadar_app/helper/database_helper/database_synonyms.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/model/manager_signup_model.dart';
-import 'package:RatingRadar_app/modules/user/homepage/model/user_ads_list_data_model.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../constant/strings.dart';
 import '../../modules/signin/model/signin_model.dart';
 import '../../modules/user/user_ads_list_menu/model/user_submitted_ads_list_data_model.dart';
+import '../../modules/user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
 import '../shared_preferences_manager/preferences_manager.dart';
@@ -218,22 +216,6 @@ class DatabaseHelper {
     }
   }
 
-  /// check user submitted ad or not
-  Future<bool?> isUserSubmittedAd({required String uId, required String adId}) async {
-    try {
-      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
-      QuerySnapshot querySnapshot = await collectionRef.where(DatabaseSynonyms.uIdField, isEqualTo: uId).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
-      if (querySnapshot.docs.isNotEmpty) {
-        return true;
-      } else {
-        return false;
-      }
-    } catch (e) {
-      log("Exception: $e");
-      return null;
-    }
-  }
-
   Future<List<UserAdsListDataModel>?> getLimitedAdsList({
     required int limit,
   }) async {
@@ -372,7 +354,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<UserAdsListDataModel?> documentData({required String docId}) async {
+  Future<UserAdsListDataModel?> getAdDataByDocId({required String docId}) async {
     try {
       CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
 
@@ -384,6 +366,42 @@ class DatabaseHelper {
         usersAdData = UserAdsListDataModel.fromMap(documentData as Map<String, dynamic>, docId: docId);
       }
       return usersAdData;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<int> getTotalSubmittedAdsCountLast24Hours({required String adId}) async {
+    try {
+      DateTime now = DateTime.now();
+      DateTime yesterday = now.subtract(const Duration(hours: 24));
+      Timestamp yesterdayTimestamp = Timestamp.fromDate(yesterday);
+
+      QuerySnapshot snapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection)
+          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
+          .where(DatabaseSynonyms.addedDateField, isGreaterThan: yesterdayTimestamp)
+          .get();
+
+      return snapshot.size;
+    } catch (e) {
+      log("Error fetching document count: $e");
+      return 0;
+    }
+  }
+
+  Future<UserSubmitAdDataModel?> getUserSubmittedAd({required String uId, required String adId}) async {
+    try {
+      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+      QuerySnapshot querySnapshot = await collectionRef.where(DatabaseSynonyms.uIdField, isEqualTo: uId).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        QueryDocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+        UserSubmitAdDataModel submittedAdData = UserSubmitAdDataModel.fromMap(documentSnapshot.data() as Map<String, dynamic>, submittedAdDocId: documentSnapshot.id);
+        return submittedAdData;
+      } else {
+        return null;
+      }
     } catch (e) {
       log("Exception: $e");
       return null;
@@ -430,42 +448,83 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<UserSubmittedAdsListDataModel>?> getsUserSubmittedAdsList({required int nDataPerPage, UserSubmittedAdsListDataModel? adLastDocument}) async {
+  Future<int> getsUserSubmittedAdsListCount() async {
+    try {
+      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).get();
+      return snapshot.size;
+    } catch (e) {
+      log("Error fetching document count: $e");
+      return 0;
+    }
+  }
+
+  Future<List<UserSubmittedAdsListDataModel>?> getsUserSubmittedAdsList({
+    required String uId,
+    required int nDataPerPage,
+    required int pageNumber,
+    required int sortBy,
+    String? searchTerm,
+  }) async {
     try {
       CollectionReference userAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
-      CollectionReference userCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
-      CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
 
-      /// store the last document id
-      String? lastDocumentId = adLastDocument?.submittedAdId;
+      int startAt = (pageNumber - 1) * nDataPerPage;
+
       List<UserSubmittedAdsListDataModel> usersSubmittedAdsList = [];
-      Query query = userAdsCollectionReference.limit(nDataPerPage);
 
-      if (lastDocumentId != null) {
-        /// get the data after last document id
-        DocumentSnapshot lastDocumentSnapshot = await userAdsCollectionReference.doc(lastDocumentId).get();
-        query = query.startAfterDocument(lastDocumentSnapshot);
+      // Initial query to get the correct starting point
+      // Query initialQuery = userAdsCollectionReference.orderBy(DatabaseSynonyms.adIdField);
+      late Query initialQuery;
+      if (searchTerm?.isNotEmpty ?? false) {
+        String startSearch = searchTerm!;
+        String endSearch = '$searchTerm\uf8ff';
+        initialQuery = userAdsCollectionReference
+            .where(DatabaseSynonyms.adNameField, isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.adNameField, isLessThanOrEqualTo: endSearch)
+            .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
+            .orderBy(
+              DatabaseSynonyms.adNameField,
+            );
+      } else {
+        initialQuery = userAdsCollectionReference.where(DatabaseSynonyms.uIdField, isEqualTo: uId).orderBy(DatabaseSynonyms.uIdField, descending: sortBy == 0);
       }
 
-      QuerySnapshot querySnapshot = await query.get();
+      QuerySnapshot? startSnapshot;
+
+      if (startAt > 0) {
+        startSnapshot = await initialQuery.limit(startAt).get();
+      }
+
+      Query paginatedQuery;
+
+      if (startSnapshot != null && startSnapshot.docs.isNotEmpty) {
+        DocumentSnapshot startDocument = startSnapshot.docs.last;
+        paginatedQuery = initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
+      } else {
+        paginatedQuery = initialQuery.limit(nDataPerPage);
+      }
+
+      QuerySnapshot querySnapshot = await paginatedQuery.get();
+
       if (querySnapshot.docs.isNotEmpty) {
         for (var snapshotData in querySnapshot.docs) {
-          DocumentSnapshot adData = await adsCollectionReference.doc(snapshotData[DatabaseSynonyms.adIdField]).get();
-          DocumentSnapshot userData = await userCollectionReference.doc(snapshotData[DatabaseSynonyms.uIdField]).get();
+          // DocumentSnapshot userData = await userCollectionReference.doc(snapshotData[DatabaseSynonyms.uIdField]).get();
+
           usersSubmittedAdsList.add(
             UserSubmittedAdsListDataModel(
-              email: userData['email'],
-              userName: userData['username'],
+              email: firebaseAuth.currentUser?.email ?? '',
+              taskName: snapshotData['adName'],
+              adId: snapshotData['adId'],
               date: (snapshotData['addedDate'] as Timestamp).toDate(),
-              submittedAdId: snapshotData.id,
-              adStatus: adData['adStatus'],
-              company: adData['byCompany'],
-              taskPrice: adData['adPrice'],
+              submittedAdDocId: snapshotData.id,
+              adStatus: snapshotData['status'],
+              company: snapshotData['company'],
+              adPrice: snapshotData['adPrice'] as num,
             ),
           );
         }
-        // usersSubmittedAdsList.addAll(querySnapshot.docs.map((docs) => UserAdsListDataModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList());
       }
+
       return usersSubmittedAdsList;
     } catch (e) {
       log("Exception: $e");

@@ -125,6 +125,9 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
           isSelected: (index + firstMenuListLength) == drawerController.selectedMenuIndex.value,
           onSelectMenuItem: (selectedMenu) {
             drawerController.selectedMenuIndex.value = firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu);
+            if (drawerController.selectedMenuIndex.value == 6) {
+              RouteManagement.goToLogoutView();
+            }
           },
         ).marginOnly(bottom: 16),
       );

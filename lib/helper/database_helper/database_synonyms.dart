@@ -16,6 +16,7 @@ abstract class DatabaseSynonyms {
   static const phoneNumberField = 'phoneNumber';
   static const adNameField = 'adName';
   static const adStatusField = 'adStatus';
+  static const companyField = 'company';
   static const addedDateField = 'addedDate';
   static const adIdField = 'adId';
   static const uIdField = 'uId';

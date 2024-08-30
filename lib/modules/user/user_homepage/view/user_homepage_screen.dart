@@ -1,22 +1,20 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
-import 'package:RatingRadar_app/modules/user/homepage/model/user_ads_list_data_model.dart';
-import 'package:RatingRadar_app/modules/user/homepage/user_homepage_controller.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/bindings/user_all_ads_binding.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../../../constant/colors.dart';
 import '../../../../constant/dimens.dart';
 import '../../drawer/view/drawer_view.dart';
 import '../../header/view/header_view.dart';
 import '../components/custom_dropdown.dart';
 import '../components/user_homepage_components.dart';
 import '../components/user_homepage_view_component.dart';
+import '../model/user_ads_list_data_model.dart';
 import '../model/user_homepage_adsviews_data_model.dart';
+import '../user_homepage_controller.dart';
 
 class UserHomepageScreen extends StatelessWidget {
   final userHomePageController = Get.find<UserHomepageController>();
@@ -181,7 +179,7 @@ class UserHomepageScreen extends StatelessWidget {
                                   adName: userHomePageController.adsList.value?[index].adName ?? '',
                                   adContent: userHomePageController.adsList.value?[index].adContent ?? '',
                                   byCompany: userHomePageController.adsList.value?[index].byCompany ?? '',
-                                  imageUrl: userHomePageController.adsList.value?[index].imageUrl ?? '',
+                                  imageUrl: userHomePageController.adsList.value?[index].imageUrl,
                                   adPrice: userHomePageController.adsList.value?[index].adPrice ?? 0,
                                 ),
                                 onViewButtonTap: () {

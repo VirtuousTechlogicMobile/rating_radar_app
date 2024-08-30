@@ -29,4 +29,7 @@ abstract class SvgAssets {
   static const selectedDropdownItemIcon = 'assets/svgs/selected_dropdown_item_icon.svg';
   static const uploadImageIcon = 'assets/svgs/upload_image_icon.svg';
   static const uploadImageAddIcon = 'assets/svgs/upload_image_add_icon.svg';
+  static const ratingStarIcon = 'assets/svgs/rating_star_icon.svg';
+  static const darkLogoutUserIcon = 'assets/svgs/dark_mode_svgs/logout_user_icon.svg';
+  static const lightLogoutUserIcon = 'assets/svgs/light_mode_svgs/logout_user_icon.svg';
 }

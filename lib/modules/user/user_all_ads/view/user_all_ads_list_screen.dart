@@ -1,8 +1,6 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
-import 'package:RatingRadar_app/modules/user/homepage/components/user_homepage_components.dart';
-import 'package:RatingRadar_app/modules/user/homepage/model/user_ads_list_data_model.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/user_all_ads_controller.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,8 @@ import '../../../../constant/dimens.dart';
 import '../../../../routes/route_management.dart';
 import '../../drawer/view/drawer_view.dart';
 import '../../header/view/header_view.dart';
+import '../../user_homepage/components/user_homepage_components.dart';
+import '../../user_homepage/model/user_ads_list_data_model.dart';
 
 class UserAllAdsListScreen extends StatefulWidget {
   const UserAllAdsListScreen({super.key});

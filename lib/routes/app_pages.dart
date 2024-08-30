@@ -1,13 +1,11 @@
 import 'package:RatingRadar_app/modules/manager/manager_signup/bindings/manager_signup_binding.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/view/manager_signup_screen.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
-import 'package:RatingRadar_app/modules/user/header/view/header_view.dart';
-import 'package:RatingRadar_app/modules/user/homepage/bindings/user_homepage_binding.dart';
-import 'package:RatingRadar_app/modules/user/homepage/view/user_homepage_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_ads_list_menu/bindings/user_ads_list_menu_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_ads_list_menu/view/user_ads_list_menu_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/bindings/user_all_ads_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/view/user_all_ads_list_screen.dart';
+import 'package:RatingRadar_app/modules/user/user_logout/bindings/user_logout_binding.dart';
+import 'package:RatingRadar_app/modules/user/user_logout/view/user_logout_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/bindings/user_submit_ad_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/view/user_submit_ad_screen.dart';
 import 'package:get/get.dart';
@@ -15,8 +13,9 @@ import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/view/signin_screen.dart';
 import '../modules/user/user_conformation/bindings/user_conformation_binding.dart';
 import '../modules/user/user_conformation/view/user_conformation_screen.dart';
+import '../modules/user/user_homepage/bindings/user_homepage_binding.dart';
+import '../modules/user/user_homepage/view/user_homepage_screen.dart';
 import '../modules/user/user_signup/bindings/user_signup_binding.dart';
-import '../modules/user/user_signup/model/user_signup_model.dart';
 import '../modules/user/user_signup/view/user_signup_screen.dart';
 part 'app_routes.dart';
 
@@ -36,6 +35,14 @@ abstract class AppPages {
       name: _Routes.signIn,
       page: UserSignInScreen.new,
       binding: UserSignInBinding(),
+      transitionDuration: transitionDuration,
+      transition: defaultTransition,
+    ),
+
+    GetPage(
+      name: _Routes.userLogout,
+      page: UserLogoutScreen.new,
+      binding: UserLogoutBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
     ),

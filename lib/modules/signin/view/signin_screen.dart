@@ -157,8 +157,8 @@ class UserSignInScreen extends StatelessWidget {
                   ),
                 ),
                 textFieldWithLabel(
-                    hintText: 'username_or_email_address'.tr,
-                    labelText: 'enter_your_username_or_email_address'.tr,
+                    hintText: 'email_address'.tr,
+                    labelText: 'enter_your_email_address'.tr,
                     themeColorsUtil: themeColorsUtil,
                     controller: userSignInScreenController.emailOrUserNameController),
                 Padding(

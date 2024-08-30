@@ -9,6 +9,7 @@ abstract class AppRoutes {
   static const userAllAds = _Routes.userAllAds;
   static const userSubmitAd = _Routes.userSubmitAd;
   static const userAdsList = _Routes.userAdsList;
+  static const userLogout = _Routes.userLogout;
 
   /// manager module ---------------------------------------------------------------
   static const managerSignUp = _Routes.managerSignUp;
@@ -23,6 +24,7 @@ abstract class _Routes {
   static const userAllAds = '/user/all-ads-list';
   static const userSubmitAd = '/user/submit-ad';
   static const userAdsList = '/user/ads-list';
+  static const userLogout = '/user/logout';
 
   /// manager module ----------------------------------------------------------------
   static const managerSignUp = '/manager/signup';

@@ -239,7 +239,7 @@ class ManagerSignUpScreen extends StatelessWidget {
                           !Validators.isValidEmail(managerSignUpScreenController.emailController.text)) {
                         AppUtility.showSnackBar('please_enter_valid_email'.tr);
                       } else if (managerSignUpScreenController.userNameController.text.trim().isEmpty) {
-                        AppUtility.showSnackBar('please_enter_user_name'.tr);
+                        AppUtility.showSnackBar('please_enter_full_name'.tr);
                       } else if (managerSignUpScreenController.contactNumberController.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_contact_number'.tr);
                       } else if (managerSignUpScreenController.contactNumberController.text.trim().length <= 3 ||

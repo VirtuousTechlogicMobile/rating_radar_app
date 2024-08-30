@@ -7,7 +7,7 @@ class UserAdsListDataModel {
   String? adStatus;
   DateTime? addedDate;
   String byCompany;
-  String imageUrl;
+  List<String>? imageUrl;
   num adPrice;
 
   UserAdsListDataModel({
@@ -28,7 +28,7 @@ class UserAdsListDataModel {
       adPrice: map['adPrice'] as num,
       adStatus: map['adStatus'] as String,
       addedDate: map['addedDate'] != null ? (map['addedDate'] as Timestamp).toDate() : null,
-      imageUrl: map['adImageUrl'] as String,
+      imageUrl: (map['adImageUrl'] as List<dynamic>?)?.cast<String>(),
       adContent: map['adContent'] as String,
       byCompany: map['byCompany'] as String,
     );

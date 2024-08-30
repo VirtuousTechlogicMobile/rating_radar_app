@@ -12,8 +12,10 @@ import '../../../../utility/theme_colors_util.dart';
 class HeaderView extends StatelessWidget {
   final bool isAdsListScreen;
   final bool isDashboardScreen;
+  final TextEditingController? searchController;
+  final Function(String text)? onSearch;
   final headerController = Get.find<HeaderController>();
-  HeaderView({super.key, this.isAdsListScreen = false, this.isDashboardScreen = false}) {
+  HeaderView({super.key, this.isAdsListScreen = false, this.isDashboardScreen = false, this.searchController, this.onSearch}) {
     headerController.getUserName();
   }
 
@@ -51,7 +53,12 @@ class HeaderView extends StatelessWidget {
                           margin: EdgeInsets.only(top: Dimens.twentySeven),
                           width: MediaQuery.of(context).size.width / 3,
                           child: CustomTextField(
-                            controller: TextEditingController(),
+                            controller: searchController ?? TextEditingController(),
+                            onChange: (value) {
+                              if (onSearch != null) {
+                                onSearch!(value);
+                              }
+                            },
                             borderRadius: BorderRadius.circular(Dimens.twenty),
                             fillColor: themeUtils.darkGrayWhiteSwitchColor,
                             maxLines: 1,
@@ -59,7 +66,7 @@ class HeaderView extends StatelessWidget {
                             hintText: 'search'.tr,
                             borderSide: BorderSide.none,
                             hintStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
-                            textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.whiteColor.withOpacity(0.50)),
+                            textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
                             prefixIcon: CommonWidgets.fromSvg(
                               svgAsset: SvgAssets.textFieldSearchIcon,
                               height: Dimens.twentyFour,
