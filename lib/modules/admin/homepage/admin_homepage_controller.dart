@@ -1,4 +1,3 @@
-import 'package:RatingRadar_app/constant/dimens.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
@@ -12,7 +11,9 @@ class AdminHomepageController extends GetxController {
     return await PreferencesManager.getUserId();
   }
 
-  double scrollSpeedFactor = 3.0;
+  late final AdminHomepageRecentUserCompanyModel
+      adminHomepageRecentUserCompanyModel;
+  double scrollSpeedFactor = 2.0;
 
   ScrollController scrollController1 = ScrollController();
   RxDouble scrollbar1Height = 0.0.obs;
@@ -23,50 +24,61 @@ class AdminHomepageController extends GetxController {
   RxDouble scrollbar2Top = 0.0.obs;
 
   void updateScrollbar1Position() {
+    final totalItems =
+        userList.value?.length ?? 0; // Total number of items in the list
+    final viewportHeight = scrollController1.position.viewportDimension;
+    final totalHeight =
+        scrollController1.position.maxScrollExtent + viewportHeight;
+
+    if (totalItems > 0 && totalHeight > 0) {
+      scrollbar1Height.value = (viewportHeight / totalHeight) * viewportHeight;
+    } else {
+      scrollbar1Height.value =
+          viewportHeight; // In case of no items or zero height, make scrollbar cover the whole height
+    }
+
     final scrollPosition = scrollController1.offset;
     final scrollExtent = scrollController1.position.maxScrollExtent;
-    final viewportHeight = scrollController1.position.viewportDimension;
-    final double topPadding = Dimens.sixTeen; // Padding from the top
-    final double bottomPadding = Dimens.twentyFive; // Padding from the bottom
 
-    // Calculate the available height after considering the padding
-    final availableHeight = viewportHeight - topPadding - bottomPadding;
-
-    // Calculate scrollbar height considering the available height
-    scrollbar1Height.value = availableHeight * availableHeight / scrollExtent;
-
-    // Calculate the top position of the scrollbar thumb with padding
-    scrollbar1Top.value = topPadding +
-        (scrollPosition / scrollExtent) *
-            (availableHeight - scrollbar1Height.value);
+    if (scrollExtent > 0) {
+      scrollbar1Top.value = (scrollPosition / scrollExtent) *
+          (viewportHeight - scrollbar1Height.value);
+    } else {
+      scrollbar1Top.value = 0.0; // Reset to top if there's no scroll extent
+    }
   }
 
   void onScrollbarPan1Update(DragUpdateDetails details) {
     final scrollExtent = scrollController1.position.maxScrollExtent;
     final newOffset = scrollController1.offset +
         (details.primaryDelta ?? 0) * scrollSpeedFactor;
-    // final newOffset = scrollController.offset + (details.primaryDelta ?? 0);
-
+    // Ensure the offset remains within the scroll bounds
     scrollController1.jumpTo(newOffset.clamp(0.0, scrollExtent));
   }
 
   void updateScrollbar2Position() {
+    final totalItems =
+        companyList.value?.length ?? 0; // Total number of items in the list
+    final viewportHeight = scrollController2.position.viewportDimension;
+    final totalHeight =
+        scrollController2.position.maxScrollExtent + viewportHeight;
+
+    if (totalItems > 0 && totalHeight > 0) {
+      scrollbar2Height.value = (viewportHeight / totalHeight) * viewportHeight;
+    } else {
+      scrollbar2Height.value =
+          viewportHeight; // In case of no items or zero height, make scrollbar cover the whole height
+    }
+
     final scrollPosition = scrollController2.offset;
     final scrollExtent = scrollController2.position.maxScrollExtent;
-    final viewportHeight = scrollController2.position.viewportDimension;
-    final double topPadding = Dimens.sixTeen; // Padding from the top
-    final double bottomPadding = Dimens.twentyFive; // Padding from the bottom
 
-    // Calculate the available height after considering the padding
-    final availableHeight = viewportHeight - topPadding - bottomPadding;
-
-    // Calculate scrollbar height considering the available height
-    scrollbar2Height.value = availableHeight * availableHeight / scrollExtent;
-
-    // Calculate the top position of the scrollbar thumb with padding
-    scrollbar2Top.value = topPadding +
-        (scrollPosition / scrollExtent) *
-            (availableHeight - scrollbar2Height.value);
+    if (scrollExtent > 0) {
+      scrollbar2Top.value = (scrollPosition / scrollExtent) *
+          (viewportHeight - scrollbar2Height.value);
+    } else {
+      scrollbar2Top.value = 0.0; // Reset to top if there's no scroll extent
+    }
   }
 
   void onScrollbarPan2Update(DragUpdateDetails details) {
@@ -74,7 +86,22 @@ class AdminHomepageController extends GetxController {
     final newOffset = scrollController2.offset +
         (details.primaryDelta ?? 0) * scrollSpeedFactor;
 
+    // Ensure the offset remains within the scroll bounds
     scrollController2.jumpTo(newOffset.clamp(0.0, scrollExtent));
+  }
+
+  void scrollToTopAfterBuild() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController1.jumpTo(0.0); // Adjust for scrollController2 if needed
+      updateScrollbar1Position(); // Make sure to update scrollbar position as well
+    });
+  }
+
+  void scrollToTop2AfterBuild() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scrollController2.jumpTo(0.0); // Adjust for scrollController2 if needed
+      updateScrollbar2Position(); // Make sure to update scrollbar position as well
+    });
   }
 
   List<String> adminDropdownItemList = [
@@ -96,86 +123,21 @@ class AdminHomepageController extends GetxController {
     List<AdminHomepageRecentUserCompanyModel>? getLimitedUserList =
         await DatabaseHelper.instance.getLimitedUserList(limit: 9);
     userList.value = getLimitedUserList;
+    // Ensure container is visible and scrollbar is updated
+    scrollToTopAfterBuild();
     Get.context?.loaderOverlay.hide();
   }
 
-/*
-  List<AdminHomepageRecentUserCompanyModel>
-      adminHomepageRecentUserCompanyModel = [
-    AdminHomepageRecentUserCompanyModel(
-        name: "Headline label",
-        email: "abc@gmail.com",
-        imageUrl:
-            "https://media.istockphoto.com/id/1386479313/photo/happy-millennial-afro-american-business-woman-posing-isolated-on-white.jpg"),
-    AdminHomepageRecentUserCompanyModel(
-        name: "Headline label", email: "abc@gmail.com", imageUrl: ''),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin", email: "admin@gmail.com", imageUrl: ""),
-    AdminHomepageRecentUserCompanyModel(
-        name: "Headline label", email: "Headlinelabel@gmail.com", imageUrl: ""),
-    AdminHomepageRecentUserCompanyModel(
-        name: "Headline label", email: "Headlinelabel@gmail.com", imageUrl: ""),
-    AdminHomepageRecentUserCompanyModel(
-        name: "Headline label", email: "Headlinelabel@gmail.com", imageUrl: ""),
-    AdminHomepageRecentUserCompanyModel(
-        name: "Headline label",
-        email: "Headlinelabel@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-    AdminHomepageRecentUserCompanyModel(
-        name: "admin",
-        email: "admin@gmail.com",
-        imageUrl: SvgAssets.drawerAdsListIcon),
-  ];*/
+  Rxn<List<AdminHomepageRecentUserCompanyModel>> companyList =
+      Rxn<List<AdminHomepageRecentUserCompanyModel>>();
+
+  Future getCompanyList() async {
+    Get.context?.loaderOverlay.show();
+    List<AdminHomepageRecentUserCompanyModel>? getLimitedUserList =
+        await DatabaseHelper.instance.getLimitedUserList(limit: 9);
+    companyList.value = getLimitedUserList;
+    // Ensure container is visible and scrollbar is updated
+    scrollToTop2AfterBuild();
+    Get.context?.loaderOverlay.hide();
+  }
 }

@@ -9,7 +9,8 @@ import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
 
 class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
-  final AdminHomepageRecentUserCompanyModel adminHomepageRecentUserCompanyModel;
+  final AdminHomepageRecentUserCompanyModel?
+      adminHomepageRecentUserCompanyModel;
   const AdminHomepageRecentUserCompanyComponents(
       {super.key, required this.adminHomepageRecentUserCompanyModel});
 
@@ -42,8 +43,8 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Builder(builder: (context) {
-              if (adminHomepageRecentUserCompanyModel.imageUrl != null &&
-                  adminHomepageRecentUserCompanyModel.imageUrl != '') {
+              if (adminHomepageRecentUserCompanyModel?.imageUrl != null &&
+                  adminHomepageRecentUserCompanyModel?.imageUrl != '') {
                 return ClipOval(
                   child: NxNetworkImage(
                     imageUrl:
@@ -64,9 +65,10 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    adminHomepageRecentUserCompanyModel.name
-                        .substring(0, 2)
-                        .toUpperCase(),
+                    adminHomepageRecentUserCompanyModel?.name
+                            .substring(0, 2)
+                            .toUpperCase() ??
+                        '',
                     style: TextStyle(
                       fontSize: Dimens.twenty, // Adjust the font size as needed
                       fontWeight: FontWeight.bold,
@@ -84,14 +86,14 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.only(bottom: Dimens.eight),
                     child: CommonWidgets.autoSizeText(
-                        text: adminHomepageRecentUserCompanyModel.name,
+                        text: adminHomepageRecentUserCompanyModel?.name ?? '',
                         textStyle: AppStyles.style16Bold
                             .copyWith(color: themeColorsUtil.cardTextColor),
                         minFontSize: 10,
                         maxFontSize: 16),
                   ),
                   CommonWidgets.autoSizeText(
-                      text: adminHomepageRecentUserCompanyModel.email,
+                      text: adminHomepageRecentUserCompanyModel?.email ?? '',
                       textStyle: AppStyles.style14Normal
                           .copyWith(color: themeColorsUtil.cardTextColor),
                       minFontSize: 10,

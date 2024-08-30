@@ -553,7 +553,6 @@ class DatabaseHelper {
               docs.data() as Map<String, dynamic>,
               docId: docs.id))
           .toList();
-      print("Query : ${userList}");
       return userList;
     } catch (e) {
       log("Exception: $e");

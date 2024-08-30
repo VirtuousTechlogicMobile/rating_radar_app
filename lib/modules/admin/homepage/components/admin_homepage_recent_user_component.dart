@@ -1,5 +1,5 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
-import 'package:RatingRadar_app/modules/admin/homepage/admin_homepage_controller.dart';
+import 'package:RatingRadar_app/modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,21 +9,24 @@ import '../../../../utility/theme_colors_util.dart';
 import 'admin_homepage_recent_user_company_components.dart';
 
 class AdminHomepageRecentUserComponent extends StatelessWidget {
-  final ScrollController listController;
+  final ScrollController listScrollController;
   final double scrollBarTop;
   final double scrollBarHeight;
   final bool isUser;
+  final List<AdminHomepageRecentUserCompanyModel>? userList;
+  final Function(DragUpdateDetails) onPanUpadate;
 
-  AdminHomepageRecentUserComponent({
+  const AdminHomepageRecentUserComponent({
     super.key,
-    required this.listController,
+    required this.listScrollController,
     required this.scrollBarHeight,
     required this.scrollBarTop,
     required this.isUser,
+    required this.userList,
+    required this.onPanUpadate,
   });
 
-  final adminHomepageController = Get.find<AdminHomepageController>();
-
+  // final adminHomepageController = Get.find<AdminHomepageController>();
   @override
   Widget build(BuildContext context) {
     final themeUtils = ThemeColorsUtil(context);
@@ -32,7 +35,6 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
       margin: EdgeInsets.only(
         top: Dimens.fifteen,
         right: Dimens.forty,
-        left: Dimens.forty,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
@@ -73,15 +75,14 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                     behavior: ScrollConfiguration.of(context)
                         .copyWith(scrollbars: false),
                     child: SingleChildScrollView(
-                      controller: listController,
+                      controller: listScrollController,
                       child: Column(
                         children: List.generate(
-                          adminHomepageController.userList.value?.length ?? 0,
+                          userList?.length ?? 0,
                           (index) {
                             return AdminHomepageRecentUserCompanyComponents(
                               adminHomepageRecentUserCompanyModel:
-                                  adminHomepageController
-                                      .userList.value![index],
+                                  userList?[index],
                             );
                           },
                         ),
@@ -96,7 +97,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                       VerticalDivider(
                         width: Dimens.ten,
                         thickness: Dimens.two,
-                        color: Colors.black,
+                        color: themeUtils.whiteBlackSwitchColor,
                         // indent: Dimens.sixTeen,
                         endIndent: Dimens.sixTeen,
                       ),
@@ -104,15 +105,17 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                         right: 0,
                         top: scrollBarTop,
                         child: GestureDetector(
-                          onVerticalDragUpdate: isUser
-                              ? adminHomepageController.onScrollbarPan1Update
-                              : adminHomepageController.onScrollbarPan2Update,
+                          onVerticalDragUpdate: (details) {
+                            onPanUpadate(details);
+                          },
                           child: Container(
                             width: Dimens.ten,
-                            height: Dimens.fifty, // Adjust height as needed
+                            height: scrollBarHeight > Dimens.sixTeen
+                                ? scrollBarHeight - Dimens.sixTeen
+                                : 0, // Adjust height as needed
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimens.four),
-                              color: Colors.lightBlue,
+                              color: themeUtils.primaryColorSwitch,
                             ),
                           ),
                         ),

@@ -15,7 +15,7 @@ import '../components/admin_homepage_view_component.dart';
 import '../model/admin_homepage_ads_view_model.dart';
 
 class AdminHomepageScreen extends StatefulWidget {
-  AdminHomepageScreen({super.key});
+  const AdminHomepageScreen({super.key});
 
   @override
   State<AdminHomepageScreen> createState() => _AdminHomepageScreenState();
@@ -35,7 +35,9 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
 
     adminHomePageController.scrollController2
         .addListener(adminHomePageController.updateScrollbar2Position);
+
     adminHomePageController.getUserList();
+    adminHomePageController.getCompanyList();
   }
 
   @override
@@ -184,24 +186,36 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                   children: [
                     Expanded(
                       child: AdminHomepageRecentUserComponent(
-                        listController:
+                        listScrollController:
                             adminHomePageController.scrollController1,
                         scrollBarTop:
                             adminHomePageController.scrollbar1Top.value,
                         scrollBarHeight:
                             adminHomePageController.scrollbar1Height.value,
                         isUser: true,
+                        onPanUpadate: (DragUpdateDetails details) {
+                          adminHomePageController
+                              .onScrollbarPan1Update(details);
+                          adminHomePageController.update(); // Force UI update
+                        },
+                        userList: adminHomePageController.userList.value,
                       ),
                     ),
                     Expanded(
                       child: AdminHomepageRecentUserComponent(
-                        listController:
+                        listScrollController:
                             adminHomePageController.scrollController2,
                         scrollBarTop:
                             adminHomePageController.scrollbar2Top.value,
                         scrollBarHeight:
                             adminHomePageController.scrollbar2Height.value,
                         isUser: false,
+                        onPanUpadate: (DragUpdateDetails details) {
+                          adminHomePageController
+                              .onScrollbarPan2Update(details);
+                          adminHomePageController.update(); // Force UI update
+                        },
+                        userList: adminHomePageController.companyList.value,
                       ),
                     ),
                   ],

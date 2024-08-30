@@ -115,7 +115,7 @@ Widget adminMenuList(
             if (adminDrawerController.selectedMenuIndex.value == 0) {
               RouteManagement.goToAdminHomePageView();
             } else if (adminDrawerController.selectedMenuIndex.value == 1) {
-              // RouteManagement.goToUserAdsListMenuView();
+              RouteManagement.goToUserAdsListMenuView();
             }
           },
         ).marginOnly(bottom: 16),
@@ -247,9 +247,10 @@ Widget animatedContainer(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     CommonWidgets.fromSvg(
-                        svgAsset: ThemeAssetsUtil(context).themeButton,
-                        height: Dimens.thirteen,
-                        width: Dimens.thirteen),
+                      svgAsset: ThemeAssetsUtil(context).themeButton,
+                      height: Dimens.thirteen,
+                      width: Dimens.thirteen,
+                    ),
                     Padding(
                       padding: EdgeInsets.only(left: Dimens.sevenTeen),
                       child: Text(
