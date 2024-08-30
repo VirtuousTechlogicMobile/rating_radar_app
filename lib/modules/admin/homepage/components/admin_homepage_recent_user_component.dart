@@ -14,7 +14,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
   final double scrollBarHeight;
   final bool isUser;
   final List<AdminHomepageRecentUserCompanyModel>? userList;
-  final Function(DragUpdateDetails) onPanUpadate;
+  final Function(DragUpdateDetails) onPanUpaDate;
 
   const AdminHomepageRecentUserComponent({
     super.key,
@@ -23,7 +23,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
     required this.scrollBarTop,
     required this.isUser,
     required this.userList,
-    required this.onPanUpadate,
+    required this.onPanUpaDate,
   });
 
   // final adminHomepageController = Get.find<AdminHomepageController>();
@@ -106,7 +106,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                         top: scrollBarTop,
                         child: GestureDetector(
                           onVerticalDragUpdate: (details) {
-                            onPanUpadate(details);
+                            onPanUpaDate(details);
                           },
                           child: Container(
                             width: Dimens.ten,

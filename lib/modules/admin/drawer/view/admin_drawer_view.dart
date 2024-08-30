@@ -39,6 +39,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
           parent: adminDrawerController.animationController,
           curve: Curves.linear),
     );
+    adminDrawerController.getUserEmail();
   }
 
   @override
@@ -115,7 +116,7 @@ Widget adminMenuList(
             if (adminDrawerController.selectedMenuIndex.value == 0) {
               RouteManagement.goToAdminHomePageView();
             } else if (adminDrawerController.selectedMenuIndex.value == 1) {
-              RouteManagement.goToUserAdsListMenuView();
+              RouteManagement.goToAdminAllAdsView();
             }
           },
         ).marginOnly(bottom: 16),
@@ -184,14 +185,25 @@ Widget animatedContainer(
                 ),
               ),
               Padding(
-                padding: EdgeInsets.only(left: Dimens.twentyEight),
+                padding: EdgeInsets.only(left: Dimens.twentyFive),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'admin'.tr,
-                      style: AppStyles.style12Normal.copyWith(
-                        color:
-                            themeUtils.blackWhiteSwitchColor.withOpacity(0.70),
+                    CommonWidgets.autoSizeText(
+                      text: adminDrawerController.email.value,
+                      maxFontSize: 14,
+                      minFontSize: 10,
+                      textStyle: AppStyles.style14SemiBold
+                          .copyWith(color: themeUtils.blackWhiteSwitchColor),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: Dimens.five),
+                      child: Text(
+                        'admin'.tr,
+                        style: AppStyles.style12Normal.copyWith(
+                          color: themeUtils.blackWhiteSwitchColor
+                              .withOpacity(0.70),
+                        ),
                       ),
                     ),
                   ],

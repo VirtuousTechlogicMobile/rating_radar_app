@@ -3,6 +3,7 @@ import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 
 import '../../../constant/dimens.dart';
+import '../../../helper/database_helper/database_helper.dart';
 import '../../../theme/theme_controller.dart';
 import 'model/admin_menu_data_model.dart';
 
@@ -10,6 +11,11 @@ class AdminDrawerMenuController extends GetxController {
   RxBool isExpanded = false.obs;
   RxBool isShowExpandedContent = false.obs;
   RxInt selectedMenuIndex = 0.obs;
+  RxString email = ''.obs;
+
+  getUserEmail() async {
+    email.value = await DatabaseHelper.instance.getCurrentAdminEmail();
+  }
 
   void toggleDashboardProfileMenu() {
     isExpanded.value = !isExpanded.value;

@@ -5,6 +5,7 @@ import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/helper/validators.dart';
+import 'package:RatingRadar_app/utility/responsive.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +21,7 @@ import '../admin_signin_controller.dart';
 class AdmSignInScreen extends StatelessWidget {
   AdmSignInScreen({super.key});
 
-  final adminsignInScreenController = Get.find<AdminSignInController>();
+  final adminSignInScreenController = Get.find<AdminSignInController>();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class AdmSignInScreen extends StatelessWidget {
               ),
             ],
           ),
-          Center(child: signUpLayout(context, themeColorsUtil)),
+          signUpLayout(context, themeColorsUtil),
           const Positioned(
               right: 0, bottom: 0, child: CustomThemeSwitchButton())
         ],
@@ -53,154 +54,154 @@ class AdmSignInScreen extends StatelessWidget {
   }
 
   Widget signUpLayout(BuildContext context, ThemeColorsUtil themeColorsUtil) {
-    return Center(
-      child: Container(
-        width: MediaQuery.of(context).size.width / 3.5,
-        decoration: BoxDecoration(
-          color: themeColorsUtil.deepBlackWhiteSwitchColor,
-          border:
-              Border.all(color: themeColorsUtil.primaryColorSwitch, width: 1),
-          borderRadius: BorderRadius.circular(40),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(40),
-          child: SingleChildScrollView(
-            child: Padding(
-              padding: EdgeInsets.all(
-                Dimens.fortyFour,
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CommonWidgets.autoSizeRichText(
-                    textSpans: [
-                      TextSpan(
-                        text: 'welcome_to'.tr,
-                        style: AppStyles.style21Normal.copyWith(
-                            color: themeColorsUtil.whiteBlackSwitchColor),
-                      ),
-                      TextSpan(
-                        text: " ${'admin'.tr}",
-                        style: AppStyles.style21Bold.copyWith(
-                            color: themeColorsUtil.primaryColorSwitch),
-                      ),
-                    ],
-                    minFontSize: 10,
-                    maxFontSize: 21,
-                  ),
-                  CommonWidgets.autoSizeText(
+    return Container(
+      margin: EdgeInsets.only(top: Dimens.forty, bottom: Dimens.forty),
+      width: Responsive.isDesktop(context)
+          ? MediaQuery.of(context).size.width / 3.5
+          : MediaQuery.of(context).size.width / 2,
+      decoration: BoxDecoration(
+        color: themeColorsUtil.deepBlackWhiteSwitchColor,
+        border: Border.all(color: themeColorsUtil.primaryColorSwitch, width: 1),
+        borderRadius: BorderRadius.circular(40),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(40),
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.all(
+              Dimens.fortyFour,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CommonWidgets.autoSizeRichText(
+                  textSpans: [
+                    TextSpan(
+                      text: 'welcome_to'.tr,
+                      style: AppStyles.style21Normal.copyWith(
+                          color: themeColorsUtil.whiteBlackSwitchColor),
+                    ),
+                    TextSpan(
+                      text: " ${'admin'.tr}",
+                      style: AppStyles.style21Bold
+                          .copyWith(color: themeColorsUtil.primaryColorSwitch),
+                    ),
+                  ],
+                  minFontSize: 10,
+                  maxFontSize: 21,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: Dimens.ten),
+                  child: CommonWidgets.autoSizeText(
                     text: 'sign_in'.tr,
                     textStyle: AppStyles.style55SemiBold
                         .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
                     minFontSize: 30,
                     maxFontSize: 55,
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: Dimens.forty),
-                    child: textFieldWithLabel(
-                        hintText: 'email_address'.tr,
-                        labelText: 'enter_your_email_address'.tr,
-                        themeColorsUtil: themeColorsUtil,
-                        controller:
-                            adminsignInScreenController.emailController),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: Dimens.thirtyEight),
-                    child: Obx(
-                      () => textFieldWithLabel(
-                        hintText: 'password'.tr,
-                        labelText: 'enter_your_password'.tr,
-                        themeColorsUtil: themeColorsUtil,
-                        suffixIcon: InkWell(
-                          onTap: () {
-                            adminsignInScreenController.isShowPassword.value =
-                                !adminsignInScreenController
-                                    .isShowPassword.value;
-                          },
-                          child:
-                              adminsignInScreenController.isShowPassword.value
-                                  ? CommonWidgets.fromSvg(
-                                      svgAsset: SvgAssets.eyeVisibilityIcon)
-                                  : CommonWidgets.fromSvg(
-                                      svgAsset: SvgAssets.eyeVisibilityOffIcon),
-                        ),
-                        controller:
-                            adminsignInScreenController.passwordController,
-                        obscureText:
-                            !adminsignInScreenController.isShowPassword.value,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: Dimens.forty),
+                  child: textFieldWithLabel(
+                      hintText: 'email_address'.tr,
+                      labelText: 'enter_your_email_address'.tr,
+                      themeColorsUtil: themeColorsUtil,
+                      controller: adminSignInScreenController.emailController),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: Dimens.thirtyEight),
+                  child: Obx(
+                    () => textFieldWithLabel(
+                      hintText: 'password'.tr,
+                      labelText: 'enter_your_password'.tr,
+                      themeColorsUtil: themeColorsUtil,
+                      suffixIcon: InkWell(
+                        onTap: () {
+                          adminSignInScreenController.isShowPassword.value =
+                              !adminSignInScreenController.isShowPassword.value;
+                        },
+                        child: adminSignInScreenController.isShowPassword.value
+                            ? CommonWidgets.fromSvg(
+                                svgAsset: SvgAssets.eyeVisibilityIcon)
+                            : CommonWidgets.fromSvg(
+                                svgAsset: SvgAssets.eyeVisibilityOffIcon),
                       ),
+                      controller:
+                          adminSignInScreenController.passwordController,
+                      obscureText:
+                          !adminSignInScreenController.isShowPassword.value,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(top: Dimens.twelve),
-                    child: Align(
-                      alignment: Alignment.bottomRight,
-                      child: CommonWidgets.autoSizeText(
-                        text: 'forgot_password'.tr,
-                        textStyle: AppStyles.style13Normal.copyWith(
-                            color: themeColorsUtil.primaryColorSwitch),
-                        minFontSize: 8,
-                        maxFontSize: 13,
-                      ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: Dimens.twelve),
+                  child: Align(
+                    alignment: Alignment.bottomRight,
+                    child: CommonWidgets.autoSizeText(
+                      text: 'forgot_password'.tr,
+                      textStyle: AppStyles.style13Normal
+                          .copyWith(color: themeColorsUtil.primaryColorSwitch),
+                      minFontSize: 8,
+                      maxFontSize: 13,
                     ),
                   ),
-                  Obx(
-                    () => CustomButton(
-                      btnText: 'sign_in'.tr,
-                      isShowLoading: adminsignInScreenController
-                          .isShowLoadingOnButton.value,
-                      margin: EdgeInsets.only(top: Dimens.fortyFour),
-                      onTap: () async {
-                        if (adminsignInScreenController.emailController.text
-                            .trim()
-                            .isEmpty) {
-                          AppUtility.showSnackBar('please_enter_email'.tr);
-                        } else if (adminsignInScreenController
-                                .emailController.text
-                                .trim()
-                                .isNotEmpty &&
-                            !Validators.isValidEmail(adminsignInScreenController
-                                .emailController.text)) {
-                          AppUtility.showSnackBar(
-                              'please_enter_valid_email'.tr);
-                        } else if (adminsignInScreenController
-                            .passwordController.text
-                            .trim()
-                            .isEmpty) {
-                          AppUtility.showSnackBar('please_enter_password'.tr);
-                        } else if (adminsignInScreenController
-                                .passwordController.text
-                                .trim()
-                                .length <
-                            6) {
-                          AppUtility.showSnackBar(
-                              'password_must_be_at_least_6_characters'.tr);
-                        } else {
-                          String signInStatus =
-                              await adminsignInScreenController.signInAdmin(
-                            email: adminsignInScreenController
-                                .emailController.text,
-                            password: adminsignInScreenController
-                                .passwordController.text,
-                          );
+                ),
+                Obx(
+                  () => CustomButton(
+                    borderRadius: BorderRadius.circular(Dimens.thirty),
+                    btnText: 'sign_in'.tr,
+                    isShowLoading:
+                        adminSignInScreenController.isShowLoadingOnButton.value,
+                    margin: EdgeInsets.only(top: Dimens.fortyFour),
+                    onTap: () async {
+                      if (adminSignInScreenController.emailController.text
+                          .trim()
+                          .isEmpty) {
+                        AppUtility.showSnackBar('please_enter_email'.tr);
+                      } else if (adminSignInScreenController
+                              .emailController.text
+                              .trim()
+                              .isNotEmpty &&
+                          !Validators.isValidEmail(adminSignInScreenController
+                              .emailController.text)) {
+                        AppUtility.showSnackBar('please_enter_valid_email'.tr);
+                      } else if (adminSignInScreenController
+                          .passwordController.text
+                          .trim()
+                          .isEmpty) {
+                        AppUtility.showSnackBar('please_enter_password'.tr);
+                      } else if (adminSignInScreenController
+                              .passwordController.text
+                              .trim()
+                              .length <
+                          6) {
+                        AppUtility.showSnackBar(
+                            'password_must_be_at_least_6_characters'.tr);
+                      } else {
+                        String signInStatus =
+                            await adminSignInScreenController.signInAdmin(
+                          email:
+                              adminSignInScreenController.emailController.text,
+                          password: adminSignInScreenController
+                              .passwordController.text,
+                        );
 
-                          if (signInStatus == CustomStatus.success) {
-                            RouteManagement.goToAdminHomePageView();
-                            adminsignInScreenController.clearControllers();
-                          } else if (signInStatus ==
-                              CustomStatus.wrongEmailPassword) {
-                            AppUtility.showSnackBar('wrong_email_password'.tr);
-                          } else {
-                            AppUtility.showSnackBar('user_not_found'.tr);
-                          }
+                        if (signInStatus == CustomStatus.success) {
+                          RouteManagement.goToAdminHomePageView();
+                          adminSignInScreenController.clearControllers();
+                        } else if (signInStatus ==
+                            CustomStatus.wrongEmailPassword) {
+                          AppUtility.showSnackBar('wrong_email_password'.tr);
+                        } else {
+                          AppUtility.showSnackBar('user_not_found'.tr);
                         }
-                      },
-                    ),
-                  )
-                ],
-              ),
+                      }
+                    },
+                  ),
+                )
+              ],
             ),
           ),
         ),

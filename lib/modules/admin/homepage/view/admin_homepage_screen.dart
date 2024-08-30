@@ -2,15 +2,16 @@ import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/modules/admin/admin_header/view/admin_header_view.dart';
 import 'package:RatingRadar_app/modules/admin/drawer/view/admin_drawer_view.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/admin_homepage_controller.dart';
-import 'package:RatingRadar_app/modules/admin/homepage/components/admin_homepage_recent_user_component.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
+import '../../../../utility/responsive.dart';
 import '../../admin_header/bindings/admin_header_binding.dart';
 import '../components/admin_custom_dropdown.dart';
+import '../components/admin_homepage_recent_user_component.dart';
 import '../components/admin_homepage_view_component.dart';
 import '../model/admin_homepage_ads_view_model.dart';
 
@@ -181,46 +182,57 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                 ],
               ),
               // Recent User/Company Section
-              Obx(
-                () => Row(
-                  children: [
-                    Expanded(
-                      child: AdminHomepageRecentUserComponent(
-                        listScrollController:
-                            adminHomePageController.scrollController1,
-                        scrollBarTop:
-                            adminHomePageController.scrollbar1Top.value,
-                        scrollBarHeight:
-                            adminHomePageController.scrollbar1Height.value,
-                        isUser: true,
-                        onPanUpadate: (DragUpdateDetails details) {
-                          adminHomePageController
-                              .onScrollbarPan1Update(details);
-                          adminHomePageController.update(); // Force UI update
-                        },
-                        userList: adminHomePageController.userList.value,
+              LayoutBuilder(builder: (context, constraints) {
+                return Obx(
+                  () => Flex(
+                    direction: Responsive.isDesktop(context)
+                        ? Axis.horizontal
+                        : Axis.vertical,
+                    children: [
+                      SizedBox(
+                        width: Responsive.isDesktop(context)
+                            ? constraints.maxWidth / 2
+                            : constraints.maxWidth,
+                        child: AdminHomepageRecentUserComponent(
+                          listScrollController:
+                              adminHomePageController.scrollController1,
+                          scrollBarTop:
+                              adminHomePageController.scrollbar1Top.value,
+                          scrollBarHeight:
+                              adminHomePageController.scrollbar1Height.value,
+                          isUser: true,
+                          onPanUpaDate: (DragUpdateDetails details) {
+                            adminHomePageController
+                                .onScrollbarPan1Update(details);
+                            adminHomePageController.update(); // Force UI update
+                          },
+                          userList: adminHomePageController.userList.value,
+                        ),
                       ),
-                    ),
-                    Expanded(
-                      child: AdminHomepageRecentUserComponent(
-                        listScrollController:
-                            adminHomePageController.scrollController2,
-                        scrollBarTop:
-                            adminHomePageController.scrollbar2Top.value,
-                        scrollBarHeight:
-                            adminHomePageController.scrollbar2Height.value,
-                        isUser: false,
-                        onPanUpadate: (DragUpdateDetails details) {
-                          adminHomePageController
-                              .onScrollbarPan2Update(details);
-                          adminHomePageController.update(); // Force UI update
-                        },
-                        userList: adminHomePageController.companyList.value,
+                      SizedBox(
+                        width: Responsive.isDesktop(context)
+                            ? constraints.maxWidth / 2
+                            : constraints.maxWidth,
+                        child: AdminHomepageRecentUserComponent(
+                          listScrollController:
+                              adminHomePageController.scrollController2,
+                          scrollBarTop:
+                              adminHomePageController.scrollbar2Top.value,
+                          scrollBarHeight:
+                              adminHomePageController.scrollbar2Height.value,
+                          isUser: false,
+                          onPanUpaDate: (DragUpdateDetails details) {
+                            adminHomePageController
+                                .onScrollbarPan2Update(details);
+                            adminHomePageController.update(); // Force UI update
+                          },
+                          userList: adminHomePageController.companyList.value,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-              ),
+                    ],
+                  ),
+                );
+              }),
             ],
           ),
         ),

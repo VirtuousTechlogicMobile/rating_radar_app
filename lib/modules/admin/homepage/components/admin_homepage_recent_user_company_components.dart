@@ -11,6 +11,7 @@ import '../../../../constant/styles.dart';
 class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
   final AdminHomepageRecentUserCompanyModel?
       adminHomepageRecentUserCompanyModel;
+
   const AdminHomepageRecentUserCompanyComponents(
       {super.key, required this.adminHomepageRecentUserCompanyModel});
 
@@ -78,30 +79,41 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
                 );
               }
             }),
-            Padding(
-              padding: EdgeInsets.only(top: Dimens.eight, left: Dimens.sixTeen),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(bottom: Dimens.eight),
-                    child: CommonWidgets.autoSizeText(
-                        text: adminHomepageRecentUserCompanyModel?.name ?? '',
-                        textStyle: AppStyles.style16Bold
+            Expanded(
+              child: Padding(
+                padding:
+                    EdgeInsets.only(top: Dimens.eight, left: Dimens.sixTeen),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Flexible(
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: Dimens.eight),
+                        child: CommonWidgets.autoSizeText(
+                          text: adminHomepageRecentUserCompanyModel?.name ?? '',
+                          textStyle: AppStyles.style16Bold
+                              .copyWith(color: themeColorsUtil.cardTextColor),
+                          minFontSize: 16,
+                          maxFontSize: 16,
+                          maxLines: 1,
+                        ),
+                      ),
+                    ),
+                    Flexible(
+                      child: CommonWidgets.autoSizeText(
+                        text: adminHomepageRecentUserCompanyModel?.email ?? '',
+                        textStyle: AppStyles.style14Normal
                             .copyWith(color: themeColorsUtil.cardTextColor),
                         minFontSize: 10,
-                        maxFontSize: 16),
-                  ),
-                  CommonWidgets.autoSizeText(
-                      text: adminHomepageRecentUserCompanyModel?.email ?? '',
-                      textStyle: AppStyles.style14Normal
-                          .copyWith(color: themeColorsUtil.cardTextColor),
-                      minFontSize: 10,
-                      maxFontSize: 16),
-                ],
+                        maxFontSize: 16,
+                        maxLines: 2,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            const Spacer(),
             Icon(
               Icons.more_vert,
               color: themeColorsUtil.whiteBlackSwitchColor,

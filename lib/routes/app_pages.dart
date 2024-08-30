@@ -14,6 +14,7 @@ import 'package:RatingRadar_app/modules/user/user_submit_ad/bindings/user_submit
 import 'package:RatingRadar_app/modules/user/user_submit_ad/view/user_submit_ad_screen.dart';
 import 'package:get/get.dart';
 
+import '../modules/admin/admin_all_ads/bindings/admin_all_ads_binding.dart';
 import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/view/signin_screen.dart';
 import '../modules/user/user_conformation/bindings/user_conformation_binding.dart';
@@ -109,6 +110,14 @@ abstract class AppPages {
       page: AdminHomepageScreen.new,
       binding: AdminHomepageBinding(),
       transitionDuration: transitionDuration,
+      transition: defaultTransition,
+    ),
+
+    GetPage(
+      name: _Routes.adminAllAds,
+      page: UserAllAdsListScreen.new,
+      binding: AdminAllAdsBinding(),
+      transitionDuration: const Duration(milliseconds: 700),
       transition: defaultTransition,
     ),
   ];

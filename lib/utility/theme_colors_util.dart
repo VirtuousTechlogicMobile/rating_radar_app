@@ -102,6 +102,8 @@ class ThemeColorsUtil {
   }
 
   Color get dividerSwitchColor {
-    return isDarkTheme ? ColorValues.dividerGreyColor.withOpacity(0.50) : ColorValues.dividerGreyColor;
+    return isDarkTheme
+        ? ColorValues.dividerGreyColor.withOpacity(0.50)
+        : ColorValues.dividerGreyColor;
   }
 }

@@ -50,6 +50,10 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.adminHomePage);
   }
 
+  static void goToAdminAllAdsView() {
+    Get.offAllNamed(AppRoutes.adminAllAds);
+  }
+
   /// Go to back Page / Close Pages --------------------------------------------
 
   static void goToBack() {
