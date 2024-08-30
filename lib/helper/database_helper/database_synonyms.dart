@@ -19,6 +19,8 @@ abstract class DatabaseSynonyms {
   static const addedDateField = 'addedDate';
   static const createdAt = 'createdAt';
   static const profileImage = 'profileImage';
+  static const adIdField = 'adId';
+  static const uIdField = 'uId';
 }
 
 abstract class DatabaseStatusSynonyms {

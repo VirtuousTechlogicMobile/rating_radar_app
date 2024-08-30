@@ -47,7 +47,7 @@ class UserSubmitAdController extends GetxController {
     Get.context?.loaderOverlay.hide();
   }
 
-  Future storeUserSubmittedAds({required UserSubmitAdDataModel userSubmitAdDataModel}) async {
+  Future<String?> storeUserSubmittedAds({required UserSubmitAdDataModel userSubmitAdDataModel}) async {
     Get.context?.loaderOverlay.show();
 
     /// store and get images in firebase storage
@@ -62,14 +62,7 @@ class UserSubmitAdController extends GetxController {
 
     /// store submitted ad in database
     String? documentId = await DatabaseHelper.instance.storeUserSubmittedAds(userSubmitAdDataModel: updatedModel);
-    if (documentId != null) {
-      AppUtility.showSnackBar('task_added_successfully'.tr);
-      pickedFiles.clear();
-      commentsController.clear();
-      RouteManagement.goToBack();
-    } else {
-      AppUtility.showSnackBar('something_want_wrong'.tr);
-    }
     Get.context?.loaderOverlay.hide();
+    return documentId;
   }
 }

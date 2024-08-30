@@ -96,4 +96,12 @@ class ThemeColorsUtil {
         ? ColorValues.primaryColorYellow.withOpacity(0.15)
         : ColorValues.primaryColorBlue.withOpacity(0.15);
   }
+
+  Color get fontColorBlackWhiteSwitchColor {
+    return isDarkTheme ? ColorValues.whiteColor : ColorValues.fontColorBlack;
+  }
+
+  Color get dividerSwitchColor {
+    return isDarkTheme ? ColorValues.dividerGreyColor.withOpacity(0.50) : ColorValues.dividerGreyColor;
+  }
 }

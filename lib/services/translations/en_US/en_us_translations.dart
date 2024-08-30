@@ -92,7 +92,7 @@ final Map<String, String> enUs = {
   'submit': 'Submit',
   'Company': 'Company',
   'please_upload_all_images': 'Please upload all Images',
-  'task_added_successfully': 'Task added successfully',
+  'task_submitted_successfully': 'Task submitted successfully',
   'all_customers': 'All Customers',
   'active_ads': 'Active Ads',
   'task': 'Task',
@@ -107,4 +107,8 @@ final Map<String, String> enUs = {
   'pending ': 'Pending ',
   'rejected': 'Rejected',
   'blocked': 'Blocked',
+  'showing_data': 'Showing data',
+  'to': 'to',
+  'of': 'of',
+  'entries': 'entries',
 };

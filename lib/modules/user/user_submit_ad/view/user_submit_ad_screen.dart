@@ -257,14 +257,21 @@ class UserSubmitAdScreen extends StatelessWidget {
                                   AppUtility.showSnackBar('please_upload_all_images'.tr);
                                 } else {
                                   String userId = await userSubmitAdController.getUid();
-                                  userSubmitAdController.storeUserSubmittedAds(
+                                  String? documentId = await userSubmitAdController.storeUserSubmittedAds(
                                     userSubmitAdDataModel: UserSubmitAdDataModel(
-                                        adId: userSubmitAdController.adsDetailData.value?.docId ?? '',
-                                        uId: userId,
-                                        addedDate: DateTime.now(),
-                                        comments: '',
-                                        status: CustomStatus.pending),
+                                      adId: userSubmitAdController.adsDetailData.value?.docId ?? '',
+                                      uId: userId,
+                                      addedDate: DateTime.now(),
+                                      comments: '',
+                                      status: CustomStatus.pending,
+                                    ),
                                   );
+                                  if (documentId != null) {
+                                    RouteManagement.goToBack();
+                                    AppUtility.showSnackBar('task_submitted_successfully'.tr);
+                                  } else {
+                                    AppUtility.showSnackBar('something_want_wrong'.tr);
+                                  }
                                 }
                               },
                               child: SizedBox(
