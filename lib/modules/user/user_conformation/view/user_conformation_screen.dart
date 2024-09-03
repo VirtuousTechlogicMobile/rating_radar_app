@@ -3,7 +3,6 @@ import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../common/common_widgets.dart';
 import '../../../../common/custom_button.dart';
 import '../../../../common/custom_theme_switch_button.dart';

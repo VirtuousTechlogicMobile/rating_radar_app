@@ -25,6 +25,7 @@ abstract class ColorValues {
   static const Color statusColorRed = Color(0xffFFC5C5);
   static const Color statusFontColorRed = Color(0xffDF0404);
   static const Color statusColorBlack = Color(0xff343434);
+  static const Color noDataTextColor = Color(0xffCACACA);
   static const Color blackColorRecentText = Color(0xff16192C);
   static const Color cardTextColor = Color(0xff425466);
   static const Color darkBgColor = Color.fromARGB(255, 20, 20, 29);

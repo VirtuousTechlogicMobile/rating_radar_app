@@ -230,7 +230,7 @@ class UserSignUpScreen extends StatelessWidget {
                       } else if (userSignUpScreenController.emailController.text.trim().isNotEmpty && !Validators.isValidEmail(userSignUpScreenController.emailController.text)) {
                         AppUtility.showSnackBar('please_enter_valid_email'.tr);
                       } else if (userSignUpScreenController.userNameController.text.trim().isEmpty) {
-                        AppUtility.showSnackBar('please_enter_user_name'.tr);
+                        AppUtility.showSnackBar('please_enter_full_name'.tr);
                       } else if (userSignUpScreenController.contactNumberController.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_contact_number'.tr);
                       } else if (userSignUpScreenController.contactNumberController.text.trim().length <= 3 ||

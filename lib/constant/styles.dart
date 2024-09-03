@@ -117,6 +117,13 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style14SemiBold600 = TextStyle(
+    fontSize: Dimens.fourteen,
+    fontWeight: FontWeight.w600,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style14Normal = TextStyle(
     fontSize: Dimens.fourteen,
     fontWeight: FontWeight.w400,
@@ -133,7 +140,7 @@ abstract class AppStyles {
 
   static TextStyle style15Bold = TextStyle(
     fontSize: Dimens.fifteen,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -209,14 +216,21 @@ abstract class AppStyles {
   );
 
   static TextStyle style21Normal = TextStyle(
-    fontSize: Dimens.twenty,
+    fontSize: Dimens.twentyOne,
     fontWeight: FontWeight.w400,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
 
+  static TextStyle style21SemiBold = TextStyle(
+    fontSize: Dimens.twentyOne,
+    fontWeight: FontWeight.w500,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style21Bold = TextStyle(
-    fontSize: Dimens.twenty,
+    fontSize: Dimens.twentyOne,
     fontWeight: FontWeight.w600,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
@@ -271,6 +285,13 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style29SemiBold = TextStyle(
+    fontSize: Dimens.twentyNine,
+    fontWeight: FontWeight.w500,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style32Black = TextStyle(
     fontSize: Dimens.thirtyTwo,
     fontWeight: FontWeight.w900,
@@ -288,6 +309,13 @@ abstract class AppStyles {
   static TextStyle style32Normal = TextStyle(
     fontSize: Dimens.thirtyTwo,
     fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style35SemiBold = TextStyle(
+    fontSize: Dimens.thirtyFive,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -316,6 +344,13 @@ abstract class AppStyles {
   static TextStyle style40Black = TextStyle(
     fontSize: Dimens.forty,
     fontWeight: FontWeight.w900,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style40SemiBold = TextStyle(
+    fontSize: Dimens.forty,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );

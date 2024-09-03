@@ -2,7 +2,6 @@ import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../../common/common_widgets.dart';
 import '../../../../constant/assets.dart';
 import '../../../../constant/colors.dart';
@@ -24,8 +23,7 @@ class DrawerView extends StatefulWidget {
   State<DrawerView> createState() => _DrawerViewState();
 }
 
-class _DrawerViewState extends State<DrawerView>
-    with SingleTickerProviderStateMixin {
+class _DrawerViewState extends State<DrawerView> with SingleTickerProviderStateMixin {
   final drawerController = Get.find<DrawerMenuController>();
 
   @override
@@ -55,19 +53,11 @@ class _DrawerViewState extends State<DrawerView>
         child: Container(
           width: Dimens.threeHundredSix,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.only(
-              top: Dimens.thirty,
-              right: Dimens.twentyEight,
-              left: Dimens.twentyEight),
+          padding: EdgeInsets.only(top: Dimens.thirty, right: Dimens.twentyEight, left: Dimens.twentyEight),
           decoration: BoxDecoration(
             color: themeUtils.drawerBgWhiteSwitchColor,
             boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 10),
-                  blurRadius: 60,
-                  spreadRadius: 0,
-                  color: themeUtils.drawerShadowBlackSwitchColor
-                      .withOpacity(0.50)),
+              BoxShadow(offset: const Offset(0, 10), blurRadius: 60, spreadRadius: 0, color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50)),
             ],
           ),
           child: Stack(
@@ -88,10 +78,7 @@ class _DrawerViewState extends State<DrawerView>
                 top: 0,
                 left: 0,
                 right: 0,
-                child: animatedContainer(
-                    drawerController: drawerController,
-                    themeUtils: themeUtils,
-                    context: context),
+                child: animatedContainer(drawerController: drawerController, themeUtils: themeUtils, context: context),
               ),
             ],
           ),
@@ -111,8 +98,7 @@ Widget menuList({required DrawerMenuController drawerController}) {
           menuDataModel: drawerController.menuDataList[index],
           isSelected: index == drawerController.selectedMenuIndex.value,
           onSelectMenuItem: (selectedMenu) {
-            drawerController.selectedMenuIndex.value =
-                drawerController.menuDataList.indexOf(selectedMenu);
+            drawerController.selectedMenuIndex.value = drawerController.menuDataList.indexOf(selectedMenu);
             if (drawerController.selectedMenuIndex.value == 0) {
               RouteManagement.goToUserHomePageView();
             } else if (drawerController.selectedMenuIndex.value == 1) {
@@ -136,11 +122,9 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
       return Obx(
         () => DrawerMenuComponent(
           menuDataModel: drawerController.endMenuDataList[index],
-          isSelected: (index + firstMenuListLength) ==
-              drawerController.selectedMenuIndex.value,
+          isSelected: (index + firstMenuListLength) == drawerController.selectedMenuIndex.value,
           onSelectMenuItem: (selectedMenu) {
-            drawerController.selectedMenuIndex.value = firstMenuListLength +
-                drawerController.endMenuDataList.indexOf(selectedMenu);
+            drawerController.selectedMenuIndex.value = firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu);
           },
         ).marginOnly(bottom: 16),
       );
@@ -148,23 +132,15 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
   );
 }
 
-Widget animatedContainer(
-    {required DrawerMenuController drawerController,
-    required ThemeColorsUtil themeUtils,
-    required BuildContext context}) {
+Widget animatedContainer({required DrawerMenuController drawerController, required ThemeColorsUtil themeUtils, required BuildContext context}) {
   return Obx(
     () => AnimatedContainer(
       duration: const Duration(milliseconds: 300),
-      height: drawerController.isExpanded.value
-          ? Dimens.oneHundredFortyFive
-          : Dimens.sixtyFive,
+      height: drawerController.isExpanded.value ? Dimens.oneHundredFortyFive : Dimens.sixtyFive,
       width: Dimens.twoHundredFifty,
       padding: EdgeInsets.all(Dimens.seven),
       decoration: BoxDecoration(
-          color: themeUtils.primaryColorSwitch,
-          borderRadius: drawerController.isExpanded.value
-              ? BorderRadius.circular(Dimens.thirty)
-              : BorderRadius.circular(Dimens.fifty)),
+          color: themeUtils.primaryColorSwitch, borderRadius: drawerController.isExpanded.value ? BorderRadius.circular(Dimens.thirty) : BorderRadius.circular(Dimens.fifty)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -190,14 +166,12 @@ Widget animatedContainer(
                   children: [
                     Text(
                       drawerController.userName.value.split(' ')[0],
-                      style: AppStyles.style14SemiBold
-                          .copyWith(color: themeUtils.blackWhiteSwitchColor),
+                      style: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor),
                     ),
                     Text(
                       'user'.tr,
                       style: AppStyles.style12Normal.copyWith(
-                        color:
-                            themeUtils.blackWhiteSwitchColor.withOpacity(0.70),
+                        color: themeUtils.blackWhiteSwitchColor.withOpacity(0.70),
                       ),
                     ),
                   ],
@@ -220,11 +194,8 @@ Widget animatedContainer(
                         onTap: () async {
                           drawerController.toggleDashboardProfileMenu();
                         },
-                        child: CommonWidgets.fromSvg(
-                            svgAsset: SvgAssets.downArrowIcon,
-                            color: themeUtils.blackWhiteSwitchColor,
-                            width: Dimens.twentyFour,
-                            height: Dimens.twentyFour),
+                        child:
+                            CommonWidgets.fromSvg(svgAsset: SvgAssets.downArrowIcon, color: themeUtils.blackWhiteSwitchColor, width: Dimens.twentyFour, height: Dimens.twentyFour),
                       ),
                     ),
                   ),
@@ -234,11 +205,7 @@ Widget animatedContainer(
           ),
           Flexible(
             child: Padding(
-              padding: EdgeInsets.only(
-                  top: Dimens.thirteen,
-                  bottom: Dimens.ten,
-                  left: Dimens.sixTeen,
-                  right: Dimens.sixTeen),
+              padding: EdgeInsets.only(top: Dimens.thirteen, bottom: Dimens.ten, left: Dimens.sixTeen, right: Dimens.sixTeen),
               child: Divider(
                 height: 1,
                 color: themeUtils.blackWhiteSwitchColor.withOpacity(0.50),
@@ -253,16 +220,12 @@ Widget animatedContainer(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CommonWidgets.fromSvg(
-                        svgAsset: ThemeAssetsUtil(context).themeButton,
-                        height: Dimens.thirteen,
-                        width: Dimens.thirteen),
+                    CommonWidgets.fromSvg(svgAsset: ThemeAssetsUtil(context).themeButton, height: Dimens.thirteen, width: Dimens.thirteen),
                     Padding(
                       padding: EdgeInsets.only(left: Dimens.sevenTeen),
                       child: Text(
                         ThemeStringsUtil(context).lightDarkModeValue,
-                        style: AppStyles.style12Normal
-                            .copyWith(color: themeUtils.blackWhiteSwitchColor),
+                        style: AppStyles.style12Normal.copyWith(color: themeUtils.blackWhiteSwitchColor),
                       ),
                     ),
                     Expanded(
@@ -274,10 +237,7 @@ Widget animatedContainer(
                               drawerController.changeTheme();
                             }
                           },
-                          child: CommonWidgets.fromSvg(
-                              svgAsset: ThemeAssetsUtil(context)
-                                  .themeSwitchSmallButton,
-                              width: Dimens.twentySix),
+                          child: CommonWidgets.fromSvg(svgAsset: ThemeAssetsUtil(context).themeSwitchSmallButton, width: Dimens.twentySix),
                         ),
                       ),
                     ),

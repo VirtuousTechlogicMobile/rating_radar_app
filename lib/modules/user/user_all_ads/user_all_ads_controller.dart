@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import '../../../helper/database_helper/database_helper.dart';
-import '../homepage/model/user_ads_list_data_model.dart';
+import '../user_homepage/model/user_ads_list_data_model.dart';
 
 class UserAllAdsController extends GetxController {
   RxBool isShowLoader = false.obs;

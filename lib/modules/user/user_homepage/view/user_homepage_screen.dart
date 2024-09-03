@@ -1,8 +1,6 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
-import 'package:RatingRadar_app/modules/user/homepage/model/user_ads_list_data_model.dart';
-import 'package:RatingRadar_app/modules/user/homepage/user_homepage_controller.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/bindings/user_all_ads_binding.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
@@ -15,7 +13,9 @@ import '../../header/view/header_view.dart';
 import '../components/custom_dropdown.dart';
 import '../components/user_homepage_components.dart';
 import '../components/user_homepage_view_component.dart';
+import '../model/user_ads_list_data_model.dart';
 import '../model/user_homepage_adsviews_data_model.dart';
+import '../user_homepage_controller.dart';
 
 class UserHomepageScreen extends StatelessWidget {
   final userHomePageController = Get.find<UserHomepageController>();
@@ -62,8 +62,7 @@ class UserHomepageScreen extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Column(
@@ -81,16 +80,14 @@ class UserHomepageScreen extends StatelessWidget {
                             padding: EdgeInsets.only(bottom: Dimens.eight),
                             child: CommonWidgets.autoSizeText(
                               text: 'overview'.tr,
-                              textStyle: AppStyles.style24SemiBold.copyWith(
-                                  color: themeUtils.whiteBlackSwitchColor),
+                              textStyle: AppStyles.style24SemiBold.copyWith(color: themeUtils.whiteBlackSwitchColor),
                               minFontSize: 20,
                               maxFontSize: 24,
                             ),
                           ),
                           CommonWidgets.autoSizeText(
                             text: 'overall_your_progress'.tr,
-                            textStyle: AppStyles.style14Normal
-                                .copyWith(color: themeUtils.primaryColorSwitch),
+                            textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
                             minFontSize: 8,
                             maxFontSize: 14,
                           ),
@@ -98,15 +95,10 @@ class UserHomepageScreen extends StatelessWidget {
                       ),
                       Obx(
                         () => CustomDropdown(
-                          dropDownItems:
-                              userHomePageController.dropdownItemsList,
-                          selectedItem:
-                              userHomePageController.dropdownItemsList[
-                                  userHomePageController
-                                      .selectedDropDownItemIndex.value],
+                          dropDownItems: userHomePageController.dropdownItemsList,
+                          selectedItem: userHomePageController.dropdownItemsList[userHomePageController.selectedDropDownItemIndex.value],
                           onItemSelected: (index) async {
-                            userHomePageController
-                                .selectedDropDownItemIndex.value = index;
+                            userHomePageController.selectedDropDownItemIndex.value = index;
                             await userHomePageController.getAdsList();
                           },
                         ),
@@ -116,24 +108,11 @@ class UserHomepageScreen extends StatelessWidget {
 
                   /// views
                   Wrap(
-                    spacing: ((constraints.maxWidth -
-                                    (((constraints.maxWidth /
-                                                Dimens.twoHundredTwenty)
-                                            .floor()) *
-                                        Dimens.twoHundredTwenty)) /
-                                (((constraints.maxWidth /
-                                            Dimens.twoHundredTwenty)
-                                        .floor()) -
-                                    1)) >
+                    spacing: ((constraints.maxWidth - (((constraints.maxWidth / Dimens.twoHundredTwenty).floor()) * Dimens.twoHundredTwenty)) /
+                                (((constraints.maxWidth / Dimens.twoHundredTwenty).floor()) - 1)) >
                             0
-                        ? ((constraints.maxWidth -
-                                (((constraints.maxWidth /
-                                            Dimens.twoHundredTwenty)
-                                        .floor()) *
-                                    Dimens.twoHundredTwenty)) /
-                            (((constraints.maxWidth / Dimens.twoHundredTwenty)
-                                    .floor()) -
-                                1))
+                        ? ((constraints.maxWidth - (((constraints.maxWidth / Dimens.twoHundredTwenty).floor()) * Dimens.twoHundredTwenty)) /
+                            (((constraints.maxWidth / Dimens.twoHundredTwenty).floor()) - 1))
                         : Dimens.thirty,
                     children: List.generate(
                       4,
@@ -142,23 +121,17 @@ class UserHomepageScreen extends StatelessWidget {
                           themeUtils: themeUtils,
                           index: index,
                           listLength: 4,
-                          viewsModel: UserHomepageAdsViewsDataModel(
-                              totalViews: 1265,
-                              isMarketValueUp: true,
-                              marketValuePercentage: 11.02),
+                          viewsModel: UserHomepageAdsViewsDataModel(totalViews: 1265, isMarketValueUp: true, marketValuePercentage: 11.02),
                         );
                       },
                     ),
                   ),
 
                   Padding(
-                    padding: EdgeInsets.only(
-                        top: Dimens.twentySix, bottom: Dimens.nine),
+                    padding: EdgeInsets.only(top: Dimens.twentySix, bottom: Dimens.nine),
                     child: CommonWidgets.autoSizeText(
                       text: 'recent_ads'.tr,
-                      textStyle: AppStyles.style24Normal.copyWith(
-                          color: themeUtils.whiteBlackSwitchColor,
-                          fontWeight: FontWeight.w600),
+                      textStyle: AppStyles.style24Normal.copyWith(color: themeUtils.whiteBlackSwitchColor, fontWeight: FontWeight.w600),
                       minFontSize: 15,
                       maxFontSize: 24,
                     ),
@@ -168,8 +141,7 @@ class UserHomepageScreen extends StatelessWidget {
                     children: [
                       CommonWidgets.autoSizeText(
                         text: 'best_recent_ads'.tr,
-                        textStyle: AppStyles.style14Normal
-                            .copyWith(color: themeUtils.primaryColorSwitch),
+                        textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
                         minFontSize: 8,
                         maxFontSize: 14,
                       ),
@@ -179,8 +151,7 @@ class UserHomepageScreen extends StatelessWidget {
                         },
                         child: CommonWidgets.autoSizeText(
                           text: 'view_all'.tr,
-                          textStyle: AppStyles.style14Normal
-                              .copyWith(color: themeUtils.primaryColorSwitch),
+                          textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
                           minFontSize: 8,
                           maxFontSize: 14,
                         ),
@@ -194,25 +165,11 @@ class UserHomepageScreen extends StatelessWidget {
                       child: Obx(
                         () => Wrap(
                           /// calculate the spacing between items
-                          spacing: ((constraints.maxWidth -
-                                          (((constraints.maxWidth /
-                                                      Dimens.threeHundredTwenty)
-                                                  .floor()) *
-                                              Dimens.threeHundredTwenty)) /
-                                      (((constraints.maxWidth /
-                                                  Dimens.threeHundredTwenty)
-                                              .floor()) -
-                                          1)) >
+                          spacing: ((constraints.maxWidth - (((constraints.maxWidth / Dimens.threeHundredTwenty).floor()) * Dimens.threeHundredTwenty)) /
+                                      (((constraints.maxWidth / Dimens.threeHundredTwenty).floor()) - 1)) >
                                   0
-                              ? ((constraints.maxWidth -
-                                      (((constraints.maxWidth /
-                                                  Dimens.threeHundredTwenty)
-                                              .floor()) *
-                                          Dimens.threeHundredTwenty)) /
-                                  (((constraints.maxWidth /
-                                              Dimens.threeHundredTwenty)
-                                          .floor()) -
-                                      1))
+                              ? ((constraints.maxWidth - (((constraints.maxWidth / Dimens.threeHundredTwenty).floor()) * Dimens.threeHundredTwenty)) /
+                                  (((constraints.maxWidth / Dimens.threeHundredTwenty).floor()) - 1))
                               : Dimens.sixTeen,
                           children: List.generate(
                             userHomePageController.adsList.value?.length ?? 0,
@@ -220,27 +177,14 @@ class UserHomepageScreen extends StatelessWidget {
                               return UserAdViewComponent(
                                 themeColorUtil: themeUtils,
                                 userAdsListDataModel: UserAdsListDataModel(
-                                  adName: userHomePageController
-                                          .adsList.value?[index].adName ??
-                                      '',
-                                  adContent: userHomePageController
-                                          .adsList.value?[index].adContent ??
-                                      '',
-                                  byCompany: userHomePageController
-                                          .adsList.value?[index].byCompany ??
-                                      '',
-                                  imageUrl: userHomePageController
-                                          .adsList.value?[index].imageUrl ??
-                                      '',
-                                  adPrice: userHomePageController
-                                          .adsList.value?[index].adPrice ??
-                                      0,
+                                  adName: userHomePageController.adsList.value?[index].adName ?? '',
+                                  adContent: userHomePageController.adsList.value?[index].adContent ?? '',
+                                  byCompany: userHomePageController.adsList.value?[index].byCompany ?? '',
+                                  imageUrl: userHomePageController.adsList.value?[index].imageUrl ?? '',
+                                  adPrice: userHomePageController.adsList.value?[index].adPrice ?? 0,
                                 ),
                                 onViewButtonTap: () {
-                                  RouteManagement.goToUserSubmitAdScreenView(
-                                      adDocumentId: userHomePageController
-                                              .adsList.value?[index].docId ??
-                                          '');
+                                  RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userHomePageController.adsList.value?[index].docId ?? '');
                                 },
                               );
                             },

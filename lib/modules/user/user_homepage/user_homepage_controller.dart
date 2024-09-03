@@ -9,7 +9,7 @@ class UserHomepageController extends GetxController {
     return await PreferencesManager.getUserId();
   }
 
-  List<String> dropdownItemsList = ['today'.tr, 'lastWeek'.tr, 'lastMonth'.tr, 'lastYear'.tr, 'allTime'.tr];
+  List<String> dropdownItemsList = ['today'.tr, 'last_week'.tr, 'last_month'.tr, 'last_year'.tr, 'all_time'.tr];
   RxInt selectedDropDownItemIndex = 0.obs;
 
   RxList<bool> isViewComponentHoveredList = List.generate(1, (index) => false).obs;

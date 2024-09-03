@@ -34,6 +34,10 @@ abstract class RouteManagement {
     Get.toNamed(AppRoutes.userAdsList);
   }
 
+  static void goToLogoutView() {
+    Get.toNamed(AppRoutes.userLogout);
+  }
+
   /// manager module --------------------------------------------------------------------------
 
   static void goToManagerSignUpView() {

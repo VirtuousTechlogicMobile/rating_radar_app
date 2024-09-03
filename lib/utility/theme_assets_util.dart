@@ -17,4 +17,8 @@ class ThemeAssetsUtil {
         ? SvgAssets.darkThemeSmallSwitchIcon
         : SvgAssets.lightThemeSmallSwitchIcon;
   }
+
+  String get logoutSwitchImage {
+    return isDarkTheme ? SvgAssets.darkLogoutUserIcon : SvgAssets.lightLogoutUserIcon;
+  }
 }

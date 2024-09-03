@@ -50,8 +50,11 @@ abstract class Dimens {
   static double oneHundredTwenty = 120.r;
   static double twoHundredTwenty = 220.r;
   static double twoHundredNinety = 290.r;
-  static double oneThousandTwoHundred = 1200.r;
+  static double twoHundred = 200.r;
+  static double oneHundredEightyFive = 185.r;
   static double oneHundredNinety = 190.r;
+  static double oneHundredNine = 109.r;
+  static double oneHundredNineteen = 119.r;
   static double pointEight = 0.8.r;
   static double pointFive = 0.5.r;
   static double pointFour = 0.4.r;
@@ -89,6 +92,7 @@ abstract class Dimens {
   static double twenty = 20.r;
   static double twentySeven = 27.r;
   static double twentyEight = 28.r;
+  static double twentyNine = 29.r;
   static double twentyFive = 25.r;
   static double twentyFour = 24.r;
   static double twentySix = 26.r;

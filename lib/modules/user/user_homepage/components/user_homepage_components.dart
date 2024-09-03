@@ -38,7 +38,7 @@ class UserAdViewComponent extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(Dimens.twentyThree),
             child: NxNetworkImage(
-              imageUrl: userAdsListDataModel.imageUrl,
+              imageUrl: userAdsListDataModel.imageUrl?[0] ?? '',
               width: Dimens.twoHundredNinety,
               height: Dimens.oneHundredNinety,
               imageFit: BoxFit.cover,
