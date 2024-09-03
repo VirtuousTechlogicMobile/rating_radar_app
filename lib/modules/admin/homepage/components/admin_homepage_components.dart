@@ -10,13 +10,13 @@ import '../model/admin_ads_list_data_model.dart';
 
 class AdminAdViewComponent extends StatelessWidget {
   final ThemeColorsUtil themeColorUtil;
-  final AdminAdsListDataModel userAdsListDataModel;
+  final AdminAdsListDataModel adminAdsListDataModel;
   final Function()? onViewButtonTap;
 
   const AdminAdViewComponent(
       {super.key,
       required this.themeColorUtil,
-      required this.userAdsListDataModel,
+      required this.adminAdsListDataModel,
       this.onViewButtonTap});
 
   @override
@@ -47,7 +47,7 @@ class AdminAdViewComponent extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(Dimens.twentyThree),
             child: NxNetworkImage(
-              imageUrl: userAdsListDataModel.imageUrl,
+              imageUrl: adminAdsListDataModel.imageUrl,
               width: Dimens.twoHundredNinety,
               height: Dimens.oneHundredNinety,
               imageFit: BoxFit.cover,
@@ -62,7 +62,7 @@ class AdminAdViewComponent extends StatelessWidget {
                   padding: EdgeInsets.only(
                       top: Dimens.sevenTeen, bottom: Dimens.four),
                   child: CommonWidgets.autoSizeText(
-                    text: userAdsListDataModel.adName,
+                    text: adminAdsListDataModel.adName,
                     textStyle: AppStyles.style17Normal.copyWith(
                         fontWeight: FontWeight.w500,
                         color: themeColorUtil.whiteBlackSwitchColor),
@@ -73,7 +73,7 @@ class AdminAdViewComponent extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(bottom: Dimens.nine),
                   child: CommonWidgets.autoSizeText(
-                    text: userAdsListDataModel.byCompany,
+                    text: adminAdsListDataModel.byCompany,
                     textStyle: AppStyles.style13Normal
                         .copyWith(color: themeColorUtil.whiteBlackSwitchColor),
                     minFontSize: 7,
@@ -83,7 +83,7 @@ class AdminAdViewComponent extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: Dimens.nine),
                   child: CommonWidgets.autoSizeText(
-                    text: userAdsListDataModel.adContent,
+                    text: adminAdsListDataModel.adContent,
                     textStyle: AppStyles.style13Normal.copyWith(
                         color: themeColorUtil.whiteBlackSwitchColor
                             .withOpacity(0.50)),
@@ -135,7 +135,8 @@ class AdminAdViewComponent extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.only(top: Dimens.three),
                             child: CommonWidgets.autoSizeText(
-                              text: "${'Rs'.tr}${userAdsListDataModel.adPrice}",
+                              text:
+                                  "${'Rs'.tr}${adminAdsListDataModel.adPrice}",
                               textStyle: AppStyles.style17Normal.copyWith(
                                   color: themeColorUtil.primaryColorSwitch,
                                   fontWeight: FontWeight.w600),

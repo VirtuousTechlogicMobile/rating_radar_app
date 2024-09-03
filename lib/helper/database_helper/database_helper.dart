@@ -11,6 +11,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
 import '../../constant/strings.dart';
+import '../../modules/admin/admin_ads_list_menu/model/admin_submitted_ads_list_data_model.dart';
 import '../../modules/admin/admin_signin/model/admin_signin_model.dart';
 import '../../modules/admin/homepage/model/admin_ads_list_data_model.dart';
 import '../../modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
@@ -617,5 +618,58 @@ class DatabaseHelper {
   Future<String> getCurrentAdminEmail() async {
     User? user = firebaseAuth.currentUser;
     return user?.email ?? '';
+  }
+
+  Future<List<AdminSubmittedAdsListDataModel>?> getsAdminSubmittedAdsList(
+      {required int nDataPerPage,
+      AdminSubmittedAdsListDataModel? adLastDocument}) async {
+    try {
+      CollectionReference userAdsCollectionReference = fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection);
+      CollectionReference userCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference adsCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+
+      /// store the last document id
+      String? lastDocumentId = adLastDocument?.submittedAdId;
+      List<AdminSubmittedAdsListDataModel> adminsSubmittedAdsList = [];
+      Query query = userAdsCollectionReference.limit(nDataPerPage);
+
+      if (lastDocumentId != null) {
+        /// get the data after last document id
+        DocumentSnapshot lastDocumentSnapshot =
+            await userAdsCollectionReference.doc(lastDocumentId).get();
+        query = query.startAfterDocument(lastDocumentSnapshot);
+      }
+
+      QuerySnapshot querySnapshot = await query.get();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var snapshotData in querySnapshot.docs) {
+          DocumentSnapshot adData = await adsCollectionReference
+              .doc(snapshotData[DatabaseSynonyms.adIdField])
+              .get();
+          DocumentSnapshot userData = await userCollectionReference
+              .doc(snapshotData[DatabaseSynonyms.uIdField])
+              .get();
+          adminsSubmittedAdsList.add(
+            AdminSubmittedAdsListDataModel(
+              email: userData['email'],
+              userName: userData['username'],
+              date: (snapshotData['addedDate'] as Timestamp).toDate(),
+              submittedAdId: snapshotData.id,
+              adStatus: adData['adStatus'],
+              company: adData['byCompany'],
+              taskPrice: adData['adPrice'],
+            ),
+          );
+        }
+        // usersSubmittedAdsList.addAll(querySnapshot.docs.map((docs) => UserAdsListDataModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList());
+      }
+      return adminsSubmittedAdsList;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
   }
 }

@@ -94,6 +94,8 @@ final Map<String, String> enUs = {
   'please_upload_all_images': 'Please upload all Images',
   'task_submitted_successfully': 'Task submitted successfully',
   'all_customers': 'All Customers',
+  'all_ads': 'All Ads',
+  'add_ads': 'Add Ads',
   'active_ads': 'Active Ads',
   'task': 'Task',
   'email': 'Email',

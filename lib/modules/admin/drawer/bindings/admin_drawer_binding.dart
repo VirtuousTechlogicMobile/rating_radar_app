@@ -5,6 +5,8 @@ import '../admin_drawer_controller.dart';
 class AdminDrawerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut(AdminDrawerMenuController.new);
+    if (!Get.isRegistered<AdminDrawerMenuController>()) {
+      Get.put(AdminDrawerMenuController(), permanent: true);
+    }
   }
 }

@@ -17,9 +17,7 @@ class AdminHeaderView extends StatelessWidget {
   AdminHeaderView(
       {super.key,
       this.isAdsListScreen = false,
-      this.isDashboardScreen = false}) {
-    adminHeaderController.getUserName();
-  }
+      this.isDashboardScreen = false});
 
   @override
   Widget build(BuildContext context) {
@@ -37,20 +35,17 @@ class AdminHeaderView extends StatelessWidget {
           if (isAdsListScreen)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(
-                      () => CommonWidgets.autoSizeText(
-                        text:
-                            '${'hello'.tr} ${adminHeaderController.userName.value.split(' ')[0]}',
-                        textStyle: AppStyles.style24SemiBold
-                            .copyWith(color: themeUtils.whiteBlackSwitchColor),
-                        minFontSize: 20,
-                        maxFontSize: 24,
-                      ),
+                    CommonWidgets.autoSizeText(
+                      text: '${'hello'.tr} ${'admin'.tr}',
+                      textStyle: AppStyles.style24SemiBold
+                          .copyWith(color: themeUtils.whiteBlackSwitchColor),
+                      minFontSize: 20,
+                      maxFontSize: 24,
                     ),
                     Hero(
                       tag: 'headerSearchField',
@@ -94,6 +89,7 @@ class AdminHeaderView extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      /// settings icon
                       Container(
                         decoration: BoxDecoration(
                           color: themeUtils.deepBlackWhiteSwitchColor,
@@ -107,14 +103,59 @@ class AdminHeaderView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: CommonWidgets.fromSvg(
-                            svgAsset: SvgAssets.settingsIcon,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: Dimens.fifteen,
-                                vertical: Dimens.twelve),
-                            color: themeUtils.primaryColorSwitch),
+                        child: Obx(
+                          () => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 800),
+                                width: adminHeaderController
+                                        .isSettingsIconHovered.value
+                                    ? Dimens.fifty
+                                    : 0.0,
+                                height: adminHeaderController
+                                        .isSettingsIconHovered.value
+                                    ? Dimens.fifty
+                                    : 0.0,
+                                decoration: BoxDecoration(
+                                  color: themeUtils.primaryColorSwitch,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              MouseRegion(
+                                cursor: MouseCursor.uncontrolled,
+                                onEnter: (event) {
+                                  adminHeaderController
+                                      .isSettingsIconHovered.value = true;
+                                },
+                                onExit: (event) {
+                                  adminHeaderController
+                                      .isSettingsIconHovered.value = false;
+                                },
+                                child: Container(
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  width: Dimens.fifty,
+                                  height: Dimens.fifty,
+                                  child: CommonWidgets.fromSvg(
+                                    svgAsset: SvgAssets.settingsIcon,
+                                    color: adminHeaderController
+                                            .isSettingsIconHovered.value
+                                        ? themeUtils.blackWhiteSwitchColor
+                                        : themeUtils.primaryColorSwitch,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
+
+                      /// notification icon
                       Container(
+                        width: Dimens.fifty,
+                        height: Dimens.fifty,
                         margin: EdgeInsets.only(left: Dimens.fifteen),
                         decoration: BoxDecoration(
                           color: themeUtils.deepBlackWhiteSwitchColor,
@@ -128,16 +169,57 @@ class AdminHeaderView extends StatelessWidget {
                             ),
                           ],
                         ),
-                        child: CommonWidgets.fromSvg(
-                            svgAsset: SvgAssets.notificationsBellIcon,
-                            margin: EdgeInsets.symmetric(
-                                horizontal: Dimens.fifteen,
-                                vertical: Dimens.twelve),
-                            color: themeUtils.primaryColorSwitch),
+                        child: Obx(
+                          () => Stack(
+                            alignment: Alignment.center,
+                            children: [
+                              AnimatedContainer(
+                                duration: const Duration(milliseconds: 800),
+                                width: adminHeaderController
+                                        .isBellIconHovered.value
+                                    ? Dimens.fifty
+                                    : 0.0,
+                                height: adminHeaderController
+                                        .isBellIconHovered.value
+                                    ? Dimens.fifty
+                                    : 0.0,
+                                decoration: BoxDecoration(
+                                  color: themeUtils.primaryColorSwitch,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              MouseRegion(
+                                cursor: MouseCursor.uncontrolled,
+                                onEnter: (event) {
+                                  adminHeaderController
+                                      .isBellIconHovered.value = true;
+                                },
+                                onExit: (event) {
+                                  adminHeaderController
+                                      .isBellIconHovered.value = false;
+                                },
+                                child: Container(
+                                  width: Dimens.fifty,
+                                  height: Dimens.fifty,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: CommonWidgets.fromSvg(
+                                    svgAsset: SvgAssets.notificationsBellIcon,
+                                    color: adminHeaderController
+                                            .isBellIconHovered.value
+                                        ? themeUtils.blackWhiteSwitchColor
+                                        : themeUtils.primaryColorSwitch,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           if (isDashboardScreen)
@@ -338,7 +420,7 @@ class AdminHeaderView extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 800),
                           width:
                               adminHeaderController.isSettingsIconHovered.value
                                   ? Dimens.fifty
@@ -404,7 +486,7 @@ class AdminHeaderView extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
+                          duration: const Duration(milliseconds: 800),
                           width: adminHeaderController.isBellIconHovered.value
                               ? Dimens.fifty
                               : 0.0,

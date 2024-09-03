@@ -1,4 +1,4 @@
-class UserSubmittedAdsListDataModel {
+class AdminSubmittedAdsListDataModel {
   String submittedAdId;
   String userName;
   String company;
@@ -7,7 +7,7 @@ class UserSubmittedAdsListDataModel {
   num taskPrice;
   String adStatus;
 
-  UserSubmittedAdsListDataModel({
+  AdminSubmittedAdsListDataModel({
     required this.submittedAdId,
     required this.userName,
     required this.company,
@@ -17,8 +17,9 @@ class UserSubmittedAdsListDataModel {
     required this.adStatus,
   });
 
-  factory UserSubmittedAdsListDataModel.fromMap(Map<String, dynamic> map, {String? adDocId}) {
-    var userAdsListDataModel = UserSubmittedAdsListDataModel(
+  factory AdminSubmittedAdsListDataModel.fromMap(Map<String, dynamic> map,
+      {String? adDocId}) {
+    var userAdsListDataModel = AdminSubmittedAdsListDataModel(
       submittedAdId: map['adDocId'] as String,
       userName: map['userName'] as String,
       company: map['company'] as String,

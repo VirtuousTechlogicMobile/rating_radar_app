@@ -50,8 +50,14 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.adminHomePage);
   }
 
-  static void goToAdminAllAdsView() {
-    Get.offAllNamed(AppRoutes.adminAllAds);
+  static void goToAdminAdsMenuView() {
+    Get.offAllNamed(AppRoutes.adminAdsList);
+  }
+
+  static void goToAdminSubmitAdScreenView() {
+    Get.toNamed(
+      AppRoutes.userSubmitAd,
+    );
   }
 
   /// Go to back Page / Close Pages --------------------------------------------

@@ -15,6 +15,7 @@ class AdminDrawerMenuController extends GetxController {
 
   getUserEmail() async {
     email.value = await DatabaseHelper.instance.getCurrentAdminEmail();
+    print('Email: ${email.value}');
   }
 
   void toggleDashboardProfileMenu() {

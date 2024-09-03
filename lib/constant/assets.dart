@@ -41,4 +41,6 @@ abstract class SvgAssets {
       'assets/svgs/selected_dropdown_item_icon.svg';
   static const uploadImageIcon = 'assets/svgs/upload_image_icon.svg';
   static const uploadImageAddIcon = 'assets/svgs/upload_image_add_icon.svg';
+  static const addIcon = 'assets/svgs/add_icon.svg';
+  static const plus_icon = 'assets/svgs/plus.svg';
 }

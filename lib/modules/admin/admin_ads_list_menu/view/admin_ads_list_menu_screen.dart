@@ -1,5 +1,7 @@
+import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
+import 'package:RatingRadar_app/modules/admin/admin_header/bindings/admin_header_binding.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,18 +9,18 @@ import 'package:get/get.dart';
 import '../../../../common/common_widgets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
-import '../../admin_header/bindings/admin_header_binding.dart';
+import '../../../../routes/route_management.dart';
 import '../../admin_header/view/admin_header_view.dart';
 import '../../drawer/view/admin_drawer_view.dart';
+import '../admin_ads_list_menu_controller.dart';
 import '../components/ads_list_custom_dropdown.dart';
 import '../components/custom_pagination_widget.dart';
-import '../user_ads_list_menu_controller.dart';
 
-class UserAdsListMenuScreen extends StatelessWidget {
-  final userAdsListMenuController = Get.find<UserAdsListMenuController>();
+class AdminAdsListMenuScreen extends StatelessWidget {
+  final adminAdsListMenuController = Get.find<AdminAdsListMenuController>();
 
-  UserAdsListMenuScreen({super.key}) {
-    userAdsListMenuController.getAdsData();
+  AdminAdsListMenuScreen({super.key}) {
+    adminAdsListMenuController.getAdsData();
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
@@ -101,7 +103,7 @@ class UserAdsListMenuScreen extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(bottom: Dimens.seven),
                           child: CommonWidgets.autoSizeText(
-                            text: 'all_customers'.tr,
+                            text: 'all_ads'.tr,
                             textStyle: AppStyles.style24Bold.copyWith(
                                 color: themeUtils.whiteBlackSwitchColor),
                             minFontSize: 16,
@@ -120,22 +122,64 @@ class UserAdsListMenuScreen extends StatelessWidget {
                         ),
                       ],
                     ),
+                    Row(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(right: Dimens.fifteen),
+                          child: InkWell(
+                            onTap: () {
+                              /// ******************* Todo : add ads ********************
+                              RouteManagement.goToAdminSubmitAdScreenView();
+                            },
+                            child: Container(
+                              height: Dimens.thirtyEight,
+                              width: Dimens.oneHundredFiftyFive,
+                              decoration: BoxDecoration(
+                                  color: themeUtils.primaryColorSwitch,
+                                  borderRadius:
+                                      BorderRadius.circular(Dimens.twenty)),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CommonWidgets.fromSvg(
+                                    svgAsset: SvgAssets.plus_icon,
+                                    width: Dimens.fourteen,
+                                    height: Dimens.fourteen,
+                                    color: themeUtils.blackWhiteSwitchColor,
+                                  ),
+                                  Padding(
+                                    padding:
+                                        EdgeInsets.only(left: Dimens.fifteen),
+                                    child: Text(
+                                      'add_ads'.tr,
+                                      style: AppStyles.style14SemiBold.copyWith(
+                                        color: themeUtils.blackWhiteSwitchColor,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
 
-                    /// custom dropdown
-                    Obx(
-                      () => AdsListCustomDropdown(
-                        dropDownItems:
-                            userAdsListMenuController.adsListDropDownList,
-                        selectedItem:
-                            userAdsListMenuController.adsListDropDownList[
-                                userAdsListMenuController
-                                    .selectedDropDownIndex.value],
-                        onItemSelected: (index) {
-                          userAdsListMenuController
-                              .selectedDropDownIndex.value = index;
-                        },
-                      ),
-                    ),
+                        /// custom dropdown
+                        Obx(
+                          () => AdsListCustomDropdown(
+                            dropDownItems:
+                                adminAdsListMenuController.adsListDropDownList,
+                            selectedItem:
+                                adminAdsListMenuController.adsListDropDownList[
+                                    adminAdsListMenuController
+                                        .selectedDropDownIndex.value],
+                            onItemSelected: (index) {
+                              adminAdsListMenuController
+                                  .selectedDropDownIndex.value = index;
+                            },
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -143,8 +187,8 @@ class UserAdsListMenuScreen extends StatelessWidget {
               /// ads list layout
               Obx(
                 () => Visibility(
-                  visible:
-                      userAdsListMenuController.userSubmittedAdsList.isNotEmpty,
+                  visible: adminAdsListMenuController
+                      .adminSubmittedAdsList.isNotEmpty,
                   child: Expanded(
                     child: SizedBox(
                       width: constraints.maxWidth,
@@ -176,8 +220,8 @@ class UserAdsListMenuScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: List.generate(
-                                  userAdsListMenuController
-                                      .userSubmittedAdsList.length,
+                                  adminAdsListMenuController
+                                      .adminSubmittedAdsList.length,
                                   (index) {
                                     return Column(
                                       children: [
@@ -188,27 +232,27 @@ class UserAdsListMenuScreen extends StatelessWidget {
                                                 themeUtils.dividerSwitchColor,
                                           ),
                                         customTableRow(
-                                          task: userAdsListMenuController
-                                              .userSubmittedAdsList[index]
+                                          task: adminAdsListMenuController
+                                              .adminSubmittedAdsList[index]
                                               .userName,
-                                          company: userAdsListMenuController
-                                              .userSubmittedAdsList[index]
+                                          company: adminAdsListMenuController
+                                              .adminSubmittedAdsList[index]
                                               .company,
-                                          email: userAdsListMenuController
-                                              .userSubmittedAdsList[index]
+                                          email: adminAdsListMenuController
+                                              .adminSubmittedAdsList[index]
                                               .email,
-                                          date: userAdsListMenuController
+                                          date: adminAdsListMenuController
                                               .parseDate(
-                                                  userAdsListMenuController
-                                                      .userSubmittedAdsList[
+                                                  adminAdsListMenuController
+                                                      .adminSubmittedAdsList[
                                                           index]
                                                       .date),
-                                          price: userAdsListMenuController
-                                              .userSubmittedAdsList[index]
+                                          price: adminAdsListMenuController
+                                              .adminSubmittedAdsList[index]
                                               .taskPrice
                                               .toString(),
-                                          status: userAdsListMenuController
-                                              .userSubmittedAdsList[index]
+                                          status: adminAdsListMenuController
+                                              .adminSubmittedAdsList[index]
                                               .adStatus,
                                         ),
                                         Divider(

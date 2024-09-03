@@ -1,6 +1,7 @@
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../common/common_widgets.dart';
 import '../../../../constant/assets.dart';
 import '../../../../constant/dimens.dart';
@@ -12,7 +13,11 @@ class AdsListCustomDropdown extends StatefulWidget {
   String selectedItem;
   Function(int index) onItemSelected;
 
-  AdsListCustomDropdown({super.key, required this.dropDownItems, required this.selectedItem, required this.onItemSelected});
+  AdsListCustomDropdown(
+      {super.key,
+      required this.dropDownItems,
+      required this.selectedItem,
+      required this.onItemSelected});
 
   @override
   State<AdsListCustomDropdown> createState() => _AdsListCustomDropdownState();
@@ -31,33 +36,46 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
           onTap: () {
             showPopUp(themeUtils);
           },
-          child: Row(
-            key: buttonKey,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(right: Dimens.ten),
-                child: CommonWidgets.autoSizeRichText(
-                  textSpans: [
-                    TextSpan(
-                      text: "${'sort_by'.tr} : ",
-                      style: AppStyles.style12Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50), fontWeight: FontWeight.w500),
-                    ),
-                    TextSpan(
-                      text: widget.selectedItem,
-                      style: AppStyles.style12Normal.copyWith(color: themeUtils.whiteBlackSwitchColor, fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                  maxFontSize: 14,
-                  minFontSize: 8,
+          child: Container(
+            width: Dimens.oneHundredFiftyFive,
+            height: Dimens.thirtyEight,
+            decoration: BoxDecoration(
+                color: themeUtils.darkGrayOfWhiteSwitchColor,
+                borderRadius: BorderRadius.circular(Dimens.twenty)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              key: buttonKey,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(right: Dimens.ten),
+                  child: CommonWidgets.autoSizeRichText(
+                    textSpans: [
+                      TextSpan(
+                        text: "${'sort_by'.tr} : ",
+                        style: AppStyles.style12Normal.copyWith(
+                            color: themeUtils.whiteBlackSwitchColor
+                                .withOpacity(0.50),
+                            fontWeight: FontWeight.w500),
+                      ),
+                      TextSpan(
+                        text: widget.selectedItem,
+                        style: AppStyles.style12Normal.copyWith(
+                            color: themeUtils.whiteBlackSwitchColor,
+                            fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                    maxFontSize: 14,
+                    minFontSize: 8,
+                  ),
                 ),
-              ),
-              CommonWidgets.fromSvg(
-                svgAsset: SvgAssets.downArrowIcon,
-                width: Dimens.nine,
-                height: Dimens.nine,
-                color: themeUtils.primaryColorSwitch,
-              ),
-            ],
+                CommonWidgets.fromSvg(
+                  svgAsset: SvgAssets.downArrowIcon,
+                  width: Dimens.nine,
+                  height: Dimens.nine,
+                  color: themeUtils.primaryColorSwitch,
+                ),
+              ],
+            ),
           ),
         ),
       ],
@@ -67,7 +85,8 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
   void showPopUp(ThemeColorsUtil themeUtils) {
     if (overlayEntry != null) return;
 
-    final buttonRenderBox = buttonKey.currentContext!.findRenderObject() as RenderBox?;
+    final buttonRenderBox =
+        buttonKey.currentContext!.findRenderObject() as RenderBox?;
     final buttonPosition = buttonRenderBox!.localToGlobal(Offset.zero);
 
     overlayEntry = OverlayEntry(
@@ -84,12 +103,15 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
             ),
             Positioned(
               right: Dimens.sixtyFive,
-              top: buttonPosition.dy + (buttonRenderBox.size.height + Dimens.four),
+              top: buttonPosition.dy +
+                  (buttonRenderBox.size.height + Dimens.four),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
                   width: Dimens.oneHundredSixtyFive,
-                  decoration: BoxDecoration(color: themeUtils.darkGrayOfWhiteSwitchColor, borderRadius: BorderRadius.circular(Dimens.eight)),
+                  decoration: BoxDecoration(
+                      color: themeUtils.darkGrayOfWhiteSwitchColor,
+                      borderRadius: BorderRadius.circular(Dimens.eight)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -111,9 +133,13 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
                             children: [
                               Text(
                                 'sort_by'.tr,
-                                style: AppStyles.style12Normal.copyWith(color: ColorValues.lightGrayColor),
+                                style: AppStyles.style12Normal.copyWith(
+                                    color: ColorValues.lightGrayColor),
                               ),
-                              CommonWidgets.fromSvg(svgAsset: SvgAssets.dropdownDownArrowIcon, margin: EdgeInsets.only(right: Dimens.fifteen))
+                              CommonWidgets.fromSvg(
+                                  svgAsset: SvgAssets.dropdownDownArrowIcon,
+                                  margin:
+                                      EdgeInsets.only(right: Dimens.fifteen))
                             ],
                           ),
                         ),
@@ -135,12 +161,20 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
                               hidePopUp();
                             },
                             child: Container(
-                              color: widget.selectedItem == widget.dropDownItems[index] ? themeUtils.primaryLightColorSwitch : ColorValues.transparent,
-                              padding: EdgeInsets.symmetric(vertical: Dimens.five, horizontal: Dimens.thirteen),
+                              color: widget.selectedItem ==
+                                      widget.dropDownItems[index]
+                                  ? themeUtils.primaryLightColorSwitch
+                                  : ColorValues.transparent,
+                              padding: EdgeInsets.symmetric(
+                                  vertical: Dimens.five,
+                                  horizontal: Dimens.thirteen),
                               child: Text(
                                 widget.dropDownItems[index],
-                                style: AppStyles.style12SemiLight
-                                    .copyWith(color: widget.selectedItem == widget.dropDownItems[index] ? themeUtils.blackWhiteSwitchColor : themeUtils.whiteBlackSwitchColor),
+                                style: AppStyles.style12SemiLight.copyWith(
+                                    color: widget.selectedItem ==
+                                            widget.dropDownItems[index]
+                                        ? themeUtils.blackWhiteSwitchColor
+                                        : themeUtils.whiteBlackSwitchColor),
                               ),
                             ),
                           );
