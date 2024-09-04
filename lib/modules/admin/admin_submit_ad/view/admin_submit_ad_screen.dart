@@ -6,8 +6,6 @@ import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
-import 'package:RatingRadar_app/modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
@@ -18,17 +16,26 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../../../common/file_image.dart';
 import '../../../../constant/dimens.dart';
-import '../../drawer/view/drawer_view.dart';
-import '../../header/view/header_view.dart';
-import '../user_submit_ad_controller.dart';
+import '../../admin_header/bindings/admin_header_binding.dart';
+import '../../admin_header/view/admin_header_view.dart';
+import '../../drawer/view/admin_drawer_view.dart';
+import '../admin_submit_ad_controller.dart';
+import '../model/admin_submit_ad_data_model.dart';
 
-class UserSubmitAdScreen extends StatelessWidget {
-  final String adDocumentId;
-  final userSubmitAdController = Get.find<UserSubmitAdController>();
+class AdminSubmitAdScreen extends StatelessWidget {
+  /*final String adDocumentId;
+  final adminSubmitAdController = Get.find<AdminSubmitAdController>();
 
-  UserSubmitAdScreen({super.key, required this.adDocumentId}) {
-    userSubmitAdController.getAdsDetailData(docId: adDocumentId);
-    userSubmitAdController.getTotalSubmittedAdsCount(adId: adDocumentId);
+  AdminSubmitAdScreen({super.key, required this.adDocumentId}) {
+    adminSubmitAdController.getAdsDetailData(docId: adDocumentId);
+    adminSubmitAdController.getTotalSubmittedAdsCount(adId: adDocumentId);*/
+
+  // final String adDocumentId;
+  final adminSubmitAdController = Get.find<AdminSubmitAdController>();
+
+  AdminSubmitAdScreen({super.key}) {
+    // adminSubmitAdController.getAdsDetailData(docId: adDocumentId);
+    // adminSubmitAdController.getTotalSubmittedAdsCount(adId: adDocumentId);
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
@@ -40,7 +47,7 @@ class UserSubmitAdScreen extends StatelessWidget {
       backgroundColor: themeUtils.screensBgSwitchColor,
       body: Row(
         children: [
-          DrawerView(scaffoldKey: scaffoldKey),
+          AdminDrawerView(scaffoldKey: scaffoldKey),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,10 +65,10 @@ class UserSubmitAdScreen extends StatelessWidget {
   }
 
   Widget header() {
-    HeaderBinding().dependencies();
-    return HeaderView(
+    AdminHeaderBinding().dependencies();
+    return AdminHeaderView(
       isDashboardScreen: false,
-      isAdsListScreen: false,
+      isAdsListScreen: true,
     );
   }
 
@@ -104,7 +111,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        if (userSubmitAdController
+                        if (adminSubmitAdController
                                 .adsDetailData.value?.imageUrl !=
                             null)
                           Row(
@@ -123,7 +130,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                       borderRadius:
                                           BorderRadius.circular(Dimens.twenty),
                                       child: NxNetworkImage(
-                                        imageUrl: userSubmitAdController
+                                        imageUrl: adminSubmitAdController
                                                 .adsDetailData
                                                 .value!
                                                 .imageUrl?[0] ??
@@ -140,7 +147,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                         width: constraints.maxWidth / 2.5,
                                         child: Row(
                                           mainAxisAlignment:
-                                              userSubmitAdController
+                                              adminSubmitAdController
                                                           .adsDetailData
                                                           .value!
                                                           .imageUrl!
@@ -152,13 +159,13 @@ class UserSubmitAdScreen extends StatelessWidget {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
                                           children: [
-                                            if (userSubmitAdController
+                                            if (adminSubmitAdController
                                                         .adsDetailData
                                                         .value
                                                         ?.imageUrl
                                                         ?.length !=
                                                     null &&
-                                                userSubmitAdController
+                                                adminSubmitAdController
                                                         .adsDetailData
                                                         .value!
                                                         .imageUrl!
@@ -166,11 +173,11 @@ class UserSubmitAdScreen extends StatelessWidget {
                                                     4)
                                               InkWell(
                                                 onTap: () {
-                                                  if (userSubmitAdController
+                                                  if (adminSubmitAdController
                                                           .currentImageIndex
                                                           .value >
                                                       1) {
-                                                    userSubmitAdController
+                                                    adminSubmitAdController
                                                         .currentImageIndex
                                                         .value--;
                                                   }
@@ -193,7 +200,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                                 ),
                                               ),
                                             ...List.generate(
-                                              userSubmitAdController
+                                              adminSubmitAdController
                                                       .adsDetailData
                                                       .value
                                                       ?.imageUrl
@@ -201,17 +208,17 @@ class UserSubmitAdScreen extends StatelessWidget {
                                                   0,
                                               (index) {
                                                 if (index >=
-                                                        userSubmitAdController
+                                                        adminSubmitAdController
                                                             .currentImageIndex
                                                             .value &&
                                                     index <
-                                                        (userSubmitAdController
+                                                        (adminSubmitAdController
                                                                 .currentImageIndex
                                                                 .value +
                                                             3)) {
                                                   return Padding(
                                                     padding:
-                                                        userSubmitAdController
+                                                        adminSubmitAdController
                                                                     .adsDetailData
                                                                     .value!
                                                                     .imageUrl!
@@ -226,7 +233,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                                           BorderRadius.circular(
                                                               Dimens.twentyTwo),
                                                       child: NxNetworkImage(
-                                                        imageUrl: userSubmitAdController
+                                                        imageUrl: adminSubmitAdController
                                                                     .adsDetailData
                                                                     .value
                                                                     ?.imageUrl?[
@@ -246,13 +253,13 @@ class UserSubmitAdScreen extends StatelessWidget {
                                               },
                                             ).where((widget) =>
                                                 widget is! Container),
-                                            if (userSubmitAdController
+                                            if (adminSubmitAdController
                                                         .adsDetailData
                                                         .value
                                                         ?.imageUrl
                                                         ?.length !=
                                                     null &&
-                                                userSubmitAdController
+                                                adminSubmitAdController
                                                         .adsDetailData
                                                         .value!
                                                         .imageUrl!
@@ -260,16 +267,16 @@ class UserSubmitAdScreen extends StatelessWidget {
                                                     4)
                                               InkWell(
                                                 onTap: () {
-                                                  if (userSubmitAdController
+                                                  if (adminSubmitAdController
                                                           .currentImageIndex
                                                           .value <
-                                                      (userSubmitAdController
+                                                      (adminSubmitAdController
                                                               .adsDetailData
                                                               .value!
                                                               .imageUrl!
                                                               .length -
                                                           3)) {
-                                                    userSubmitAdController
+                                                    adminSubmitAdController
                                                         .currentImageIndex
                                                         .value++;
                                                   }
@@ -310,7 +317,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                       padding: EdgeInsets.symmetric(
                                           vertical: Dimens.eight),
                                       child: CommonWidgets.autoSizeText(
-                                        text: userSubmitAdController
+                                        text: adminSubmitAdController
                                                 .adsDetailData.value?.adName ??
                                             '',
                                         textStyle: AppStyles.style29SemiBold
@@ -325,7 +332,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                       padding: EdgeInsets.only(
                                           bottom: Dimens.fourteen),
                                       child: CommonWidgets.autoSizeText(
-                                        text: userSubmitAdController
+                                        text: adminSubmitAdController
                                                 .adsDetailData
                                                 .value
                                                 ?.byCompany ??
@@ -411,8 +418,10 @@ class UserSubmitAdScreen extends StatelessWidget {
                                             ),
                                           ),
                                           Text(
-                                            userSubmitAdController.adsDetailData
-                                                    .value?.adPrice
+                                            adminSubmitAdController
+                                                    .adsDetailData
+                                                    .value
+                                                    ?.adPrice
                                                     .toString() ??
                                                 '',
                                             style: AppStyles.style40SemiBold
@@ -428,7 +437,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                         padding: EdgeInsets.only(
                                             right: Dimens.fifty),
                                         child: Text(
-                                          userSubmitAdController.adsDetailData
+                                          adminSubmitAdController.adsDetailData
                                                   .value?.adContent ??
                                               '',
                                           style: AppStyles.style18Normal
@@ -447,7 +456,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                         padding:
                                             EdgeInsets.only(top: Dimens.ten),
                                         child: Text(
-                                          '${userSubmitAdController.totalSubmittedAdsCount.value} ${'submitted_in_the_last_24_hours'.tr}',
+                                          '${adminSubmitAdController.totalSubmittedAdsCount.value} ${'submitted_in_the_last_24_hours'.tr}',
                                           style: AppStyles.style14SemiBold600
                                               .copyWith(
                                                   color: themeUtils
@@ -476,19 +485,19 @@ class UserSubmitAdScreen extends StatelessWidget {
                         ),
                         Obx(
                           () => Visibility(
-                            visible: userSubmitAdController
+                            visible: adminSubmitAdController
                                     .preFilledAdDetailData.value ==
                                 null,
                             replacement: Wrap(
                               direction: Axis.horizontal,
                               spacing: Dimens.ten,
                               children: List.generate(
-                                userSubmitAdController.preFilledAdDetailData
+                                adminSubmitAdController.preFilledAdDetailData
                                         .value?.imageList?.length ??
                                     0,
                                 (index) {
                                   return NxNetworkImage(
-                                    imageUrl: userSubmitAdController
+                                    imageUrl: adminSubmitAdController
                                             .preFilledAdDetailData
                                             .value
                                             ?.imageList?[index] ??
@@ -507,13 +516,13 @@ class UserSubmitAdScreen extends StatelessWidget {
                                 6,
                                 (index) {
                                   return index <
-                                          userSubmitAdController
+                                          adminSubmitAdController
                                               .pickedFiles.length
                                       ? Stack(
                                           alignment: Alignment.topRight,
                                           children: [
                                             NxFileImage(
-                                              file: userSubmitAdController
+                                              file: adminSubmitAdController
                                                       .pickedFiles[index] ??
                                                   XFile(''),
                                               width: Dimens.hundred,
@@ -524,7 +533,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                               top: 0,
                                               child: InkWell(
                                                 onTap: () {
-                                                  userSubmitAdController
+                                                  adminSubmitAdController
                                                       .removeImage(index);
                                                 },
                                                 child: Icon(
@@ -544,7 +553,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                           strokeWidth: 1,
                                           child: InkWell(
                                             onTap: () async {
-                                              await userSubmitAdController
+                                              await adminSubmitAdController
                                                   .pickImages();
                                             },
                                             child: Container(
@@ -594,8 +603,8 @@ class UserSubmitAdScreen extends StatelessWidget {
                             Expanded(
                               child: CustomTextField(
                                 controller:
-                                    userSubmitAdController.commentsController,
-                                isReadOnly: userSubmitAdController
+                                    adminSubmitAdController.commentsController,
+                                isReadOnly: adminSubmitAdController
                                         .preFilledAdDetailData.value !=
                                     null,
                                 borderRadius:
@@ -609,7 +618,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                             ),
                           ],
                         ),
-                        if (userSubmitAdController
+                        if (adminSubmitAdController
                                 .preFilledAdDetailData.value ==
                             null)
                           Padding(
@@ -639,38 +648,39 @@ class UserSubmitAdScreen extends StatelessWidget {
                                 /// submit button
                                 InkWell(
                                   onTap: () async {
-                                    if (userSubmitAdController
+                                    if (adminSubmitAdController
                                             .pickedFiles.length <
                                         6) {
                                       AppUtility.showSnackBar(
                                           'please_upload_all_images'.tr);
                                     } else {
                                       String userId =
-                                          await userSubmitAdController.getUid();
+                                          await adminSubmitAdController
+                                              .getUid();
                                       String? documentId =
-                                          await userSubmitAdController
+                                          await adminSubmitAdController
                                               .storeUserSubmittedAds(
                                         userSubmitAdDataModel:
-                                            UserSubmitAdDataModel(
-                                          adId: userSubmitAdController
+                                            AdminSubmitAdDataModel(
+                                          adId: adminSubmitAdController
                                                   .adsDetailData.value?.docId ??
                                               '',
                                           uId: userId,
                                           addedDate: DateTime.now(),
-                                          comments: userSubmitAdController
+                                          comments: adminSubmitAdController
                                               .commentsController.text,
                                           status: CustomStatus.pending,
-                                          adName: userSubmitAdController
+                                          adName: adminSubmitAdController
                                                   .adsDetailData
                                                   .value
                                                   ?.adName ??
                                               '',
-                                          company: userSubmitAdController
+                                          company: adminSubmitAdController
                                                   .adsDetailData
                                                   .value
                                                   ?.byCompany ??
                                               '',
-                                          adPrice: userSubmitAdController
+                                          adPrice: adminSubmitAdController
                                                   .adsDetailData
                                                   .value
                                                   ?.adPrice ??

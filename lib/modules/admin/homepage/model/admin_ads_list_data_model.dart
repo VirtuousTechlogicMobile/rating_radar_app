@@ -1,13 +1,11 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 class AdminAdsListDataModel {
   String? docId;
   String adName;
   String adContent;
   String? adStatus;
-  DateTime? addedDate;
+  DateTime addedDate;
   String byCompany;
-  String imageUrl;
+  List<String>? imageUrl;
   num adPrice;
 
   AdminAdsListDataModel({
@@ -15,9 +13,9 @@ class AdminAdsListDataModel {
     required this.adName,
     required this.adContent,
     this.adStatus,
-    this.addedDate,
+    required this.addedDate,
     required this.byCompany,
-    required this.imageUrl,
+    this.imageUrl,
     required this.adPrice,
   });
 
@@ -28,10 +26,8 @@ class AdminAdsListDataModel {
       adName: map['adName'] as String,
       adPrice: map['adPrice'] as num,
       adStatus: map['adStatus'] as String,
-      addedDate: map['addedDate'] != null
-          ? (map['addedDate'] as Timestamp).toDate()
-          : null,
-      imageUrl: map['adImageUrl'] as String,
+      addedDate: map['addedDate'] as DateTime,
+      imageUrl: (map['adImageUrl'] as List<dynamic>?)?.cast<String>() ?? [],
       adContent: map['adContent'] as String,
       byCompany: map['byCompany'] as String,
     );

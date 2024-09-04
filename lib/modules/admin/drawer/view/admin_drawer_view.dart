@@ -1,4 +1,5 @@
 import 'package:RatingRadar_app/constant/styles.dart';
+import 'package:RatingRadar_app/modules/admin/drawer/bindings/admin_drawer_binding.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,7 +12,6 @@ import '../../../../utility/theme_assets_util.dart';
 import '../../../../utility/theme_colors_util.dart';
 import '../../../../utility/theme_strings_util.dart';
 import '../admin_drawer_controller.dart';
-import '../bindings/admin_drawer_binding.dart';
 import '../components/admin_drawer_menu_component.dart';
 
 class AdminDrawerView extends StatefulWidget {

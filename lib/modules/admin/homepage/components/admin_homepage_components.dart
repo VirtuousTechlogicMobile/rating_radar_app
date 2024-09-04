@@ -47,7 +47,7 @@ class AdminAdViewComponent extends StatelessWidget {
           ClipRRect(
             borderRadius: BorderRadius.circular(Dimens.twentyThree),
             child: NxNetworkImage(
-              imageUrl: adminAdsListDataModel.imageUrl,
+              imageUrl: adminAdsListDataModel.imageUrl?[0] ?? '',
               width: Dimens.twoHundredNinety,
               height: Dimens.oneHundredNinety,
               imageFit: BoxFit.cover,

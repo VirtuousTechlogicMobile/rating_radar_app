@@ -10,17 +10,20 @@ import '../../../../common/common_widgets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
 import '../../../../routes/route_management.dart';
+import '../../../user/user_ads_list_menu/components/custom_pagination_widget.dart';
 import '../../admin_header/view/admin_header_view.dart';
+import '../../drawer/bindings/admin_drawer_binding.dart';
 import '../../drawer/view/admin_drawer_view.dart';
 import '../admin_ads_list_menu_controller.dart';
 import '../components/ads_list_custom_dropdown.dart';
-import '../components/custom_pagination_widget.dart';
 
 class AdminAdsListMenuScreen extends StatelessWidget {
   final adminAdsListMenuController = Get.find<AdminAdsListMenuController>();
 
   AdminAdsListMenuScreen({super.key}) {
-    adminAdsListMenuController.getAdsData();
+    adminAdsListMenuController.getAdsCount();
+    adminAdsListMenuController.getAdsData(
+        sortBy: adminAdsListMenuController.selectedDropDownIndex.value);
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
@@ -47,6 +50,11 @@ class AdminAdsListMenuScreen extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Widget adminDrawerView() {
+    AdminDrawerBinding().dependencies();
+    return AdminDrawerView(scaffoldKey: scaffoldKey);
   }
 
   Widget adminHeader() {
@@ -124,13 +132,12 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Padding(
-                          padding: EdgeInsets.only(right: Dimens.fifteen),
-                          child: InkWell(
-                            onTap: () {
-                              /// ******************* Todo : add ads ********************
-                              RouteManagement.goToAdminSubmitAdScreenView();
-                            },
+                        InkWell(
+                          onTap: () {
+                            RouteManagement.goToAdminSubmitAdScreenView();
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(right: Dimens.fifteen),
                             child: Container(
                               height: Dimens.thirtyEight,
                               width: Dimens.oneHundredFiftyFive,
@@ -175,6 +182,9 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                             onItemSelected: (index) {
                               adminAdsListMenuController
                                   .selectedDropDownIndex.value = index;
+                              adminAdsListMenuController.getAdsData(
+                                  sortBy: adminAdsListMenuController
+                                      .selectedDropDownIndex.value);
                             },
                           ),
                         ),
@@ -189,116 +199,137 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                 () => Visibility(
                   visible: adminAdsListMenuController
                       .adminSubmittedAdsList.isNotEmpty,
+                  replacement: Expanded(
+                    child: Padding(
+                      padding: EdgeInsets.only(bottom: Dimens.sixtyFive),
+                      child: Center(
+                        child: CommonWidgets.autoSizeText(
+                          text: 'no_data_available_right_now'.tr,
+                          textStyle: AppStyles.style35SemiBold
+                              .copyWith(color: ColorValues.noDataTextColor),
+                          minFontSize: 20,
+                          maxFontSize: 35,
+                        ),
+                      ),
+                    ),
+                  ),
                   child: Expanded(
                     child: SizedBox(
                       width: constraints.maxWidth,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            height: Dimens.fifty,
-                            width: constraints.maxWidth,
-                            padding: EdgeInsets.only(
-                                left: Dimens.forty,
-                                top: Dimens.fifteen,
-                                bottom: Dimens.fifteen),
-                            margin: EdgeInsets.only(
-                                left: Dimens.thirtyEight,
-                                right: Dimens.thirtyEight,
-                                bottom: Dimens.fifteen),
-                            decoration: BoxDecoration(
-                              color: themeUtils.darkGrayOfWhiteSwitchColor,
-                              borderRadius:
-                                  BorderRadius.circular(Dimens.twentyFive),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: Dimens.forty),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: Dimens.fifty,
+                              width: constraints.maxWidth,
+                              padding: EdgeInsets.only(
+                                  left: Dimens.forty,
+                                  top: Dimens.fifteen,
+                                  bottom: Dimens.fifteen),
+                              margin: EdgeInsets.only(
+                                  left: Dimens.thirtyEight,
+                                  right: Dimens.thirtyEight,
+                                  bottom: Dimens.fifteen),
+                              decoration: BoxDecoration(
+                                color: themeUtils.darkGrayOfWhiteSwitchColor,
+                                borderRadius:
+                                    BorderRadius.circular(Dimens.twentyFive),
+                              ),
+                              child: tableHeader(),
                             ),
-                            child: tableHeader(),
-                          ),
-                          Expanded(
-                            child: SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: List.generate(
-                                  adminAdsListMenuController
-                                      .adminSubmittedAdsList.length,
-                                  (index) {
-                                    return Column(
-                                      children: [
-                                        if (index == 0)
-                                          Divider(
-                                            thickness: 1,
-                                            color:
-                                                themeUtils.dividerSwitchColor,
-                                          ),
-                                        customTableRow(
-                                          task: adminAdsListMenuController
-                                              .adminSubmittedAdsList[index]
-                                              .userName,
-                                          company: adminAdsListMenuController
-                                              .adminSubmittedAdsList[index]
-                                              .company,
-                                          email: adminAdsListMenuController
-                                              .adminSubmittedAdsList[index]
-                                              .email,
-                                          date: adminAdsListMenuController
-                                              .parseDate(
+                            Expanded(
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: List.generate(
+                                    adminAdsListMenuController
+                                        .adminSubmittedAdsList.length,
+                                    (index) {
+                                      return InkWell(
+                                        onTap: () {
+                                          /* RouteManagement.goToAdminViewAdScreenView(
+                                              adDocumentId:
+                                                  adminAdsListMenuController
+                                                          .adminSubmittedAdsList[
+                                                              index]
+                                                          .docId ??
+                                                      "");*/
+                                        },
+                                        child: Column(
+                                          children: [
+                                            if (index == 0)
+                                              Divider(
+                                                thickness: 1,
+                                                color: themeUtils
+                                                    .dividerSwitchColor,
+                                              ),
+                                            customTableRow(
+                                              task: adminAdsListMenuController
+                                                  .adminSubmittedAdsList[index]
+                                                  .adName,
+                                              company:
                                                   adminAdsListMenuController
                                                       .adminSubmittedAdsList[
                                                           index]
-                                                      .date),
-                                          price: adminAdsListMenuController
-                                              .adminSubmittedAdsList[index]
-                                              .taskPrice
-                                              .toString(),
-                                          status: adminAdsListMenuController
-                                              .adminSubmittedAdsList[index]
-                                              .adStatus,
+                                                      .byCompany,
+                                              email: "admin@gmail.com",
+                                              date: adminAdsListMenuController
+                                                  .parseDate(
+                                                      adminAdsListMenuController
+                                                          .adminSubmittedAdsList[
+                                                              index]
+                                                          .addedDate),
+                                              price: adminAdsListMenuController
+                                                  .adminSubmittedAdsList[index]
+                                                  .adPrice
+                                                  .toString(),
+                                              status: adminAdsListMenuController
+                                                      .adminSubmittedAdsList[
+                                                          index]
+                                                      .adStatus ??
+                                                  "Status",
+                                            ),
+                                            Divider(
+                                              thickness: 1,
+                                              color:
+                                                  themeUtils.dividerSwitchColor,
+                                            ),
+                                          ],
                                         ),
-                                        Divider(
-                                          thickness: 1,
-                                          color: themeUtils.dividerSwitchColor,
-                                        ),
-                                      ],
-                                    );
-                                  },
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(
-                                top: Dimens.forty,
-                                left: Dimens.forty,
-                                right: Dimens.forty,
-                                bottom: Dimens.forty),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                CommonWidgets.autoSizeText(
-                                  text: 'Showing data 1 to 9 of  256K entries',
-                                  textStyle: AppStyles.style14SemiBold.copyWith(
-                                    color: themeUtils
-                                        .fontColorBlackWhiteSwitchColor,
-                                  ),
-                                  maxLines: 2,
-                                  minFontSize: 8,
-                                  maxFontSize: 14,
+                            Padding(
+                              padding: EdgeInsets.only(
+                                  top: Dimens.forty,
+                                  left: Dimens.forty,
+                                  right: Dimens.forty,
+                                  bottom: Dimens.forty),
+                              child: Obx(
+                                () => CustomPaginationWidget(
+                                  currentPage: adminAdsListMenuController
+                                      .selectedPage.value,
+                                  totalCount: adminAdsListMenuController
+                                      .totalAdminSubmittedAds.value,
+                                  onPageChanged: (currentPage) {
+                                    adminAdsListMenuController
+                                        .selectedPage.value = currentPage;
+                                    adminAdsListMenuController.getAdsData(
+                                        sortBy: adminAdsListMenuController
+                                            .selectedDropDownIndex.value);
+                                  },
                                 ),
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(right: Dimens.twenty),
-                                  child: CustomPaginationWidget(
-                                    currentPage: 12,
-                                    totalCount: 100,
-                                    onPageChanged: (currentPage) {},
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                        ],
+                              ),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -403,14 +434,17 @@ class AdminAdsListMenuScreen extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: CommonWidgets.autoSizeText(
-              text: task,
-              textStyle: AppStyles.style14SemiBold.copyWith(
-                color: themeUtils.fontColorBlackWhiteSwitchColor,
+            child: Padding(
+              padding: EdgeInsets.only(right: Dimens.fifteen),
+              child: CommonWidgets.autoSizeText(
+                text: task,
+                textStyle: AppStyles.style14SemiBold.copyWith(
+                  color: themeUtils.fontColorBlackWhiteSwitchColor,
+                ),
+                maxLines: 3,
+                minFontSize: 8,
+                maxFontSize: 14,
               ),
-              maxLines: 2,
-              minFontSize: 8,
-              maxFontSize: 14,
             ),
           ),
           Expanded(
@@ -483,16 +517,21 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                         ? ColorValues.statusColorYellow.withOpacity(0.38)
                         : status == CustomStatus.blocked
                             ? ColorValues.statusColorBlack.withOpacity(0.38)
-                            : ColorValues.statusColorGreen.withOpacity(0.38),
+                            : status == CustomStatus.approved
+                                ? ColorValues.statusColorGreen.withOpacity(0.38)
+                                : ColorValues.statusColorGreen
+                                    .withOpacity(0.38),
                 border: Border.all(
                   color: status == CustomStatus.rejected
-                      ? ColorValues.statusColorRed
+                      ? ColorValues.statusFontColorRed
                       : status == CustomStatus.pending
                           ? ColorValues.statusColorYellow
                           : status == CustomStatus.blocked
                               ? ColorValues.statusColorBlack
-                              : ColorValues.statusColorGreen,
-                  width: 1,
+                              : status == CustomStatus.approved
+                                  ? ColorValues.statusColorGreen
+                                  : ColorValues.statusColorGreen,
+                  width: 1.2,
                 ),
                 borderRadius: BorderRadius.circular(Dimens.twenty),
               ),
@@ -505,7 +544,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                     margin: EdgeInsets.only(right: Dimens.five),
                     decoration: BoxDecoration(
                       color: status == CustomStatus.rejected
-                          ? ColorValues.statusColorRed
+                          ? ColorValues.statusFontColorRed
                           : status == CustomStatus.pending
                               ? ColorValues.statusColorYellow
                               : status == CustomStatus.blocked
@@ -519,7 +558,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                       text: status,
                       textStyle: AppStyles.style14SemiBold.copyWith(
                         color: status == CustomStatus.rejected
-                            ? ColorValues.statusColorRed
+                            ? ColorValues.statusFontColorRed
                             : status == CustomStatus.pending
                                 ? ColorValues.statusColorYellow
                                 : status == CustomStatus.blocked
