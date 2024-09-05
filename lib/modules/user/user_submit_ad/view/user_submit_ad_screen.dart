@@ -6,7 +6,7 @@ import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
+
 import 'package:RatingRadar_app/modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
@@ -15,7 +15,6 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-
 import '../../../../common/file_image.dart';
 import '../../../../constant/dimens.dart';
 import '../../drawer/view/drawer_view.dart';
@@ -58,7 +57,6 @@ class UserSubmitAdScreen extends StatelessWidget {
   }
 
   Widget header() {
-    HeaderBinding().dependencies();
     return HeaderView(
       isDashboardScreen: false,
       isAdsListScreen: false,
@@ -214,47 +212,11 @@ class UserSubmitAdScreen extends StatelessWidget {
                                         maxFontSize: 29,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: EdgeInsets.only(bottom: Dimens.fourteen),
-                                      child: CommonWidgets.autoSizeText(
-                                        text: userSubmitAdController.adsDetailData.value?.byCompany ?? '',
-                                        textStyle: AppStyles.style15Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
-                                        minFontSize: 8,
-                                        maxFontSize: 15,
-                                      ),
-                                    ),
-                                    Row(
-                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                      mainAxisAlignment: MainAxisAlignment.start,
-                                      children: [
-                                        ...List.generate(
-                                          5,
-                                          (index) {
-                                            return CommonWidgets.fromSvg(
-                                              svgAsset: SvgAssets.ratingStarIcon,
-                                              margin: EdgeInsets.only(right: Dimens.five),
-                                              color: index < 4 ? ColorValues.ratingStarYellowColor : ColorValues.lightGrayC4Color,
-                                            );
-                                          },
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(left: Dimens.three, right: Dimens.nine),
-                                          child: CommonWidgets.autoSizeText(
-                                            text: '4.5',
-                                            textStyle: AppStyles.style15Bold.copyWith(color: themeUtils.whiteBlackSwitchColor),
-                                            minFontSize: 15,
-                                            maxFontSize: 15,
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: CommonWidgets.autoSizeText(
-                                            text: 'from 392 Reviews',
-                                            textStyle: AppStyles.style15Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
-                                            minFontSize: 15,
-                                            maxFontSize: 15,
-                                          ),
-                                        ),
-                                      ],
+                                    CommonWidgets.autoSizeText(
+                                      text: userSubmitAdController.adsDetailData.value?.byCompany ?? '',
+                                      textStyle: AppStyles.style15Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
+                                      minFontSize: 8,
+                                      maxFontSize: 15,
                                     ),
                                     Padding(
                                       padding: EdgeInsets.symmetric(vertical: Dimens.ten),
@@ -428,7 +390,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                     RouteManagement.goToBack();
                                   },
                                   child: SizedBox(
-                                    width: Dimens.twoHundred,
+                                    width: Dimens.twoHundredSeven,
                                     child: CustomButton(
                                       borderRadius: BorderRadius.circular(Dimens.thirty),
                                       margin: EdgeInsets.only(right: Dimens.seven),
@@ -450,7 +412,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                           uId: userId,
                                           addedDate: DateTime.now(),
                                           comments: userSubmitAdController.commentsController.text,
-                                          status: CustomStatus.pending,
+                                          status: CustomStatus.pending.toLowerCase(),
                                           adName: userSubmitAdController.adsDetailData.value?.adName ?? '',
                                           company: userSubmitAdController.adsDetailData.value?.byCompany ?? '',
                                           adPrice: userSubmitAdController.adsDetailData.value?.adPrice ?? 0,
@@ -465,7 +427,7 @@ class UserSubmitAdScreen extends StatelessWidget {
                                     }
                                   },
                                   child: SizedBox(
-                                    width: Dimens.twoHundred,
+                                    width: Dimens.twoHundredSeven,
                                     child: CustomButton(
                                       borderRadius: BorderRadius.circular(Dimens.thirty),
                                       margin: EdgeInsets.only(left: Dimens.seven),

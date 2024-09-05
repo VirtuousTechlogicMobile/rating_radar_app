@@ -34,7 +34,7 @@ class UserConformationController extends GetxController {
   }
 
   Future<String> onLogout() async {
-    String isUserLogout = await DatabaseHelper.instance.logoutUser();
+    String isUserLogout = await DatabaseHelper.instance.deleteUser();
     return isUserLogout;
   }
 }

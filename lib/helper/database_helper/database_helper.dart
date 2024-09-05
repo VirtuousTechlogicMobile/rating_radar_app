@@ -1,4 +1,5 @@
 import 'dart:developer';
+
 import 'package:RatingRadar_app/helper/database_helper/database_synonyms.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/model/manager_signup_model.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
@@ -7,12 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../constant/strings.dart';
 import '../../modules/signin/model/signin_model.dart';
 import '../../modules/user/user_ads_list_menu/model/user_submitted_ads_list_data_model.dart';
 import '../../modules/user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
+import '../../modules/user/user_wallet/model/user_transaction_model.dart';
 import '../shared_preferences_manager/preferences_manager.dart';
 
 class DatabaseHelper {
@@ -54,11 +57,22 @@ class DatabaseHelper {
     return user?.emailVerified ?? false;
   }
 
-  Future<String> logoutUser() async {
+  Future<String> deleteUser() async {
     try {
       User? user = firebaseAuth.currentUser;
       await user?.delete();
       await fireStoreInstance.collection(DatabaseSynonyms.usersCollection).doc(user?.uid).delete();
+      await PreferencesManager.deleteUserUid(uid: user?.uid ?? '');
+      return CustomStatus.success;
+    } catch (e) {
+      return CustomStatus.failedToLogout;
+    }
+  }
+
+  Future<String> logoutUser() async {
+    try {
+      User? user = firebaseAuth.currentUser;
+      await firebaseAuth.signOut();
       await PreferencesManager.deleteUserUid(uid: user?.uid ?? '');
       return CustomStatus.success;
     } catch (e) {
@@ -222,7 +236,7 @@ class DatabaseHelper {
     try {
       Query query = fireStoreInstance
           .collection(DatabaseSynonyms.adsListCollection)
-          .where(DatabaseSynonyms.adStatusField, isEqualTo: DatabaseStatusSynonyms.showAdStatus)
+          .where(DatabaseSynonyms.adStatusField, isEqualTo: CustomStatus.approved)
           .orderBy(DatabaseSynonyms.adStatusField, descending: false)
           .limit(limit);
 
@@ -318,8 +332,7 @@ class DatabaseHelper {
 
   Future<int> getTotalAdsCount() async {
     try {
-      QuerySnapshot snapshot =
-          await fireStoreInstance.collection(DatabaseSynonyms.adsListCollection).where(DatabaseSynonyms.adStatusField, isEqualTo: DatabaseStatusSynonyms.showAdStatus).get();
+      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.adsListCollection).where(DatabaseSynonyms.adStatusField, isEqualTo: CustomStatus.approved).get();
       return snapshot.size; // This gives the count of documents
     } catch (e) {
       log("Error fetching document count: $e");
@@ -330,12 +343,11 @@ class DatabaseHelper {
   Future<List<UserAdsListDataModel>?> getAllAdsList({required int nDataPerPage, UserAdsListDataModel? adLastDocument}) async {
     try {
       CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      FirebaseFirestore.instance.collection('adsListCollection');
 
       /// store the last document id
       String? lastDocumentId = adLastDocument?.docId;
       List<UserAdsListDataModel> usersAdList = [];
-      Query query = adsCollectionReference.where(DatabaseSynonyms.adStatusField, isEqualTo: DatabaseStatusSynonyms.showAdStatus).limit(nDataPerPage);
+      Query query = adsCollectionReference.where(DatabaseSynonyms.adStatusField, isEqualTo: CustomStatus.approved).limit(nDataPerPage);
 
       if (lastDocumentId != null) {
         /// get the data after last document id
@@ -391,7 +403,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<UserSubmitAdDataModel?> getUserSubmittedAd({required String uId, required String adId}) async {
+  Future<UserSubmitAdDataModel?> getUserSubmittedAdDetailData({required String uId, required String adId}) async {
     try {
       CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
       QuerySnapshot querySnapshot = await collectionRef.where(DatabaseSynonyms.uIdField, isEqualTo: uId).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
@@ -448,9 +460,9 @@ class DatabaseHelper {
     }
   }
 
-  Future<int> getsUserSubmittedAdsListCount() async {
+  Future<int> getsUserSubmittedAdsListCount({required String uId}) async {
     try {
-      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).get();
+      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).where(DatabaseSynonyms.uIdField, isEqualTo: uId).get();
       return snapshot.size;
     } catch (e) {
       log("Error fetching document count: $e");
@@ -458,7 +470,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<UserSubmittedAdsListDataModel>?> getsUserSubmittedAdsList({
+  Future<List<UserSubmittedAdsListDataModel>?> getUserSubmittedAdsList({
     required String uId,
     required int nDataPerPage,
     required int pageNumber,
@@ -526,6 +538,117 @@ class DatabaseHelper {
       }
 
       return usersSubmittedAdsList;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<List<UserTransactionModel>?> getUserTransactionsList({
+    required int nDataPerPage,
+    UserTransactionModel? adLastDocument,
+    required bool isTransactionTypeWithdraw,
+  }) async {
+    try {
+      CollectionReference userTransactionsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection);
+
+      /// store the last document id
+      String? lastDocumentId = adLastDocument?.transactionDocId;
+      List<UserTransactionModel> usersTransactionsList = [];
+      late Query query;
+      if (isTransactionTypeWithdraw) {
+        query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'withdraw').limit(nDataPerPage);
+      } else {
+        query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposite').limit(nDataPerPage);
+      }
+
+      if (lastDocumentId != null) {
+        /// get the data after last document id
+        DocumentSnapshot lastDocumentSnapshot = await userTransactionsCollectionReference.doc(lastDocumentId).get();
+        query = query.startAfterDocument(lastDocumentSnapshot);
+      }
+
+      QuerySnapshot querySnapshot = await query.get();
+      if (querySnapshot.docs.isNotEmpty) {
+        usersTransactionsList.addAll(querySnapshot.docs.map((docs) => UserTransactionModel.fromMap(docs.data() as Map<String, dynamic>, transactionDocId: docs.id)).toList());
+      }
+      return usersTransactionsList.isNotEmpty ? usersTransactionsList : null;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<int> getUserApprovedAdsCount() async {
+    try {
+      QuerySnapshot snapshot =
+          await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).where(DatabaseSynonyms.statusField, isEqualTo: CustomStatus.approved).get();
+      return snapshot.size;
+    } catch (e) {
+      log("Error fetching document count: $e");
+      return 0;
+    }
+  }
+
+  Future<int> getWithdrawTransactionsCount() async {
+    try {
+      QuerySnapshot snapshot =
+          await fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection).where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'withdraw').get();
+      return snapshot.size;
+    } catch (e) {
+      log("Error fetching document count: $e");
+      return 0;
+    }
+  }
+
+  Future<int> getDepositTransactionsCount() async {
+    try {
+      QuerySnapshot snapshot =
+          await fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection).where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposite').get();
+      return snapshot.size;
+    } catch (e) {
+      log("Error fetching document count: $e");
+      return 0;
+    }
+  }
+
+  Future<List<UserTransactionModel>?> getUserAdsTransactionList({
+    required String uId,
+    required int nDataPerPage,
+    UserTransactionModel? adLastDocument,
+  }) async {
+    try {
+      CollectionReference userAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+
+      /// store the last document id
+      String? lastDocumentId = adLastDocument?.submittedAdDocId;
+      List<UserTransactionModel> usersAdsTransactionsList = [];
+      Query query = userAdsCollectionReference.where(DatabaseSynonyms.statusField, isEqualTo: CustomStatus.approved).limit(nDataPerPage);
+
+      if (lastDocumentId != null) {
+        /// get the data after last document id
+        DocumentSnapshot lastDocumentSnapshot = await userAdsCollectionReference.doc(lastDocumentId).get();
+        query = query.startAfterDocument(lastDocumentSnapshot);
+      }
+
+      QuerySnapshot querySnapshot = await query.get();
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var snapshotData in querySnapshot.docs) {
+          usersAdsTransactionsList.add(
+            UserTransactionModel(
+              uId: snapshotData['uId'],
+              status: snapshotData['status'],
+              date: (snapshotData['addedDate'] as Timestamp).toDate(),
+              amount: snapshotData['adPrice'],
+              transactionId: '-',
+              transactionType: 'ads',
+              submittedAdDocId: snapshotData.id,
+              transactionDocId: '',
+            ),
+          );
+        }
+      }
+      return usersAdsTransactionsList.isNotEmpty ? usersAdsTransactionsList : null;
     } catch (e) {
       log("Exception: $e");
       return null;

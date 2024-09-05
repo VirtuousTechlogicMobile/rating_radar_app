@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import '../modules/user/user_signup/model/user_signup_model.dart';
+
 import 'app_pages.dart';
 
 abstract class RouteManagement {
@@ -11,6 +11,10 @@ abstract class RouteManagement {
 
   static void goToUserSignInView() {
     Get.offAllNamed(AppRoutes.signIn);
+  }
+
+  static void goToLogoutView() {
+    Get.offAllNamed(AppRoutes.userLogout);
   }
 
   static void goToUserConformationView({required String email}) {
@@ -30,11 +34,11 @@ abstract class RouteManagement {
   }
 
   static void goToUserAdsListMenuView() {
-    Get.toNamed(AppRoutes.userAdsList);
+    Get.offNamed(AppRoutes.userAdsList);
   }
 
-  static void goToLogoutView() {
-    Get.toNamed(AppRoutes.userLogout);
+  static void goToUserWalletScreenView() {
+    Get.offNamed(AppRoutes.userWalletScreen);
   }
 
   /// manager module --------------------------------------------------------------------------

@@ -32,4 +32,7 @@ abstract class SvgAssets {
   static const ratingStarIcon = 'assets/svgs/rating_star_icon.svg';
   static const darkLogoutUserIcon = 'assets/svgs/dark_mode_svgs/logout_user_icon.svg';
   static const lightLogoutUserIcon = 'assets/svgs/light_mode_svgs/logout_user_icon.svg';
+  static const lightWalletBoxBgImage = 'assets/svgs/light_mode_svgs/wallet_box_bg_image.svg';
+  static const darkWalletBoxBgImage = 'assets/svgs/dark_mode_svgs/wallet_box_bg_image.svg';
+  static const walletDepositIcon = 'assets/svgs/wallet_deposit_icon.svg';
 }

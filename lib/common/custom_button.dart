@@ -11,10 +11,11 @@ class CustomButton extends StatelessWidget {
   EdgeInsetsGeometry? margin;
   bool isShowLoading;
   BorderRadiusGeometry? borderRadius;
+  EdgeInsets? contentPadding;
   Color? buttonColor;
   Function()? onTap;
 
-  CustomButton({super.key, required this.btnText, this.margin, this.onTap, this.isShowLoading = false, this.buttonColor, this.borderRadius});
+  CustomButton({super.key, required this.btnText, this.margin, this.onTap, this.isShowLoading = false, this.buttonColor, this.borderRadius, this.contentPadding});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CustomButton extends StatelessWidget {
         ),
         alignment: Alignment.center,
         margin: margin ?? EdgeInsets.zero,
-        padding: !isShowLoading ? EdgeInsets.symmetric(vertical: Dimens.fifteen) : EdgeInsets.symmetric(vertical: Dimens.ten),
+        padding: !isShowLoading ? contentPadding ?? EdgeInsets.symmetric(vertical: Dimens.fifteen) : EdgeInsets.symmetric(vertical: Dimens.ten),
         child: !isShowLoading
             ? CommonWidgets.autoSizeText(
                 text: btnText,

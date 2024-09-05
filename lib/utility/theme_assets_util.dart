@@ -16,4 +16,8 @@ class ThemeAssetsUtil {
   String get logoutSwitchImage {
     return isDarkTheme ? SvgAssets.darkLogoutUserIcon : SvgAssets.lightLogoutUserIcon;
   }
+
+  String get walletBoxBgSwitchImage {
+    return isDarkTheme ? SvgAssets.darkWalletBoxBgImage : SvgAssets.lightWalletBoxBgImage;
+  }
 }

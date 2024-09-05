@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class CommonWidgets {
-  static Widget fromSvg({EdgeInsetsGeometry? margin, required String svgAsset, double? height, double? width, Color? color}) {
+  static Widget fromSvg({EdgeInsetsGeometry? margin, required String svgAsset, double? height, double? width, Color? color, BoxFit? boxFit}) {
     return Padding(
       padding: margin ?? EdgeInsets.zero,
       child: SvgPicture.asset(
         svgAsset,
         height: height,
-        fit: BoxFit.none,
+        fit: boxFit ?? BoxFit.none,
         width: width,
         color: color,
       ),

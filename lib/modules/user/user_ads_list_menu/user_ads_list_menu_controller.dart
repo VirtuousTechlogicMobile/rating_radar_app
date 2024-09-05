@@ -11,12 +11,14 @@ class UserAdsListMenuController extends GetxController {
   RxInt selectedDropDownIndex = 0.obs;
   RxInt selectedPage = 1.obs;
   RxInt totalUserSubmittedAds = 0.obs;
+  RxList<RxBool> isHoveredList = <RxBool>[].obs;
   RxList<UserSubmittedAdsListDataModel> userSubmittedAdsList = <UserSubmittedAdsListDataModel>[].obs;
 
   Future getAdsData({required int sortBy, String? searchTerm}) async {
     Get.context?.loaderOverlay.show();
     String uId = await PreferencesManager.getUserId() ?? '';
-    List<UserSubmittedAdsListDataModel>? submittedAdData = await DatabaseHelper.instance.getsUserSubmittedAdsList(
+    getAdsCount(uId);
+    List<UserSubmittedAdsListDataModel>? submittedAdData = await DatabaseHelper.instance.getUserSubmittedAdsList(
       uId: uId,
       nDataPerPage: 9,
       pageNumber: selectedPage.value,
@@ -28,13 +30,14 @@ class UserAdsListMenuController extends GetxController {
       for (UserSubmittedAdsListDataModel ads in submittedAdData) {
         userSubmittedAdsList.add(ads);
       }
+      isHoveredList.value = List.generate(submittedAdData.length, (_) => false.obs);
     }
     userSubmittedAdsList.refresh();
     Get.context?.loaderOverlay.hide();
   }
 
-  Future getAdsCount() async {
-    totalUserSubmittedAds.value = await DatabaseHelper.instance.getsUserSubmittedAdsListCount();
+  Future getAdsCount(String uId) async {
+    totalUserSubmittedAds.value = await DatabaseHelper.instance.getsUserSubmittedAdsListCount(uId: uId);
   }
 
   String parseDate(DateTime dateTime) {

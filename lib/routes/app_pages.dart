@@ -8,6 +8,8 @@ import 'package:RatingRadar_app/modules/user/user_logout/bindings/user_logout_bi
 import 'package:RatingRadar_app/modules/user/user_logout/view/user_logout_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/bindings/user_submit_ad_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/view/user_submit_ad_screen.dart';
+import 'package:RatingRadar_app/modules/user/user_wallet/bindings/user_wallet_binding.dart';
+import 'package:RatingRadar_app/modules/user/user_wallet/view/user_wallet_screen.dart';
 import 'package:get/get.dart';
 import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/view/signin_screen.dart';
@@ -81,10 +83,18 @@ abstract class AppPages {
 
     GetPage(
       name: _Routes.userAdsList,
-      page: () => UserAdsListMenuScreen(),
+      page: UserAdsListMenuScreen.new,
       binding: UserAdsListMenuBinding(),
       transitionDuration: const Duration(milliseconds: 800),
       transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.userWalletScreen,
+      page: UserWalletScreen.new,
+      binding: UserWalletBinding(),
+      transitionDuration: transitionDuration,
+      transition: defaultTransition,
     ),
 
     /// manager module ------------------------------------------------------------------------

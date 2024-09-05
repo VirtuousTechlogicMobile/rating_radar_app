@@ -27,6 +27,8 @@ abstract class ColorValues {
   static const Color statusFontColorRed = Color(0xffDF0404);
   static const Color statusColorBlack = Color(0xff343434);
   static const Color noDataTextColor = Color(0xffCACACA);
+  static const Color midNightBlack = Color(0xff131313);
+  static const Color softWhiteColor = Color(0xffFEFEFE);
   static const Color darkBgColor = Color.fromARGB(255, 20, 20, 29);
   static const Color darkBodyTextColor = Color.fromARGB(255, 240, 240, 240);
   static const Color darkDialogColor = Color.fromARGB(255, 36, 36, 56);

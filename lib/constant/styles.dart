@@ -297,7 +297,7 @@ abstract class AppStyles {
 
   static TextStyle style32Bold = TextStyle(
     fontSize: Dimens.thirtyTwo,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w600,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );

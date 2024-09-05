@@ -79,4 +79,12 @@ abstract class AppUtility {
   static String formatNumberAsMarketValue({required double value, required bool isMarketValueUp}) {
     return isMarketValueUp ? '+${value.toString()}%' : '-${value.toString()}%';
   }
+
+  static String capitalizeStatus(String status) {
+    if (status.isNotEmpty) {
+      return status[0].toUpperCase() + status.substring(1);
+    } else {
+      return status;
+    }
+  }
 }

@@ -18,6 +18,14 @@ class DrawerMenuController extends GetxController {
     userName.value = await DatabaseHelper.instance.getUserName(uId: userId) ?? '';
   }
 
+  getDrawerIndex() async {
+    selectedMenuIndex.value = await PreferencesManager.getDrawerIndex();
+  }
+
+  setDrawerIndex(int index) async {
+    await PreferencesManager.setDrawerIndex(index: index);
+  }
+
   void toggleDashboardProfileMenu() {
     isExpanded.value = !isExpanded.value;
     if (isExpanded.value) {

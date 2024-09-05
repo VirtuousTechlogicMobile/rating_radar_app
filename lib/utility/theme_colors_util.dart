@@ -76,4 +76,16 @@ class ThemeColorsUtil {
   Color get dividerSwitchColor {
     return isDarkTheme ? ColorValues.dividerGreyColor.withOpacity(0.50) : ColorValues.dividerGreyColor;
   }
+
+  Color get midNightBlackWhiteSwitchColor {
+    return isDarkTheme ? ColorValues.midNightBlack : ColorValues.whiteColor;
+  }
+
+  Color get darkGraySoftWhiteSwitchColor {
+    return isDarkTheme ? ColorValues.darkGrayColor : ColorValues.softWhiteColor;
+  }
+
+  Color get borderTableHoverColor {
+    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.blackColor;
+  }
 }

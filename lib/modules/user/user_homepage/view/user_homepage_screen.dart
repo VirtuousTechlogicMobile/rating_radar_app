@@ -1,6 +1,6 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
+
 import 'package:RatingRadar_app/modules/user/user_all_ads/bindings/user_all_ads_binding.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
@@ -20,7 +20,7 @@ class UserHomepageScreen extends StatelessWidget {
   final userHomePageController = Get.find<UserHomepageController>();
 
   UserHomepageScreen({super.key}) {
-    UserAllAdsBinding().dependencies();
+    // UserAllAdsBinding().dependencies();
     userHomePageController.getAdsList();
   }
 
@@ -51,7 +51,6 @@ class UserHomepageScreen extends StatelessWidget {
   }
 
   Widget header() {
-    HeaderBinding().dependencies();
     return HeaderView(
       isDashboardScreen: true,
     );
@@ -61,7 +60,7 @@ class UserHomepageScreen extends StatelessWidget {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.sixtyFive, vertical: Dimens.forty),
           child: LayoutBuilder(
             builder: (context, constraints) {
               return Column(

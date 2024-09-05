@@ -19,4 +19,12 @@ abstract class PreferencesManager {
   static Future setManagerUid({required String uid}) async {
     await SharedPrefGetterSetters().setString('managerUserId', uid);
   }
+
+  static Future setDrawerIndex({required int index}) async {
+    await SharedPrefGetterSetters().setInt('drawerIndex', index);
+  }
+
+  static Future<int> getDrawerIndex() async {
+    return await SharedPrefGetterSetters().getInt('drawerIndex') ?? 0;
+  }
 }
