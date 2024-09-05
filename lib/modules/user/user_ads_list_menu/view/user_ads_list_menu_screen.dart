@@ -1,8 +1,9 @@
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
+
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
+import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -19,7 +20,6 @@ class UserAdsListMenuScreen extends StatelessWidget {
   final userAdsListMenuController = Get.find<UserAdsListMenuController>();
 
   UserAdsListMenuScreen({super.key}) {
-    userAdsListMenuController.getAdsCount();
     userAdsListMenuController.getAdsData(sortBy: userAdsListMenuController.selectedDropDownIndex.value);
   }
 
@@ -50,7 +50,6 @@ class UserAdsListMenuScreen extends StatelessWidget {
   }
 
   Widget header() {
-    HeaderBinding().dependencies();
     return HeaderView(
       isDashboardScreen: false,
       isAdsListScreen: true,
@@ -109,8 +108,8 @@ class UserAdsListMenuScreen extends StatelessWidget {
                           child: CommonWidgets.autoSizeText(
                             text: 'ads'.tr,
                             textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
-                            minFontSize: 16,
-                            maxFontSize: 24,
+                            minFontSize: 10,
+                            maxFontSize: 14,
                           ),
                         ),
                       ],
@@ -176,30 +175,43 @@ class UserAdsListMenuScreen extends StatelessWidget {
                                   children: List.generate(
                                     userAdsListMenuController.userSubmittedAdsList.length,
                                     (index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAdsListMenuController.userSubmittedAdsList[index].adId);
-                                        },
-                                        child: Column(
-                                          children: [
-                                            if (index == 0)
-                                              Divider(
-                                                thickness: 1,
-                                                color: themeUtils.dividerSwitchColor,
-                                              ),
-                                            customTableRow(
-                                              task: userAdsListMenuController.userSubmittedAdsList[index].taskName,
-                                              company: userAdsListMenuController.userSubmittedAdsList[index].company,
-                                              email: userAdsListMenuController.userSubmittedAdsList[index].email,
-                                              date: userAdsListMenuController.parseDate(userAdsListMenuController.userSubmittedAdsList[index].date),
-                                              price: userAdsListMenuController.userSubmittedAdsList[index].adPrice.toString(),
-                                              status: userAdsListMenuController.userSubmittedAdsList[index].adStatus,
+                                      return MouseRegion(
+                                        onEnter: (_) => userAdsListMenuController.isHoveredList[index].value = true,
+                                        onExit: (_) => userAdsListMenuController.isHoveredList[index].value = false,
+                                        child: InkWell(
+                                          onTap: () {
+                                            RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAdsListMenuController.userSubmittedAdsList[index].adId);
+                                          },
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              color: userAdsListMenuController.isHoveredList[index].value
+                                                  ? themeUtils.darkGrayOfWhiteSwitchColor.withOpacity(0.5)
+                                                  : Colors.transparent,
+                                              border: userAdsListMenuController.isHoveredList[index].value
+                                                  ? Border.all(
+                                                      color: themeUtils.borderTableHoverColor,
+                                                      width: 1,
+                                                    )
+                                                  : Border(
+                                                      top: BorderSide(color: themeUtils.dividerSwitchColor),
+                                                      bottom: BorderSide(color: themeUtils.dividerSwitchColor),
+                                                      left: BorderSide.none,
+                                                      right: BorderSide.none,
+                                                    ),
                                             ),
-                                            Divider(
-                                              thickness: 1,
-                                              color: themeUtils.dividerSwitchColor,
+                                            child: Column(
+                                              children: [
+                                                customTableRow(
+                                                  task: userAdsListMenuController.userSubmittedAdsList[index].taskName,
+                                                  company: userAdsListMenuController.userSubmittedAdsList[index].company,
+                                                  email: userAdsListMenuController.userSubmittedAdsList[index].email,
+                                                  date: userAdsListMenuController.parseDate(userAdsListMenuController.userSubmittedAdsList[index].date),
+                                                  price: userAdsListMenuController.userSubmittedAdsList[index].adPrice.toString(),
+                                                  status: userAdsListMenuController.userSubmittedAdsList[index].adStatus,
+                                                ),
+                                              ],
                                             ),
-                                          ],
+                                          ),
                                         ),
                                       );
                                     },
@@ -437,7 +449,7 @@ class UserAdsListMenuScreen extends StatelessWidget {
                   ),
                   Flexible(
                     child: CommonWidgets.autoSizeText(
-                      text: status,
+                      text: AppUtility.capitalizeStatus(status),
                       textStyle: AppStyles.style14SemiBold.copyWith(
                         color: status == CustomStatus.rejected
                             ? ColorValues.statusColorRed

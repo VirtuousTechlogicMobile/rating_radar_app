@@ -3,6 +3,9 @@ class UserSignupModel {
   String username;
   String phoneNumber;
   String password;
+  String? createdAt;
+  String? profileImage;
+  String? userBalance;
 
   UserSignupModel({
     required this.email,

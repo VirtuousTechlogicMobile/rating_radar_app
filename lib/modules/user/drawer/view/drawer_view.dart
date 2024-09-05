@@ -1,4 +1,5 @@
 import 'package:RatingRadar_app/constant/styles.dart';
+import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,15 +10,12 @@ import '../../../../constant/dimens.dart';
 import '../../../../utility/theme_assets_util.dart';
 import '../../../../utility/theme_colors_util.dart';
 import '../../../../utility/theme_strings_util.dart';
-import '../bindings/drawer_binding.dart';
 import '../component/drawer_menu_component.dart';
 import '../drawer_controller.dart';
 
 class DrawerView extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  DrawerView({super.key, required this.scaffoldKey}) {
-    DrawerBinding().dependencies();
-  }
+  const DrawerView({super.key, required this.scaffoldKey});
 
   @override
   State<DrawerView> createState() => _DrawerViewState();
@@ -30,6 +28,7 @@ class _DrawerViewState extends State<DrawerView> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     drawerController.getUserName();
+    drawerController.getDrawerIndex();
     drawerController.animationController = AnimationController(
       duration: const Duration(milliseconds: 300), // Duration of the animation
       vsync: this,
@@ -97,12 +96,15 @@ Widget menuList({required DrawerMenuController drawerController}) {
         () => DrawerMenuComponent(
           menuDataModel: drawerController.menuDataList[index],
           isSelected: index == drawerController.selectedMenuIndex.value,
-          onSelectMenuItem: (selectedMenu) {
+          onSelectMenuItem: (selectedMenu) async {
+            drawerController.setDrawerIndex(drawerController.menuDataList.indexOf(selectedMenu));
             drawerController.selectedMenuIndex.value = drawerController.menuDataList.indexOf(selectedMenu);
             if (drawerController.selectedMenuIndex.value == 0) {
               RouteManagement.goToUserHomePageView();
             } else if (drawerController.selectedMenuIndex.value == 1) {
               RouteManagement.goToUserAdsListMenuView();
+            } else if (drawerController.selectedMenuIndex.value == 2) {
+              RouteManagement.goToUserWalletScreenView();
             } else {
               // RouteManagement.goToUserSignInView();
             }
@@ -123,7 +125,8 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
         () => DrawerMenuComponent(
           menuDataModel: drawerController.endMenuDataList[index],
           isSelected: (index + firstMenuListLength) == drawerController.selectedMenuIndex.value,
-          onSelectMenuItem: (selectedMenu) {
+          onSelectMenuItem: (selectedMenu) async {
+            drawerController.setDrawerIndex(firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu));
             drawerController.selectedMenuIndex.value = firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu);
           },
         ).marginOnly(bottom: 16),

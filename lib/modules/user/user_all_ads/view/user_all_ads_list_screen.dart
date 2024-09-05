@@ -1,6 +1,6 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/modules/user/header/bindings/header_binding.dart';
+
 import 'package:RatingRadar_app/modules/user/user_all_ads/user_all_ads_controller.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
@@ -60,9 +60,9 @@ class _UserAllAdsListScreenState extends State<UserAllAdsListScreen> {
 }
 
 Widget header() {
-  HeaderBinding().dependencies();
   return HeaderView(
-    isDashboardScreen: true,
+    isDashboardScreen: false,
+    isAdsListScreen: true,
   );
 }
 
@@ -134,7 +134,7 @@ Widget screenMainLayout({required ThemeColorsUtil themeUtils, required UserAllAd
                                         adContent: userAllAdsController.adsList[index].adContent,
                                         byCompany: userAllAdsController.adsList[index].byCompany,
                                         imageUrl: userAllAdsController.adsList[index].imageUrl,
-                                        adPrice: 200,
+                                        adPrice: userAllAdsController.adsList[index].adPrice,
                                       ),
                                       onViewButtonTap: () {
                                         RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAllAdsController.adsList[index].docId ?? '');

@@ -13,6 +13,10 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.signIn);
   }
 
+  static void goToLogoutView() {
+    Get.offAllNamed(AppRoutes.userLogout);
+  }
+
   static void goToUserConformationView({required String email}) {
     Get.toNamed(AppRoutes.emailConformation, parameters: {'email': email});
   }
@@ -31,11 +35,11 @@ abstract class RouteManagement {
   }
 
   static void goToUserAdsListMenuView() {
-    Get.toNamed(AppRoutes.userAdsList);
+    Get.offNamed(AppRoutes.userAdsList);
   }
 
-  static void goToLogoutView() {
-    Get.toNamed(AppRoutes.userLogout);
+  static void goToUserWalletScreenView() {
+    Get.offNamed(AppRoutes.userWalletScreen);
   }
 
   /// manager module --------------------------------------------------------------------------

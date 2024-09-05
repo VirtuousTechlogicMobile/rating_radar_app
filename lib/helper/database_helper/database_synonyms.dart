@@ -4,6 +4,7 @@ abstract class DatabaseSynonyms {
   static const usersCollection = 'users';
   static const adsListCollection = 'adsList';
   static const userSubmittedAdCollection = 'userSubmittedAd';
+  static const userTransactionsCollection = 'userTransactions';
 
   // managers -----------------------
   static const managerUsersCollection = 'managerUsers';
@@ -16,16 +17,12 @@ abstract class DatabaseSynonyms {
   static const phoneNumberField = 'phoneNumber';
   static const adNameField = 'adName';
   static const adStatusField = 'adStatus';
+  static const statusField = 'status';
   static const companyField = 'company';
   static const addedDateField = 'addedDate';
   static const createdAt = 'createdAt';
   static const profileImage = 'profileImage';
   static const adIdField = 'adId';
   static const uIdField = 'uId';
-}
-
-abstract class DatabaseStatusSynonyms {
-  // users -----------------------
-  static const showAdStatus = 'show';
-  static const blockedAdStatus = 'blocked';
+  static const transactionTypeField = 'transactionType';
 }

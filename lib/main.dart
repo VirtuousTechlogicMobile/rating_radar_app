@@ -1,4 +1,5 @@
 import 'package:RatingRadar_app/constant/strings.dart';
+import 'package:RatingRadar_app/initial_bindings/initial_bindings.dart';
 import 'package:RatingRadar_app/services/translations/app_translations.dart';
 import 'package:RatingRadar_app/theme/theme_controller.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
@@ -104,6 +105,7 @@ class MyApp extends StatelessWidget {
           () {
             return GlobalLoaderOverlay(
               child: GetMaterialApp(
+                initialBinding: InitialBindings(),
                 title: StringValues.appName,
                 debugShowCheckedModeBanner: false,
                 themeMode: _handleAppTheme(appController.themeMode),

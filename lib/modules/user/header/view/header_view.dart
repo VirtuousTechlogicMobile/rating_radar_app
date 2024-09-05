@@ -3,10 +3,11 @@ import 'package:RatingRadar_app/common/custom_textfield.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/modules/user/header/header_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
 import '../../../../constant/assets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
-import 'package:get/get.dart';
 import '../../../../utility/theme_colors_util.dart';
 
 class HeaderView extends StatelessWidget {
@@ -15,6 +16,7 @@ class HeaderView extends StatelessWidget {
   final TextEditingController? searchController;
   final Function(String text)? onSearch;
   final headerController = Get.find<HeaderController>();
+
   HeaderView({super.key, this.isAdsListScreen = false, this.isDashboardScreen = false, this.searchController, this.onSearch}) {
     headerController.getUserName();
   }
@@ -23,7 +25,7 @@ class HeaderView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeUtils = ThemeColorsUtil(context);
     return Padding(
-      padding: EdgeInsets.only(top: Dimens.thirty, left: Dimens.eightyThree, right: Dimens.thirtyFour),
+      padding: EdgeInsets.only(top: Dimens.thirty, left: Dimens.sixtyFour, right: Dimens.thirtyFour),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -37,43 +39,32 @@ class HeaderView extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Obx(
-                      () => CommonWidgets.autoSizeText(
-                        text: '${'hello'.tr} ${headerController.userName.value.split(' ')[0]}',
-                        textStyle: AppStyles.style24SemiBold.copyWith(color: themeUtils.whiteBlackSwitchColor),
-                        minFontSize: 20,
-                        maxFontSize: 24,
-                      ),
-                    ),
-                    Hero(
-                      tag: 'headerSearchField',
-                      child: Material(
-                        color: ColorValues.transparent,
-                        child: Container(
-                          margin: EdgeInsets.only(top: Dimens.twentySeven),
-                          width: MediaQuery.of(context).size.width / 3,
-                          child: CustomTextField(
-                            controller: searchController ?? TextEditingController(),
-                            onChange: (value) {
-                              if (onSearch != null) {
-                                onSearch!(value);
-                              }
-                            },
-                            borderRadius: BorderRadius.circular(Dimens.twenty),
-                            fillColor: themeUtils.darkGrayWhiteSwitchColor,
-                            maxLines: 1,
-                            contentPadding: EdgeInsets.zero,
-                            hintText: 'search'.tr,
-                            borderSide: BorderSide.none,
-                            hintStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
-                            textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
-                            prefixIcon: CommonWidgets.fromSvg(
-                              svgAsset: SvgAssets.textFieldSearchIcon,
-                              height: Dimens.twentyFour,
-                              width: Dimens.twentyFour,
-                              color: themeUtils.primaryColorSwitch,
-                              margin: EdgeInsets.only(left: Dimens.eleven, top: Dimens.seven, bottom: Dimens.seven, right: Dimens.eight),
-                            ),
+                    Material(
+                      color: ColorValues.transparent,
+                      child: Container(
+                        margin: EdgeInsets.only(top: Dimens.twentySeven),
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: CustomTextField(
+                          controller: searchController ?? TextEditingController(),
+                          onChange: (value) {
+                            if (onSearch != null) {
+                              onSearch!(value);
+                            }
+                          },
+                          borderRadius: BorderRadius.circular(Dimens.twenty),
+                          fillColor: themeUtils.darkGrayWhiteSwitchColor,
+                          maxLines: 1,
+                          contentPadding: EdgeInsets.zero,
+                          hintText: 'search'.tr,
+                          borderSide: BorderSide.none,
+                          hintStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
+                          textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
+                          prefixIcon: CommonWidgets.fromSvg(
+                            svgAsset: SvgAssets.textFieldSearchIcon,
+                            height: Dimens.twentyFour,
+                            width: Dimens.twentyFour,
+                            color: themeUtils.primaryColorSwitch,
+                            margin: EdgeInsets.only(left: Dimens.eleven, top: Dimens.seven, bottom: Dimens.seven, right: Dimens.eight),
                           ),
                         ),
                       ),
@@ -131,32 +122,12 @@ class HeaderView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox.shrink(),
-                Hero(
-                  tag: 'headerSearchField',
-                  child: Material(
-                    color: ColorValues.transparent,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
-                      child: CustomTextField(
-                        controller: TextEditingController(),
-                        borderRadius: BorderRadius.circular(Dimens.twenty),
-                        fillColor: themeUtils.darkGrayWhiteSwitchColor,
-                        maxLines: 1,
-                        contentPadding: EdgeInsets.zero,
-                        hintText: 'search'.tr,
-                        borderSide: BorderSide.none,
-                        hintStyle: AppStyles.style14Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50)),
-                        textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.whiteColor.withOpacity(0.50)),
-                        prefixIcon: CommonWidgets.fromSvg(
-                          svgAsset: SvgAssets.textFieldSearchIcon,
-                          height: Dimens.twentyFour,
-                          width: Dimens.twentyFour,
-                          color: themeUtils.primaryColorSwitch,
-                          margin: EdgeInsets.only(left: Dimens.eleven, top: Dimens.seven, bottom: Dimens.seven, right: Dimens.eight),
-                        ),
-                      ),
-                    ),
+                Obx(
+                  () => CommonWidgets.autoSizeText(
+                    text: '${'hello'.tr} ${headerController.userName.isNotEmpty ? headerController.userName.value.split(' ')[0] : headerController.userName.value}',
+                    textStyle: AppStyles.style24SemiBold.copyWith(color: themeUtils.whiteBlackSwitchColor),
+                    minFontSize: 20,
+                    maxFontSize: 24,
                   ),
                 ),
                 Row(

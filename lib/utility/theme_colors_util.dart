@@ -118,4 +118,16 @@ class ThemeColorsUtil {
         ? ColorValues.primaryColorYellow
         : ColorValues.adsTextFieldBorderColor;
   }
+
+  Color get midNightBlackWhiteSwitchColor {
+    return isDarkTheme ? ColorValues.midNightBlack : ColorValues.whiteColor;
+  }
+
+  Color get darkGraySoftWhiteSwitchColor {
+    return isDarkTheme ? ColorValues.darkGrayColor : ColorValues.softWhiteColor;
+  }
+
+  Color get borderTableHoverColor {
+    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.blackColor;
+  }
 }

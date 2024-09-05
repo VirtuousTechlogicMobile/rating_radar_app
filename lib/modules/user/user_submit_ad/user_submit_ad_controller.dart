@@ -46,7 +46,7 @@ class UserSubmitAdController extends GetxController {
     Get.context?.loaderOverlay.show();
     UserAdsListDataModel? getAdsData = await DatabaseHelper.instance.getAdDataByDocId(docId: docId);
     String userId = await getUid();
-    preFilledAdDetailData.value = await DatabaseHelper.instance.getUserSubmittedAd(adId: docId, uId: userId);
+    preFilledAdDetailData.value = await DatabaseHelper.instance.getUserSubmittedAdDetailData(adId: docId, uId: userId);
     if (preFilledAdDetailData.value != null) {
       commentsController.text = preFilledAdDetailData.value?.comments ?? '';
     }
