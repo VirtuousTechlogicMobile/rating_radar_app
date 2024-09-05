@@ -106,4 +106,16 @@ class ThemeColorsUtil {
         ? ColorValues.dividerGreyColor.withOpacity(0.50)
         : ColorValues.dividerGreyColor;
   }
+
+  Color get borderTableHoverColor {
+    return isDarkTheme
+        ? ColorValues.primaryColorYellow
+        : ColorValues.blackColor;
+  }
+
+  Color get adsTextFieldBorderColor {
+    return isDarkTheme
+        ? ColorValues.primaryColorYellow
+        : ColorValues.adsTextFieldBorderColor;
+  }
 }

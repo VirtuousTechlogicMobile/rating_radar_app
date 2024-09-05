@@ -12,6 +12,7 @@ class AdminAdsListMenuController extends GetxController {
       <AdminAdsListDataModel>[].obs;
   RxInt selectedPage = 1.obs;
   RxInt totalAdminSubmittedAds = 0.obs;
+  RxList<RxBool> isHoveredList = <RxBool>[].obs;
 
   Future getAdsData({required int sortBy, String? searchTerm}) async {
     Get.context?.loaderOverlay.show();
@@ -23,8 +24,13 @@ class AdminAdsListMenuController extends GetxController {
       sortBy: sortBy,
       searchTerm: searchTerm,
     );
-    adminSubmittedAdsList.value = submittedAdData!;
-    // print("object ${adminSubmittedAdsList.value}");
+
+    if (submittedAdData != null) {
+      adminSubmittedAdsList.value = submittedAdData;
+      isHoveredList.value =
+          List.generate(submittedAdData.length, (_) => false.obs);
+    }
+
     Get.context?.loaderOverlay.hide();
   }
 

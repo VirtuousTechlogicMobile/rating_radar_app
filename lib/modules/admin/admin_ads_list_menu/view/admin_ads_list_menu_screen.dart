@@ -12,7 +12,6 @@ import '../../../../constant/styles.dart';
 import '../../../../routes/route_management.dart';
 import '../../../user/user_ads_list_menu/components/custom_pagination_widget.dart';
 import '../../admin_header/view/admin_header_view.dart';
-import '../../drawer/bindings/admin_drawer_binding.dart';
 import '../../drawer/view/admin_drawer_view.dart';
 import '../admin_ads_list_menu_controller.dart';
 import '../components/ads_list_custom_dropdown.dart';
@@ -53,7 +52,6 @@ class AdminAdsListMenuScreen extends StatelessWidget {
   }
 
   Widget adminDrawerView() {
-    AdminDrawerBinding().dependencies();
     return AdminDrawerView(scaffoldKey: scaffoldKey);
   }
 
@@ -134,7 +132,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            RouteManagement.goToAdminSubmitAdScreenView();
+                            // RouteManagement.goToAdminSubmitAdScreenView();
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: Dimens.fifteen),
@@ -249,57 +247,94 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                     adminAdsListMenuController
                                         .adminSubmittedAdsList.length,
                                     (index) {
-                                      return InkWell(
-                                        onTap: () {
-                                          /* RouteManagement.goToAdminViewAdScreenView(
-                                              adDocumentId:
-                                                  adminAdsListMenuController
-                                                          .adminSubmittedAdsList[
-                                                              index]
-                                                          .docId ??
-                                                      "");*/
-                                        },
-                                        child: Column(
-                                          children: [
-                                            if (index == 0)
-                                              Divider(
-                                                thickness: 1,
-                                                color: themeUtils
-                                                    .dividerSwitchColor,
-                                              ),
-                                            customTableRow(
-                                              task: adminAdsListMenuController
-                                                  .adminSubmittedAdsList[index]
-                                                  .adName,
-                                              company:
-                                                  adminAdsListMenuController
-                                                      .adminSubmittedAdsList[
-                                                          index]
-                                                      .byCompany,
-                                              email: "admin@gmail.com",
-                                              date: adminAdsListMenuController
-                                                  .parseDate(
+                                      return MouseRegion(
+                                        onEnter: (_) =>
+                                            adminAdsListMenuController
+                                                .isHoveredList[index]
+                                                .value = true,
+                                        onExit: (_) =>
+                                            adminAdsListMenuController
+                                                .isHoveredList[index]
+                                                .value = false,
+                                        child: Obx(() => InkWell(
+                                              onTap: () {
+                                                RouteManagement
+                                                    .goToAdminSubmitAdScreenView(
+                                                  adDocumentId:
+                                                      adminAdsListMenuController
+                                                              .adminSubmittedAdsList[
+                                                                  index]
+                                                              .docId ??
+                                                          "",
+                                                );
+                                              },
+                                              child: Container(
+                                                decoration: BoxDecoration(
+                                                  color: adminAdsListMenuController
+                                                          .isHoveredList[index]
+                                                          .value
+                                                      ? themeUtils
+                                                          .darkGrayOfWhiteSwitchColor
+                                                          .withOpacity(0.5)
+                                                      : Colors
+                                                          .transparent, // Background color based on hover
+                                                  border:
+                                                      adminAdsListMenuController
+                                                              .isHoveredList[
+                                                                  index]
+                                                              .value
+                                                          ? Border.all(
+                                                              color: themeUtils
+                                                                  .borderTableHoverColor,
+                                                              width: 1,
+                                                            )
+                                                          : Border(
+                                                              top: BorderSide(
+                                                                  color: themeUtils
+                                                                      .dividerSwitchColor),
+                                                              bottom: BorderSide(
+                                                                  color: themeUtils
+                                                                      .dividerSwitchColor),
+                                                              left: BorderSide
+                                                                  .none,
+                                                              right: BorderSide
+                                                                  .none,
+                                                            ),
+                                                ),
+                                                child: customTableRow(
+                                                  task:
                                                       adminAdsListMenuController
                                                           .adminSubmittedAdsList[
                                                               index]
-                                                          .addedDate),
-                                              price: adminAdsListMenuController
-                                                  .adminSubmittedAdsList[index]
-                                                  .adPrice
-                                                  .toString(),
-                                              status: adminAdsListMenuController
-                                                      .adminSubmittedAdsList[
-                                                          index]
-                                                      .adStatus ??
-                                                  "Status",
-                                            ),
-                                            Divider(
-                                              thickness: 1,
-                                              color:
-                                                  themeUtils.dividerSwitchColor,
-                                            ),
-                                          ],
-                                        ),
+                                                          .adName,
+                                                  company:
+                                                      adminAdsListMenuController
+                                                          .adminSubmittedAdsList[
+                                                              index]
+                                                          .byCompany,
+                                                  email: "admin@gmail.com",
+                                                  date:
+                                                      adminAdsListMenuController
+                                                          .parseDate(
+                                                    adminAdsListMenuController
+                                                        .adminSubmittedAdsList[
+                                                            index]
+                                                        .addedDate,
+                                                  ),
+                                                  price:
+                                                      adminAdsListMenuController
+                                                          .adminSubmittedAdsList[
+                                                              index]
+                                                          .adPrice
+                                                          .toString(),
+                                                  status: adminAdsListMenuController
+                                                          .adminSubmittedAdsList[
+                                                              index]
+                                                          .adStatus ??
+                                                      "Status",
+                                                ),
+                                              ),
+                                            )),
                                       );
                                     },
                                   ),

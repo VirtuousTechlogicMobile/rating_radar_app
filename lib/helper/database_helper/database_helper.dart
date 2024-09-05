@@ -846,29 +846,52 @@ class DatabaseHelper {
     }
   }
 
-  Future<AdminSubmitAdDataModel?> getAdminSubmittedAd(
-      {required String uId, required String adId}) async {
+// insert ads data
+  Future<List<AdminSubmitAdDataModel>> getAllAdminSubmittedAds() async {
     try {
-      CollectionReference collectionRef = fireStoreInstance
-          .collection(DatabaseSynonyms.userSubmittedAdCollection);
-      QuerySnapshot querySnapshot = await collectionRef
-          .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
-          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
+      QuerySnapshot querySnapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.adsListCollection)
           .get();
+
       if (querySnapshot.docs.isNotEmpty) {
-        QueryDocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-        AdminSubmitAdDataModel submittedAdData = AdminSubmitAdDataModel.fromMap(
-            documentSnapshot.data() as Map<String, dynamic>,
-            submittedAdDocId: documentSnapshot.id);
-        return submittedAdData;
+        return querySnapshot.docs.map((documentSnapshot) {
+          return AdminSubmitAdDataModel.fromMap(
+              documentSnapshot.data() as Map<String, dynamic>,
+              submittedAdDocId: documentSnapshot.id);
+        }).toList();
       } else {
-        return null;
+        log("No documents found in collection ${DatabaseSynonyms.adsListCollection}.");
+        return [];
       }
     } catch (e) {
-      log("Exception: $e");
-      return null;
+      log("Exception while fetching documents: $e");
+      return [];
     }
   }
+
+  // fetch ads data
+  /*Future<List<AdminSubmitAdDataModel>> getAllAdminSubmittedAds() async {
+    try {
+      QuerySnapshot querySnapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.adsListCollection)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        return querySnapshot.docs.map((documentSnapshot) {
+          return AdminSubmitAdDataModel.fromMap(
+              documentSnapshot.data() as Map<String, dynamic>,
+              submittedAdDocId: documentSnapshot.id
+          );
+        }).toList();
+      } else {
+        log("No documents found in collection ${DatabaseSynonyms.adsListCollection}.");
+        return [];
+      }
+    } catch (e) {
+      log("Exception while fetching documents: $e");
+      return [];
+    }
+  }*/
 
   Future<int> getsAdminSubmittedAdsListCount() async {
     try {
@@ -879,6 +902,53 @@ class DatabaseHelper {
     } catch (e) {
       log("Error fetching document count: $e");
       return 0;
+    }
+  }
+
+  Future<List<String>?> storeAdminSubmittedAdImages(
+      {required List<XFile> filesList,
+      required String uid,
+      required String adId}) async {
+    try {
+      List<String> uploadedFilesUrl = [];
+      for (XFile filesData in filesList) {
+        final fileBytes = await filesData.readAsBytes();
+        String filepath = 'ADID-$adId/UID-$uid/${filesData.name.split('.')[0]}';
+        Reference storageRef =
+            firebaseStorage.ref().child('user-submitted-ads/$filepath');
+
+        // Create metadata with the correct MIME type
+        final metadata = SettableMetadata(
+          contentType: filesData.mimeType,
+        );
+
+        // Upload to Firebase Storage using putData
+        UploadTask uploadTask = storageRef.putData(fileBytes, metadata);
+
+        // Wait for the upload to complete
+        await uploadTask;
+
+        // Get the download URL
+        String downloadURL = await storageRef.getDownloadURL();
+        uploadedFilesUrl.add(downloadURL.split('&token')[0]);
+      }
+      return uploadedFilesUrl.isNotEmpty ? uploadedFilesUrl : null;
+    } catch (e) {
+      log('Error uploading image: $e');
+      return null;
+    }
+  }
+
+  Future<String?> storeAdminSubmittedAds(
+      {required AdminSubmitAdDataModel adminSubmitAdDataModel}) async {
+    try {
+      CollectionReference collectionRef = fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection);
+      DocumentReference documentReference =
+          await collectionRef.add(adminSubmitAdDataModel.toMap());
+      return documentReference.id;
+    } catch (e) {
+      return null;
     }
   }
 }

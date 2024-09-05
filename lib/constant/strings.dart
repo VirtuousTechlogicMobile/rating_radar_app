@@ -21,8 +21,8 @@ abstract class CustomStatus {
   static const failedToLogout = 'FailedToLogout';
 
   /// custom ad statuses
-  static const approved = 'Approved';
-  static const pending = 'Pending';
-  static const rejected = 'Rejected';
-  static const blocked = 'Blocked';
+  static const approved = 'approved';
+  static const pending = 'pending';
+  static const rejected = 'rejected';
+  static const blocked = 'blocked';
 }

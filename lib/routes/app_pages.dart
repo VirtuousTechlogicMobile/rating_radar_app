@@ -135,7 +135,8 @@ abstract class AppPages {
     ),
     GetPage(
       name: _Routes.adminSubmitAd,
-      page: () => AdminSubmitAdScreen(),
+      page: () => AdminSubmitAdScreen(
+          adDocumentId: Get.parameters['adDocumentId'] ?? ''),
       binding: AdminSubmitAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
