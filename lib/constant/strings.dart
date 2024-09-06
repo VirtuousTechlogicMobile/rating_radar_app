@@ -25,6 +25,7 @@ abstract class CustomStatus {
   static const pending = 'pending';
   static const rejected = 'rejected';
   static const blocked = 'blocked';
+
   /// custom ad and transaction statuses
   static const approved = 'approved';
   static const pending = 'pending';

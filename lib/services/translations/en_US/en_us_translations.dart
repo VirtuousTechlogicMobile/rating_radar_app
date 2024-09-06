@@ -129,7 +129,8 @@ final Map<String, String> enUs = {
   'logged_out': 'Logged Out',
   'thank_you_for_using_review_and_rating':
       'Thank you for using Review and Rating',
-  'thank_you_for_using_review_and_rating': 'Thank you for using Review and Rating',
+  'thank_you_for_using_review_and_rating':
+      'Thank you for using Review and Rating',
   'in_your_personal_wallet_you_can_store_funds_with_draw_them_and_make_transactions_it_is_completely_safe':
       'In your Personal Wallet, you can  store funds, withdraw them, and\nmake transactions. It is Completely safe.',
   'name': 'Name',

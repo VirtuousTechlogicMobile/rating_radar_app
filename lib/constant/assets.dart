@@ -6,10 +6,14 @@ abstract class AssetValues {
 abstract class SvgAssets {
   static const managerRoundedIcon = 'assets/svgs/manager_rounded_icon.svg';
   static const userRoundedIcon = 'assets/svgs/user_rounded_icon.svg';
-  static const darkBrightnessIcon = 'assets/svgs/dark_mode_svgs/brightness_icon.svg';
-  static const lightBrightnessIcon = 'assets/svgs/light_mode_svgs/brightness_icon.svg';
-  static const darkThemeSmallSwitchIcon = 'assets/svgs/dark_mode_svgs/small_switch_icon.svg';
-  static const lightThemeSmallSwitchIcon = 'assets/svgs/light_mode_svgs/small_switch_icon.svg';
+  static const darkBrightnessIcon =
+      'assets/svgs/dark_mode_svgs/brightness_icon.svg';
+  static const lightBrightnessIcon =
+      'assets/svgs/light_mode_svgs/brightness_icon.svg';
+  static const darkThemeSmallSwitchIcon =
+      'assets/svgs/dark_mode_svgs/small_switch_icon.svg';
+  static const lightThemeSmallSwitchIcon =
+      'assets/svgs/light_mode_svgs/small_switch_icon.svg';
   static const eyeVisibilityIcon = 'assets/svgs/eye_visibility_icon.svg';
   static const eyeVisibilityOffIcon = 'assets/svgs/eye_visibility_off_icon.svg';
   static const downArrowIcon = 'assets/svgs/down_arrow_icon.svg';
@@ -19,22 +23,29 @@ abstract class SvgAssets {
   static const drawerWalletIcon = 'assets/svgs/drawer_wallet_icon.svg';
   static const drawerReferralIcon = 'assets/svgs/drawer_referral_icon.svg';
   static const settingsIcon = 'assets/svgs/settings_icon.svg';
-  static const notificationsBellIcon = 'assets/svgs/notifications_bell_icon.svg';
+  static const notificationsBellIcon =
+      'assets/svgs/notifications_bell_icon.svg';
   static const textFieldSearchIcon = 'assets/svgs/textfield_search_icon.svg';
   static const drawerHelpIcon = 'assets/svgs/drawer_help_icon.svg';
   static const drawerLogoutIcon = 'assets/svgs/drawer_logout_icon.svg';
   static const refreshIcon = 'assets/svgs/refresh_icon.svg';
   static const marketValueUpIcon = 'assets/svgs/market_value_up_icon.svg';
-  static const dropdownDownArrowIcon = 'assets/svgs/dropdown_down_arrow_icon.svg';
-  static const selectedDropdownItemIcon = 'assets/svgs/selected_dropdown_item_icon.svg';
+  static const dropdownDownArrowIcon =
+      'assets/svgs/dropdown_down_arrow_icon.svg';
+  static const selectedDropdownItemIcon =
+      'assets/svgs/selected_dropdown_item_icon.svg';
   static const uploadImageIcon = 'assets/svgs/upload_image_icon.svg';
   static const uploadImageAddIcon = 'assets/svgs/upload_image_add_icon.svg';
   static const ratingStarIcon = 'assets/svgs/rating_star_icon.svg';
-  static const darkLogoutUserIcon = 'assets/svgs/dark_mode_svgs/logout_user_icon.svg';
-  static const lightLogoutUserIcon = 'assets/svgs/light_mode_svgs/logout_user_icon.svg';
+  static const darkLogoutUserIcon =
+      'assets/svgs/dark_mode_svgs/logout_user_icon.svg';
+  static const lightLogoutUserIcon =
+      'assets/svgs/light_mode_svgs/logout_user_icon.svg';
   static const addIcon = 'assets/svgs/add_icon.svg';
   static const plus_icon = 'assets/svgs/plus.svg';
-  static const lightWalletBoxBgImage = 'assets/svgs/light_mode_svgs/wallet_box_bg_image.svg';
-  static const darkWalletBoxBgImage = 'assets/svgs/dark_mode_svgs/wallet_box_bg_image.svg';
+  static const lightWalletBoxBgImage =
+      'assets/svgs/light_mode_svgs/wallet_box_bg_image.svg';
+  static const darkWalletBoxBgImage =
+      'assets/svgs/dark_mode_svgs/wallet_box_bg_image.svg';
   static const walletDepositIcon = 'assets/svgs/wallet_deposit_icon.svg';
 }
