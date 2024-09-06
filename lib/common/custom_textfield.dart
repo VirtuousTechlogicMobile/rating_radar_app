@@ -89,7 +89,6 @@ class CustomTextField extends StatelessWidget {
                 bottom: Dimens.nineteen,
                 left: Dimens.twenty),
         isDense: true,
-
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: Dimens.ten),
           child: suffixIcon,

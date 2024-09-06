@@ -11,7 +11,10 @@ class UserWalletController extends GetxController {
   RxInt selectedDropDownItemIndex = 0.obs;
   RxList<UserTransactionModel> transactionsList = <UserTransactionModel>[].obs;
   ScrollController scrollController = ScrollController();
+  RxList<RxBool> isHoveredList = <RxBool>[].obs;
   RxInt totalDataCount = 0.obs;
+  RxnInt selectedPaymentOptionForDeposit = RxnInt();
+  RxBool isDialogVisible = false.obs;
 
   Future getTotalCounts() async {
     if (selectedDropDownItemIndex.value == 0) {
@@ -46,6 +49,7 @@ class UserWalletController extends GetxController {
       for (var transactionsData in tempTransactionList) {
         transactionsList.add(transactionsData);
       }
+      isHoveredList.value = List.generate(transactionsList.length, (_) => false.obs);
     }
     Get.context?.loaderOverlay.hide();
   }

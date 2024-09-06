@@ -1,9 +1,11 @@
 import 'dart:math';
+import 'dart:ui';
 
 import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
-
+import 'package:RatingRadar_app/modules/user/user_wallet/component/user_transaction_dialogs.dart';
 import 'package:RatingRadar_app/modules/user/user_wallet/user_wallet_controller.dart';
+import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:flutter/material.dart';
@@ -252,31 +254,49 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  /// deposit button
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: Dimens.ten),
-                      decoration: BoxDecoration(
-                        color: themeUtils.primaryColorSwitch,
-                        borderRadius: BorderRadius.circular(Dimens.hundred),
-                      ),
-                      margin: EdgeInsets.only(right: Dimens.ten),
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CommonWidgets.autoSizeText(
-                            text: 'deposit'.tr,
-                            textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor),
-                            minFontSize: 10,
-                            maxFontSize: 14,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: Dimens.eight),
-                            child: CommonWidgets.fromSvg(svgAsset: SvgAssets.walletDepositIcon, color: themeUtils.blackWhiteSwitchColor),
-                          ),
-                        ],
+                    child: InkWell(
+                      onTap: () {
+                        userWalletController.isDialogVisible.value = true;
+                        UserTransactionDialogs.showDepositDialog(
+                          context: context,
+                          amountController: TextEditingController(),
+                          onChangePaymentOption: (selectedPaymentOption) {},
+                          onConfirm: () {
+                            print("deduct amount");
+                          },
+                          onClose: () {
+                            userWalletController.isDialogVisible.value = false;
+                            RouteManagement.goToBack();
+                          },
+                        );
+                      },
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: Dimens.ten),
+                        decoration: BoxDecoration(
+                          color: themeUtils.primaryColorSwitch,
+                          borderRadius: BorderRadius.circular(Dimens.hundred),
+                        ),
+                        margin: EdgeInsets.only(right: Dimens.ten),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CommonWidgets.autoSizeText(
+                              text: 'deposit'.tr,
+                              textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor),
+                              minFontSize: 10,
+                              maxFontSize: 14,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.only(left: Dimens.eight),
+                              child: CommonWidgets.fromSvg(svgAsset: SvgAssets.walletDepositIcon, color: themeUtils.blackWhiteSwitchColor),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -288,34 +308,39 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                       color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50),
                     ),
                   ),
+
+                  /// withdraw button
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.symmetric(vertical: Dimens.ten),
-                      decoration: BoxDecoration(
-                        color: themeUtils.primaryColorSwitch,
-                        borderRadius: BorderRadius.circular(Dimens.hundred),
-                      ),
-                      margin: EdgeInsets.only(left: Dimens.ten),
-                      alignment: Alignment.center,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          CommonWidgets.autoSizeText(
-                            text: 'withdraw'.tr,
-                            textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor),
-                            minFontSize: 10,
-                            maxFontSize: 14,
-                          ),
-                          Padding(
-                            padding: EdgeInsets.only(left: Dimens.eight),
-                            child: Transform.rotate(
-                              angle: 35 * pi,
-                              child: CommonWidgets.fromSvg(svgAsset: SvgAssets.walletDepositIcon, color: themeUtils.blackWhiteSwitchColor),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.symmetric(vertical: Dimens.ten),
+                        decoration: BoxDecoration(
+                          color: themeUtils.primaryColorSwitch,
+                          borderRadius: BorderRadius.circular(Dimens.hundred),
+                        ),
+                        margin: EdgeInsets.only(left: Dimens.ten),
+                        alignment: Alignment.center,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CommonWidgets.autoSizeText(
+                              text: 'withdraw'.tr,
+                              textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor),
+                              minFontSize: 10,
+                              maxFontSize: 14,
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: EdgeInsets.only(left: Dimens.eight),
+                              child: Transform.rotate(
+                                angle: 35 * pi,
+                                child: CommonWidgets.fromSvg(svgAsset: SvgAssets.walletDepositIcon, color: themeUtils.blackWhiteSwitchColor),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
@@ -344,71 +369,86 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
           ),
         ],
       ),
-      child: Padding(
-        padding: EdgeInsets.only(top: Dimens.twelve),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Container(
-              height: Dimens.fifty,
-              width: constraints.maxWidth,
-              padding: EdgeInsets.only(left: Dimens.sixtyFive, top: Dimens.fifteen, bottom: Dimens.fifteen),
-              margin: EdgeInsets.only(left: Dimens.twelve, right: Dimens.twelve, bottom: Dimens.fifteen),
-              decoration: BoxDecoration(
-                color: themeUtils.darkGrayOfWhiteSwitchColor,
-                borderRadius: BorderRadius.circular(Dimens.twentyFive),
-              ),
-              child: tableHeader(),
+      child: Obx(
+        () => Visibility(
+          visible: userWalletController.transactionsList.isNotEmpty,
+          replacement: Center(
+            child: CommonWidgets.autoSizeText(
+              text: 'no_data_available_right_now'.tr,
+              textStyle: AppStyles.style35SemiBold.copyWith(color: ColorValues.noDataTextColor),
+              minFontSize: 20,
+              maxFontSize: 35,
             ),
-            Expanded(
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(bottomLeft: Radius.circular(Dimens.thirty), bottomRight: Radius.circular(Dimens.thirty)),
-                child: SingleChildScrollView(
-                  controller: userWalletController.scrollController,
-                  child: Obx(
-                    () => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: List.generate(
-                        userWalletController.transactionsList.length,
-                        (index) {
-                          return InkWell(
-                            onTap: () {
-                              // RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAdsListMenuController.userSubmittedAdsList[index].adId);
-                            },
-                            child: Column(
-                              children: [
-                                if (index == 0)
-                                  Divider(
-                                    thickness: 1,
-                                    color: themeUtils.dividerSwitchColor,
-                                  ),
-                                customTableRow(
-                                  name: AppUtility.capitalizeStatus(userWalletController.transactionsList[index].transactionType),
-                                  amount: userWalletController.transactionsList[index].amount.toString(),
-                                  date: userWalletController.parseDate(userWalletController.transactionsList[index].date).toString(),
-                                  transactionId: userWalletController.transactionsList[index].transactionId,
-                                  transactionStatus: userWalletController.transactionsList[index].status,
+          ),
+          child: Padding(
+            padding: EdgeInsets.only(top: Dimens.twelve),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  height: Dimens.fifty,
+                  width: constraints.maxWidth,
+                  padding: EdgeInsets.only(left: Dimens.sixtyFive, top: Dimens.fifteen, bottom: Dimens.fifteen),
+                  margin: EdgeInsets.only(left: Dimens.twelve, right: Dimens.twelve, bottom: Dimens.fifteen),
+                  decoration: BoxDecoration(
+                    color: themeUtils.darkGrayOfWhiteSwitchColor,
+                    borderRadius: BorderRadius.circular(Dimens.twentyFive),
+                  ),
+                  child: tableHeader(),
+                ),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(bottomLeft: Radius.circular(Dimens.thirty), bottomRight: Radius.circular(Dimens.thirty)),
+                    child: SingleChildScrollView(
+                      controller: userWalletController.scrollController,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: List.generate(
+                          userWalletController.transactionsList.length,
+                          (index) {
+                            return MouseRegion(
+                              onEnter: (_) => userWalletController.isHoveredList[index].value = true,
+                              onExit: (_) => userWalletController.isHoveredList[index].value = false,
+                              child: Container(
+                                margin: index == (userWalletController.transactionsList.length - 1) ? EdgeInsets.only(bottom: Dimens.twentySix) : EdgeInsets.zero,
+                                decoration: BoxDecoration(
+                                  color: userWalletController.isHoveredList[index].value ? themeUtils.darkGrayOfWhiteSwitchColor.withOpacity(0.5) : Colors.transparent,
+                                  border: userWalletController.isHoveredList[index].value
+                                      ? Border.all(
+                                          color: themeUtils.borderTableHoverColor,
+                                          width: 1,
+                                        )
+                                      : Border(
+                                          top: BorderSide(color: themeUtils.dividerSwitchColor),
+                                          bottom: BorderSide(color: themeUtils.dividerSwitchColor),
+                                          left: BorderSide.none,
+                                          right: BorderSide.none,
+                                        ),
                                 ),
-                                Padding(
-                                  padding: index == (userWalletController.transactionsList.length - 1) ? EdgeInsets.only(bottom: Dimens.twentySix) : EdgeInsets.zero,
-                                  child: Divider(
-                                    thickness: 1,
-                                    color: themeUtils.dividerSwitchColor,
-                                  ),
+                                child: Column(
+                                  children: [
+                                    customTableRow(
+                                      name: AppUtility.capitalizeStatus(userWalletController.transactionsList[index].transactionType),
+                                      amount: userWalletController.transactionsList[index].amount.toString(),
+                                      date: userWalletController.parseDate(userWalletController.transactionsList[index].date).toString(),
+                                      transactionId: userWalletController.transactionsList[index].transactionId,
+                                      transactionStatus: userWalletController.transactionsList[index].status,
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
-                          );
-                        },
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/common_widgets.dart';
+import '../../../../common/custom_radio_button.dart';
 import '../../../../constant/assets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
@@ -120,23 +121,9 @@ class _UserTransactionsSortByDropDownState extends State<UserTransactionsSortByD
                                 hidePopUp();
                                 showPopUp(themeUtils);
                               },
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(right: Dimens.sixTeen),
-                                    child: Icon(
-                                      widget.dropDownItems[index] == tempSelectedItem ? Icons.radio_button_checked : Icons.radio_button_off,
-                                      size: Dimens.twenty,
-                                      color: themeUtils.primaryColorSwitch,
-                                    ),
-                                  ),
-                                  Text(
-                                    widget.dropDownItems[index],
-                                    style: AppStyles.style16Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
-                                  ),
-                                ],
+                              child: CustomRadioButton(
+                                isSelected: widget.dropDownItems[index] == tempSelectedItem,
+                                labelText: widget.dropDownItems[index],
                               ),
                             ),
                           );

@@ -145,6 +145,11 @@ final Map<String, String> enUs = {
   'withdraw': 'Withdraw',
   'details': 'Details',
   'ok': 'OK',
-  // 'Youare': 'Youare',
+  'confirm': 'Confirm',
+  'select_payment_option': 'Select Payment Option',
+  'bank_account': 'Bank Account',
+  'credit_card': 'Credit Card',
+  'please_enter_amount': 'Please enter amount',
+  'please_select_payment_type': 'Please select payment type',
   // 'Youare': 'Youare',
 };

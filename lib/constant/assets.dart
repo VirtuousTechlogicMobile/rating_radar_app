@@ -18,6 +18,7 @@ abstract class SvgAssets {
   static const eyeVisibilityOffIcon = 'assets/svgs/eye_visibility_off_icon.svg';
   static const downArrowIcon = 'assets/svgs/down_arrow_icon.svg';
   static const rightArrowIcon = 'assets/svgs/right_arrow_icon.svg';
+  static const leftArrowIcon = 'assets/svgs/left_arrow_icon.svg';
   static const drawerDashboardIcon = 'assets/svgs/drawer_dashboard_icon.svg';
   static const drawerAdsListIcon = 'assets/svgs/drawer_ads_list_icon.svg';
   static const drawerWalletIcon = 'assets/svgs/drawer_wallet_icon.svg';
