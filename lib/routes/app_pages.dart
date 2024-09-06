@@ -1,5 +1,7 @@
 import 'package:RatingRadar_app/modules/admin/admin_ads_list_menu/bindings/admin_ads_list_menu_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_ads_list_menu/view/admin_ads_list_menu_screen.dart';
+import 'package:RatingRadar_app/modules/admin/admin_create_ad/bindings/admin_create_ad_binding.dart';
+import 'package:RatingRadar_app/modules/admin/admin_create_ad/view/admin_create_ad_screen.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/bindings/admin_signin_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/view/admin_signin_screen.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/bindings/admin_homepage_binding.dart';
@@ -18,8 +20,6 @@ import 'package:RatingRadar_app/modules/user/user_wallet/bindings/user_wallet_bi
 import 'package:RatingRadar_app/modules/user/user_wallet/view/user_wallet_screen.dart';
 import 'package:get/get.dart';
 
-import '../modules/admin/admin_submit_ad/bindings/admin_submit_ad_binding.dart';
-import '../modules/admin/admin_submit_ad/view/admin_submit_ad_screen.dart';
 import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/view/signin_screen.dart';
 import '../modules/user/user_conformation/bindings/user_conformation_binding.dart';
@@ -144,10 +144,9 @@ abstract class AppPages {
       transition: Transition.fade,
     ),
     GetPage(
-      name: _Routes.adminSubmitAd,
-      page: () => AdminSubmitAdScreen(
-          adDocumentId: Get.parameters['adDocumentId'] ?? ''),
-      binding: AdminSubmitAdBinding(),
+      name: _Routes.adminCreateAd,
+      page: () => AdminCreateAdScreen(),
+      binding: AdminCreateAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
     ),

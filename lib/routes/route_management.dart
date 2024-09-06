@@ -62,9 +62,8 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.adminAdsList);
   }
 
-  static void goToAdminSubmitAdScreenView({required String adDocumentId}) {
-    Get.toNamed(AppRoutes.adminSubmitAd,
-        parameters: {'adDocumentId': adDocumentId});
+  static void goToAdminCreatedAdScreenView() {
+    Get.toNamed(AppRoutes.adminCreateAd);
   }
 
   /*static void goToAdminSubmitAdScreenView() {

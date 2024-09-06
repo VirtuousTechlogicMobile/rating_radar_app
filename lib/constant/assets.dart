@@ -22,6 +22,10 @@ abstract class SvgAssets {
   static const drawerAdsListIcon = 'assets/svgs/drawer_ads_list_icon.svg';
   static const drawerWalletIcon = 'assets/svgs/drawer_wallet_icon.svg';
   static const drawerReferralIcon = 'assets/svgs/drawer_referral_icon.svg';
+  static const drawerUserIcon = 'assets/svgs/drawer_user_icon.svg';
+  static const drawerCompanyIcon = 'assets/svgs/drawer_company_icon.svg';
+  static const drawerPaymentsIcon = 'assets/svgs/drawer_payments_icon.svg';
+  static const dropdownCheckIcon = 'assets/svgs/dropdown_check_icon.svg';
   static const settingsIcon = 'assets/svgs/settings_icon.svg';
   static const notificationsBellIcon =
       'assets/svgs/notifications_bell_icon.svg';

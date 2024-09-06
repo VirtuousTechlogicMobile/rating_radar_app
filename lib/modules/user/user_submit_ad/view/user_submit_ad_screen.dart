@@ -337,56 +337,6 @@ class UserSubmitAdScreen extends StatelessWidget {
                                         maxFontSize: 15,
                                       ),
                                     ),
-                                    Row(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        ...List.generate(
-                                          5,
-                                          (index) {
-                                            return CommonWidgets.fromSvg(
-                                              svgAsset:
-                                                  SvgAssets.ratingStarIcon,
-                                              margin: EdgeInsets.only(
-                                                  right: Dimens.five),
-                                              color: index < 4
-                                                  ? ColorValues
-                                                      .ratingStarYellowColor
-                                                  : ColorValues
-                                                      .lightGrayC4Color,
-                                            );
-                                          },
-                                        ),
-                                        Padding(
-                                          padding: EdgeInsets.only(
-                                              left: Dimens.three,
-                                              right: Dimens.nine),
-                                          child: CommonWidgets.autoSizeText(
-                                            text: '4.5',
-                                            textStyle: AppStyles.style15Bold
-                                                .copyWith(
-                                                    color: themeUtils
-                                                        .whiteBlackSwitchColor),
-                                            minFontSize: 15,
-                                            maxFontSize: 15,
-                                          ),
-                                        ),
-                                        Flexible(
-                                          child: CommonWidgets.autoSizeText(
-                                            text: 'from 392 Reviews',
-                                            textStyle: AppStyles.style15Normal
-                                                .copyWith(
-                                                    color: themeUtils
-                                                        .whiteBlackSwitchColor
-                                                        .withOpacity(0.50)),
-                                            minFontSize: 15,
-                                            maxFontSize: 15,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
                                     Padding(
                                       padding: EdgeInsets.symmetric(
                                           vertical: Dimens.ten),

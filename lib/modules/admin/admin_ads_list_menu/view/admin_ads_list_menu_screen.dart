@@ -3,6 +3,7 @@ import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/modules/admin/admin_header/bindings/admin_header_binding.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
+import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -132,7 +133,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            // RouteManagement.goToAdminSubmitAdScreenView();
+                            RouteManagement.goToAdminCreatedAdScreenView();
                           },
                           child: Padding(
                             padding: EdgeInsets.only(right: Dimens.fifteen),
@@ -195,8 +196,8 @@ class AdminAdsListMenuScreen extends StatelessWidget {
               /// ads list layout
               Obx(
                 () => Visibility(
-                  visible: adminAdsListMenuController
-                      .adminSubmittedAdsList.isNotEmpty,
+                  visible:
+                      adminAdsListMenuController.adminCreatedAdsList.isNotEmpty,
                   replacement: Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: Dimens.sixtyFive),
@@ -245,7 +246,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: List.generate(
                                     adminAdsListMenuController
-                                        .adminSubmittedAdsList.length,
+                                        .adminCreatedAdsList.length,
                                     (index) {
                                       return MouseRegion(
                                         onEnter: (_) =>
@@ -258,15 +259,15 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                                 .value = false,
                                         child: Obx(() => InkWell(
                                               onTap: () {
-                                                RouteManagement
+                                                /*RouteManagement
                                                     .goToAdminSubmitAdScreenView(
                                                   adDocumentId:
                                                       adminAdsListMenuController
-                                                              .adminSubmittedAdsList[
+                                                              .adminCreatedAdsList[
                                                                   index]
                                                               .docId ??
                                                           "",
-                                                );
+                                                );*/
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
@@ -304,34 +305,33 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                                 child: customTableRow(
                                                   task:
                                                       adminAdsListMenuController
-                                                          .adminSubmittedAdsList[
+                                                          .adminCreatedAdsList[
                                                               index]
                                                           .adName,
                                                   company:
                                                       adminAdsListMenuController
-                                                          .adminSubmittedAdsList[
+                                                          .adminCreatedAdsList[
                                                               index]
                                                           .byCompany,
                                                   email: "admin@gmail.com",
-                                                  date:
-                                                      adminAdsListMenuController
-                                                          .parseDate(
-                                                    adminAdsListMenuController
-                                                        .adminSubmittedAdsList[
-                                                            index]
-                                                        .addedDate,
-                                                  ),
+                                                  date: adminAdsListMenuController
+                                                      .parseDate(
+                                                          adminAdsListMenuController
+                                                              .adminCreatedAdsList[
+                                                                  index]
+                                                              .addedDate),
                                                   price:
                                                       adminAdsListMenuController
-                                                          .adminSubmittedAdsList[
+                                                          .adminCreatedAdsList[
                                                               index]
                                                           .adPrice
                                                           .toString(),
-                                                  status: adminAdsListMenuController
-                                                          .adminSubmittedAdsList[
-                                                              index]
-                                                          .adStatus ??
-                                                      "Status",
+                                                  status:
+                                                      adminAdsListMenuController
+                                                              .adminCreatedAdsList[
+                                                                  index]
+                                                              .adStatus ??
+                                                          "Status",
                                                 ),
                                               ),
                                             )),
@@ -562,7 +562,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                       : status == CustomStatus.pending
                           ? ColorValues.statusColorYellow
                           : status == CustomStatus.blocked
-                              ? ColorValues.statusColorBlack
+                              ? ColorValues.blackColor
                               : status == CustomStatus.approved
                                   ? ColorValues.statusColorGreen
                                   : ColorValues.statusColorGreen,
@@ -583,21 +583,21 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                           : status == CustomStatus.pending
                               ? ColorValues.statusColorYellow
                               : status == CustomStatus.blocked
-                                  ? ColorValues.statusColorBlack
+                                  ? ColorValues.blackColor
                                   : ColorValues.statusColorGreen,
                       shape: BoxShape.circle,
                     ),
                   ),
                   Flexible(
                     child: CommonWidgets.autoSizeText(
-                      text: status,
+                      text: AppUtility.capitalizeStatus(status),
                       textStyle: AppStyles.style14SemiBold.copyWith(
                         color: status == CustomStatus.rejected
                             ? ColorValues.statusFontColorRed
                             : status == CustomStatus.pending
                                 ? ColorValues.statusColorYellow
                                 : status == CustomStatus.blocked
-                                    ? ColorValues.statusColorBlack
+                                    ? ColorValues.blackColor
                                     : ColorValues.statusColorGreen,
                       ),
                       minFontSize: 8,

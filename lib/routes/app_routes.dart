@@ -20,7 +20,7 @@ abstract class AppRoutes {
   static const adminHomePage = _Routes.adminHomePage;
   static const adminAllAds = _Routes.adminAllAds;
   static const adminAdsList = _Routes.adminAdsList;
-  static const adminSubmitAd = _Routes.adminSubmitAd;
+  static const adminCreateAd = _Routes.adminCreateAd;
 }
 
 abstract class _Routes {
@@ -43,5 +43,5 @@ abstract class _Routes {
   static const adminHomePage = '/admin/homepage';
   static const adminAllAds = '/admin/admin-all-ads-list';
   static const adminAdsList = '/admin/ads-list';
-  static const adminSubmitAd = '/admin/admin-submit-ad';
+  static const adminCreateAd = '/admin/admin-create-ad';
 }

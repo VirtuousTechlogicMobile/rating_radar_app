@@ -2,7 +2,7 @@ class AdminSubmittedAdsListDataModel {
   String submittedAdDocId;
   String adId;
   String taskName;
-  String company;
+  String byCompany;
   String email;
   DateTime date;
   num adPrice;
@@ -12,7 +12,7 @@ class AdminSubmittedAdsListDataModel {
     required this.submittedAdDocId,
     required this.adId,
     required this.taskName,
-    required this.company,
+    required this.byCompany,
     required this.email,
     required this.date,
     required this.adPrice,
@@ -25,7 +25,7 @@ class AdminSubmittedAdsListDataModel {
       submittedAdDocId: map['adDocId'] as String,
       adId: map['adId'] as String,
       taskName: map['userName'] as String,
-      company: map['company'] as String,
+      byCompany: map['company'] as String,
       email: map['email'] as String,
       date: map['date'] as DateTime,
       adPrice: map['adPrice'] as num,

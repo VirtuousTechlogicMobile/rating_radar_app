@@ -126,8 +126,4 @@ class ThemeColorsUtil {
   Color get darkGraySoftWhiteSwitchColor {
     return isDarkTheme ? ColorValues.darkGrayColor : ColorValues.softWhiteColor;
   }
-
-  Color get borderTableHoverColor {
-    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.blackColor;
-  }
 }

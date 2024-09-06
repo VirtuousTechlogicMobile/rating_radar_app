@@ -6,11 +6,11 @@ import 'package:get/get.dart';
 
 import '../../../../constant/dimens.dart';
 import '../../../../utility/theme_colors_util.dart';
-import '../model/admin_ads_list_data_model.dart';
+import '../../../user/user_homepage/model/user_ads_list_data_model.dart';
 
 class AdminAdViewComponent extends StatelessWidget {
   final ThemeColorsUtil themeColorUtil;
-  final AdminAdsListDataModel adminAdsListDataModel;
+  final UserAdsListDataModel adminAdsListDataModel;
   final Function()? onViewButtonTap;
 
   const AdminAdViewComponent(

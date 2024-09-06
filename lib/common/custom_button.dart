@@ -7,16 +7,17 @@ import '../constant/dimens.dart';
 import '../constant/styles.dart';
 
 class CustomButton extends StatelessWidget {
-  String btnText;
-  EdgeInsetsGeometry? margin;
-  bool isShowLoading;
-  BorderRadiusGeometry? borderRadius;
-  EdgeInsets? contentPadding;
-  Color? buttonColor;
-  Function()? onTap;
-  bool? isShowShadow;
+  final String btnText;
+  final EdgeInsetsGeometry? margin;
+  final bool isShowLoading;
+  final BorderRadiusGeometry? borderRadius;
+  final EdgeInsets? contentPadding;
+  final Color? buttonColor;
+  final Function()? onTap;
+  final bool? isShowShadow;
+  final Color? btnTextColor;
 
-  CustomButton(
+  const CustomButton(
       {super.key,
       required this.btnText,
       this.margin,
@@ -24,16 +25,9 @@ class CustomButton extends StatelessWidget {
       this.isShowLoading = false,
       this.buttonColor,
       this.borderRadius,
-      this.isShowShadow});
-  CustomButton(
-      {super.key,
-      required this.btnText,
-      this.margin,
-      this.onTap,
-      this.isShowLoading = false,
-      this.buttonColor,
-      this.borderRadius,
-      this.contentPadding});
+      this.isShowShadow = true,
+      this.contentPadding,
+      this.btnTextColor});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +57,8 @@ class CustomButton extends StatelessWidget {
             ? CommonWidgets.autoSizeText(
                 text: btnText,
                 textStyle: AppStyles.style16Normal.copyWith(
-                    fontWeight: FontWeight.w500, color: ColorValues.whiteColor),
+                    fontWeight: FontWeight.w500,
+                    color: btnTextColor ?? ColorValues.whiteColor),
                 minFontSize: 10,
                 maxFontSize: 16,
                 maxLines: 1,

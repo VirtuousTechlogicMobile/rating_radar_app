@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../constant/dimens.dart';
 import '../../../helper/database_helper/database_helper.dart';
+import '../../../helper/shared_preferences_manager/preferences_manager.dart';
 import '../../../theme/theme_controller.dart';
 import 'model/admin_menu_data_model.dart';
 
@@ -15,7 +16,14 @@ class AdminDrawerMenuController extends GetxController {
 
   getUserEmail() async {
     email.value = await DatabaseHelper.instance.getCurrentAdminEmail();
-    print('Email: ${email.value}');
+  }
+
+  getAdminDrawerIndex() async {
+    selectedMenuIndex.value = await PreferencesManager.getAdminDrawerIndex();
+  }
+
+  setAdminDrawerIndex(int index) async {
+    await PreferencesManager.setAdminDrawerIndex(index: index);
   }
 
   void toggleDashboardProfileMenu() {

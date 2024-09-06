@@ -41,6 +41,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
           curve: Curves.bounceIn),
     );
     adminDrawerController.getUserEmail();
+    adminDrawerController.getAdminDrawerIndex();
   }
 
   @override
@@ -110,9 +111,12 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
           () => AdminDrawerMenuComponent(
             adminMenuDataModel: adminDrawerController.adminMenuDataList[index],
             isSelected: index == adminDrawerController.selectedMenuIndex.value,
-            onSelectMenuItem: (selecedMenu) {
+            onSelectMenuItem: (selectedMenu) {
+              adminDrawerController.setAdminDrawerIndex(adminDrawerController
+                  .adminMenuDataList
+                  .indexOf(selectedMenu));
               adminDrawerController.selectedMenuIndex.value =
-                  adminDrawerController.adminMenuDataList.indexOf(selecedMenu);
+                  adminDrawerController.adminMenuDataList.indexOf(selectedMenu);
               if (adminDrawerController.selectedMenuIndex.value == 0) {
                 RouteManagement.goToAdminHomePageView();
               } else if (adminDrawerController.selectedMenuIndex.value == 1) {
@@ -176,13 +180,22 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ClipOval(
-                  child: Image.network(
-                    'https://media.istockphoto.com/id/1386479313/photo/happy-millennial-afro-american-business-woman-posing-isolated-on-white.jpg?s=612x612&w=0&k=20&c=8ssXDNTp1XAPan8Bg6mJRwG7EXHshFO5o0v9SIj96nY=',
-                    width: Dimens.fifty,
-                    height: Dimens.fifty,
-                    fit: BoxFit.cover,
-                    isAntiAlias: true,
+                Container(
+                  width: Dimens.fifty,
+                  height: Dimens.fifty,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: themeUtils
+                        .blackWhiteSwitchColor, // Background color for the circle
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    'admin'.tr.substring(0, 1).toUpperCase() ?? '',
+                    style: TextStyle(
+                      fontSize: Dimens.twenty, // Adjust the font size as needed
+                      fontWeight: FontWeight.bold,
+                      color: themeUtils.primaryColorSwitch,
+                    ),
                   ),
                 ),
                 Padding(
@@ -191,20 +204,20 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonWidgets.autoSizeText(
-                        text: adminDrawerController.email.value,
-                        maxFontSize: 14,
-                        minFontSize: 10,
-                        textStyle: AppStyles.style14SemiBold
-                            .copyWith(color: themeUtils.blackWhiteSwitchColor),
-                      ),
+                          text: 'admin'.tr,
+                          textStyle: AppStyles.style14SemiBold.copyWith(
+                              color: themeUtils.blackWhiteSwitchColor),
+                          minFontSize: 10,
+                          maxFontSize: 14),
                       Padding(
                         padding: EdgeInsets.only(top: Dimens.five),
-                        child: Text(
-                          'admin'.tr,
-                          style: AppStyles.style12Normal.copyWith(
-                            color: themeUtils.blackWhiteSwitchColor
-                                .withOpacity(0.70),
-                          ),
+                        child: CommonWidgets.autoSizeText(
+                          text: adminDrawerController.email.value,
+                          maxFontSize: 12,
+                          minFontSize: 10,
+                          textStyle: AppStyles.style12Normal.copyWith(
+                              color: themeUtils.blackWhiteSwitchColor
+                                  .withOpacity(0.70)),
                         ),
                       ),
                     ],

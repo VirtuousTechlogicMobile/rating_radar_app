@@ -1,7 +1,3 @@
-import 'dart:developer';
-
-import 'package:RatingRadar_app/modules/admin/admin_submit_ad/model/admin_submit_ad_data_model.dart';
-import 'package:RatingRadar_app/modules/admin/drawer/view/admin_drawer_view.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
@@ -19,18 +15,16 @@ import '../../../../constant/strings.dart';
 import '../../../../constant/styles.dart';
 import '../../../../routes/route_management.dart';
 import '../../../../utility/utility.dart';
+import '../../../user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../admin_header/bindings/admin_header_binding.dart';
 import '../../admin_header/view/admin_header_view.dart';
-import '../admin_submit_ad_controller.dart';
+import '../../drawer/view/admin_drawer_view.dart';
+import '../admin_create_ad_controller.dart';
 
-class AdminSubmitAdScreen extends StatelessWidget {
-  final String adDocumentId;
-  final adminSubmitAdController = Get.find<AdminSubmitAdController>();
+class AdminCreateAdScreen extends StatelessWidget {
+  final adminSubmitAdController = Get.find<AdminCreateAdController>();
 
-  AdminSubmitAdScreen({super.key, required this.adDocumentId}) {
-    // adminSubmitAdController.getAdsDetailData(docId: adDocumentId);
-    adminSubmitAdController.getTotalSubmittedAdsCount(adId: adDocumentId);
-  }
+  AdminCreateAdScreen({super.key});
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
@@ -93,15 +87,36 @@ class AdminSubmitAdScreen extends StatelessWidget {
             ),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(Dimens.thirty),
-              child: Padding(
-                padding: EdgeInsets.only(
-                    left: Dimens.thirtyEight,
-                    right: Dimens.thirtyEight,
-                    bottom: Dimens.fortyFive,
-                    top: Dimens.twentyEight),
-                child: SingleChildScrollView(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: EdgeInsets.only(
+                      left: Dimens.thirtyEight,
+                      right: Dimens.thirtyEight,
+                      bottom: Dimens.fortyFive,
+                      top: Dimens.twentyEight),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Padding(
+                        padding: EdgeInsets.only(bottom: Dimens.seven),
+                        child: CommonWidgets.autoSizeText(
+                          text: 'add_ads'.tr,
+                          textStyle: AppStyles.style24Bold.copyWith(
+                              color: themeUtils.whiteBlackSwitchColor),
+                          minFontSize: 16,
+                          maxFontSize: 24,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: Dimens.ten),
+                        child: CommonWidgets.autoSizeText(
+                          text: 'add_company_ads'.tr,
+                          textStyle: AppStyles.style14Normal
+                              .copyWith(color: themeUtils.primaryColorSwitch),
+                          minFontSize: 16,
+                          maxFontSize: 24,
+                        ),
+                      ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -109,28 +124,6 @@ class AdminSubmitAdScreen extends StatelessWidget {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding:
-                                      EdgeInsets.only(bottom: Dimens.seven),
-                                  child: CommonWidgets.autoSizeText(
-                                    text: 'add_ads'.tr,
-                                    textStyle: AppStyles.style24Bold.copyWith(
-                                        color:
-                                            themeUtils.whiteBlackSwitchColor),
-                                    minFontSize: 16,
-                                    maxFontSize: 24,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.only(bottom: Dimens.ten),
-                                  child: CommonWidgets.autoSizeText(
-                                    text: 'add_company_ads'.tr,
-                                    textStyle: AppStyles.style14Normal.copyWith(
-                                        color: themeUtils.primaryColorSwitch),
-                                    minFontSize: 16,
-                                    maxFontSize: 24,
-                                  ),
-                                ),
                                 Padding(
                                   padding: EdgeInsets.only(top: Dimens.thirty),
                                   child: textFieldWithLabel(
@@ -176,7 +169,7 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                         adminSubmitAdController
                                                 .preFilledAdDetailData
                                                 .value
-                                                ?.imageList
+                                                ?.imageUrl
                                                 ?.length ??
                                             0,
                                         (index) {
@@ -184,7 +177,7 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                             imageUrl: adminSubmitAdController
                                                     .preFilledAdDetailData
                                                     .value
-                                                    ?.imageList?[index] ??
+                                                    ?.imageUrl?[index] ??
                                                 '',
                                             width: Dimens.hundred,
                                             height: Dimens.hundred,
@@ -364,15 +357,29 @@ class AdminSubmitAdScreen extends StatelessWidget {
                               ],
                             ),
                           ),
+
                           // Preview Image Area
                           Obx(
-                            () => // Inside your Widget build method or wherever you need to display the image
-                                Padding(
+                            () => Padding(
                               padding: EdgeInsets.only(left: Dimens.sixty),
                               child: Expanded(
-                                flex: 4,
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: Dimens.thirty,
+                                          bottom: Dimens.twelve),
+                                      child: CommonWidgets.autoSizeText(
+                                        text: 'preview'.tr,
+                                        textStyle: AppStyles.style16Normal
+                                            .copyWith(
+                                                color: themeUtils
+                                                    .whiteBlackSwitchColor),
+                                        minFontSize: 10,
+                                        maxFontSize: 16,
+                                      ),
+                                    ),
                                     if (adminSubmitAdController
                                         .pickedFiles.isNotEmpty)
                                       Padding(
@@ -387,18 +394,25 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                               alignment: Alignment.center,
                                               children: [
                                                 // For web, use Image.network
-                                                Image.network(
-                                                  adminSubmitAdController
-                                                      .pickedFiles[
-                                                          adminSubmitAdController
-                                                              .currentImageIndex
-                                                              .value]
-                                                      .path,
-                                                  fit: BoxFit.fill,
-                                                  width: constraints.maxWidth /
-                                                      2.5,
-                                                  height: constraints.maxWidth /
-                                                      4.5,
+                                                ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          Dimens.twenty),
+                                                  child: Image.network(
+                                                    adminSubmitAdController
+                                                        .pickedFiles[
+                                                            adminSubmitAdController
+                                                                .currentImageIndex
+                                                                .value]
+                                                        .path,
+                                                    fit: BoxFit.fill,
+                                                    width:
+                                                        constraints.maxWidth /
+                                                            2.5,
+                                                    height:
+                                                        constraints.maxWidth /
+                                                            4.5,
+                                                  ),
                                                 ),
 
                                                 Positioned(
@@ -407,8 +421,8 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                                     icon: Icon(
                                                       Icons.arrow_forward,
                                                       size: Dimens.twentyTwo,
-                                                      color: themeUtils
-                                                          .primaryColorSwitch,
+                                                      color: ColorValues
+                                                          .whiteColor,
                                                     ),
                                                     onPressed: () {
                                                       adminSubmitAdController
@@ -422,8 +436,8 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                                     icon: Icon(
                                                       Icons.arrow_back,
                                                       size: Dimens.twentyTwo,
-                                                      color: themeUtils
-                                                          .primaryColorSwitch,
+                                                      color: ColorValues
+                                                          .whiteColor,
                                                     ),
                                                     onPressed: () {
                                                       adminSubmitAdController
@@ -437,18 +451,57 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                         ),
                                       )
                                     else
-                                      Container(
-                                        color: Colors.grey, // Placeholder color
-                                        width: constraints.maxWidth / 2.5,
-                                        height: constraints.maxWidth / 4.5,
-                                        child: const Center(
-                                          child: Text(
-                                            'No Image Selected',
-                                            style:
-                                                TextStyle(color: Colors.white),
+                                      Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          Container(
+                                            decoration: BoxDecoration(
+                                                color: themeUtils
+                                                    .darkGrayOfWhiteSwitchColor,
+                                                borderRadius:
+                                                    BorderRadius.circular(
+                                                        Dimens.twenty)),
+                                            width: constraints.maxWidth / 2.5,
+                                            height: constraints.maxWidth / 4.5,
+                                            child: Center(
+                                              child: CommonWidgets.fromSvg(
+                                                svgAsset:
+                                                    SvgAssets.uploadImageIcon,
+                                                color: themeUtils
+                                                    .primaryColorSwitch,
+                                              ),
+                                            ),
                                           ),
-                                        ),
-                                      ),
+                                          Positioned(
+                                            right: Dimens.ten,
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.arrow_forward,
+                                                size: Dimens.twentyTwo,
+                                                color: ColorValues.whiteColor,
+                                              ),
+                                              onPressed: () {
+                                                adminSubmitAdController
+                                                    .nextImage();
+                                              },
+                                            ),
+                                          ),
+                                          Positioned(
+                                            left: Dimens.ten,
+                                            child: IconButton(
+                                              icon: Icon(
+                                                Icons.arrow_back,
+                                                size: Dimens.twentyTwo,
+                                                color: ColorValues.whiteColor,
+                                              ),
+                                              onPressed: () {
+                                                adminSubmitAdController
+                                                    .previousImage();
+                                              },
+                                            ),
+                                          ),
+                                        ],
+                                      )
                                   ],
                                 ),
                               ),
@@ -470,15 +523,19 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                 onTap: () {
                                   RouteManagement.goToBack();
                                 },
-                                child: SizedBox(
-                                  width: Dimens.hundred,
-                                  child: CustomButton(
-                                    borderRadius:
-                                        BorderRadius.circular(Dimens.thirty),
-                                    margin:
-                                        EdgeInsets.only(right: Dimens.seven),
-                                    btnText: 'cancel'.tr,
-                                  ),
+                                child: CustomButton(
+                                  borderRadius:
+                                      BorderRadius.circular(Dimens.thirty),
+                                  margin: EdgeInsets.only(right: Dimens.seven),
+                                  btnText: 'cancel'.tr,
+                                  isShowShadow: false,
+                                  btnTextColor:
+                                      themeUtils.blackWhiteSwitchColor,
+                                  contentPadding: EdgeInsets.only(
+                                      top: Dimens.ten,
+                                      bottom: Dimens.ten,
+                                      left: Dimens.twentyFour,
+                                      right: Dimens.twentyFour),
                                 ),
                               ),
 
@@ -491,69 +548,75 @@ class AdminSubmitAdScreen extends StatelessWidget {
                                       4) {
                                     AppUtility.showSnackBar(
                                         'please_upload_all_images'.tr);
+                                  } else if (adminSubmitAdController
+                                      .adNameController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    AppUtility.showSnackBar('enter_ad_name'.tr);
+                                  } else if (adminSubmitAdController
+                                      .byCompanyNameController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    AppUtility.showSnackBar('enter_ad_name'.tr);
+                                  } else if (adminSubmitAdController
+                                      .adPriceController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    AppUtility.showSnackBar('enter_ad_name'.tr);
                                   } else {
-                                    try {
-                                      // Get the user ID
-                                      String userId =
-                                          await adminSubmitAdController
-                                              .getUid();
+                                    // Get the user ID
+                                    String? adminId =
+                                        await adminSubmitAdController
+                                            .getAdminUid();
 
-                                      // Create the AdminSubmitAdDataModel with required details
-                                      AdminSubmitAdDataModel adDataModel =
-                                          AdminSubmitAdDataModel(
-                                        adId: adminSubmitAdController
-                                                .adsDetailData.value?.docId ??
-                                            '',
-                                        uId: userId,
-                                        addedDate: DateTime.now(),
-                                        comments: adminSubmitAdController
-                                            .adContentController.text,
-                                        status: CustomStatus.pending,
-                                        adName: adminSubmitAdController
-                                                .adsDetailData.value?.adName ??
-                                            '',
-                                        company: adminSubmitAdController
-                                                .adsDetailData
-                                                .value
-                                                ?.byCompany ??
-                                            '',
-                                        adPrice: adminSubmitAdController
-                                                .adsDetailData.value?.adPrice ??
-                                            0,
-                                      );
+                                    // Create the AdminSubmitAdDataModel with required details
+                                    UserAdsListDataModel adDataModel =
+                                        UserAdsListDataModel(
+                                      docId: adminSubmitAdController
+                                          .adsDetailData.value?.docId,
+                                      adName: adminSubmitAdController
+                                          .adNameController.text,
+                                      byCompany: adminSubmitAdController
+                                          .byCompanyNameController.text,
+                                      imageUrl: adminSubmitAdController
+                                              .adsDetailData.value?.imageUrl ??
+                                          [],
+                                      addedDate: DateTime.now(),
+                                      adContent: adminSubmitAdController
+                                          .adContentController.text,
+                                      adStatus: CustomStatus.pending,
+                                      adPrice: 0,
+                                    );
+                                    String? documentId =
+                                        await adminSubmitAdController
+                                            .storeAdminSubmittedAds(
+                                      adminSubmitAdDataModel: adDataModel,
+                                    );
 
-                                      // Store the ad data and get the document ID
-                                      String? documentId =
-                                          await adminSubmitAdController
-                                              .storeUserSubmittedAds(
-                                        adminSubmitAdDataModel: adDataModel,
-                                      );
-
-                                      // Check if the document ID is not null (successful submission)
-                                      if (documentId != null) {
-                                        RouteManagement.goToBack();
-                                        AppUtility.showSnackBar(
-                                            'task_submitted_successfully'.tr);
-                                      } else {
-                                        AppUtility.showSnackBar(
-                                            'something_went_wrong'.tr);
-                                      }
-                                    } catch (e) {
-                                      // Handle unexpected errors
+                                    if (documentId != null) {
+                                      RouteManagement.goToBack();
+                                      AppUtility.showSnackBar(
+                                          'task_submitted_successfully'.tr);
+                                      adminSubmitAdController
+                                          .clearControllers();
+                                    } else {
                                       AppUtility.showSnackBar(
                                           'something_went_wrong'.tr);
-                                      log("Exception: $e"); // Log the exception for debugging
                                     }
                                   }
                                 },
-                                child: SizedBox(
-                                  width: Dimens.hundred,
-                                  child: CustomButton(
-                                    isShowShadow: false,
-                                    borderRadius:
-                                        BorderRadius.circular(Dimens.thirty),
-                                    btnText: 'submit'.tr,
-                                  ),
+                                child: CustomButton(
+                                  isShowShadow: false,
+                                  borderRadius:
+                                      BorderRadius.circular(Dimens.thirty),
+                                  btnText: 'submit'.tr,
+                                  btnTextColor:
+                                      themeUtils.blackWhiteSwitchColor,
+                                  contentPadding: EdgeInsets.only(
+                                      top: Dimens.ten,
+                                      bottom: Dimens.ten,
+                                      left: Dimens.twentyFour,
+                                      right: Dimens.twentyFour),
                                 ),
                               ),
                             ],

@@ -20,12 +20,6 @@ abstract class CustomStatus {
   static const wrongEmailPassword = 'WrongEmailPassword';
   static const failedToLogout = 'FailedToLogout';
 
-  /// custom ad statuses
-  static const approved = 'approved';
-  static const pending = 'pending';
-  static const rejected = 'rejected';
-  static const blocked = 'blocked';
-
   /// custom ad and transaction statuses
   static const approved = 'approved';
   static const pending = 'pending';
