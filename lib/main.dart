@@ -1,4 +1,5 @@
 import 'package:RatingRadar_app/constant/strings.dart';
+import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:RatingRadar_app/initial_bindings/initial_bindings.dart';
 import 'package:RatingRadar_app/services/translations/app_translations.dart';
 import 'package:RatingRadar_app/theme/theme_controller.dart';
@@ -12,6 +13,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+
 import 'constant/hive_box_names.dart';
 import 'routes/app_pages.dart';
 import 'services/network/network_controller.dart';
@@ -80,8 +82,13 @@ class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of your application.
-  String _handleAppInitialRoute() {
-    return AppRoutes.signIn;
+  Future<String> _handleAppInitialRoute() async {
+    String? userId = await PreferencesManager.getUserId();
+    if (userId != null && userId != '') {
+      return AppRoutes.userHomePage;
+    } else {
+      return AppRoutes.signIn;
+    }
   }
 
   ThemeMode _handleAppTheme(String mode) {
@@ -100,23 +107,30 @@ class MyApp extends StatelessWidget {
     return ScreenUtilInit(
       designSize: const Size(392, 744),
       builder: (ctx, child) {
-        return Obx(
-          () {
-            return GlobalLoaderOverlay(
-              child: GetMaterialApp(
-                initialBinding: InitialBindings(),
-                title: StringValues.appName,
-                debugShowCheckedModeBanner: false,
-                themeMode: _handleAppTheme(appController.themeMode),
-                theme: appController.getLightThemeData(context),
-                darkTheme: appController.getDarkThemeData(context),
-                getPages: AppPages.pages,
-                initialRoute: _handleAppInitialRoute(),
-                translations: AppTranslation(),
-                locale: Get.deviceLocale,
-                fallbackLocale: const Locale('en', 'IN'),
-              ),
-            );
+        return FutureBuilder(
+          future: _handleAppInitialRoute(),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Obx(
+                () => GlobalLoaderOverlay(
+                  child: GetMaterialApp(
+                    initialBinding: InitialBindings(),
+                    title: StringValues.appName,
+                    debugShowCheckedModeBanner: false,
+                    themeMode: _handleAppTheme(appController.themeMode),
+                    theme: appController.getLightThemeData(context),
+                    darkTheme: appController.getDarkThemeData(context),
+                    getPages: AppPages.pages,
+                    initialRoute: snapshot.data,
+                    translations: AppTranslation(),
+                    locale: Get.deviceLocale,
+                    fallbackLocale: const Locale('en', 'IN'),
+                  ),
+                ),
+              );
+            } else {
+              return const CircularProgressIndicator();
+            }
           },
         );
       },

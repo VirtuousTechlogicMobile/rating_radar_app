@@ -559,7 +559,7 @@ class DatabaseHelper {
       if (isTransactionTypeWithdraw) {
         query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'withdraw').limit(nDataPerPage);
       } else {
-        query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposite').limit(nDataPerPage);
+        query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposit').limit(nDataPerPage);
       }
 
       if (lastDocumentId != null) {
@@ -604,7 +604,7 @@ class DatabaseHelper {
   Future<int> getDepositTransactionsCount() async {
     try {
       QuerySnapshot snapshot =
-          await fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection).where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposite').get();
+          await fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection).where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposit').get();
       return snapshot.size;
     } catch (e) {
       log("Error fetching document count: $e");

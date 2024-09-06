@@ -7,15 +7,15 @@ import '../constant/dimens.dart';
 import '../constant/styles.dart';
 
 class CustomButton extends StatelessWidget {
-  String btnText;
-  EdgeInsetsGeometry? margin;
-  bool isShowLoading;
-  BorderRadiusGeometry? borderRadius;
-  EdgeInsets? contentPadding;
-  Color? buttonColor;
-  Function()? onTap;
+  final String btnText;
+  final EdgeInsetsGeometry? margin;
+  final bool isShowLoading;
+  final BorderRadiusGeometry? borderRadius;
+  final EdgeInsets? contentPadding;
+  final Color? buttonColor;
+  final Function()? onTap;
 
-  CustomButton({super.key, required this.btnText, this.margin, this.onTap, this.isShowLoading = false, this.buttonColor, this.borderRadius, this.contentPadding});
+  const CustomButton({super.key, required this.btnText, this.margin, this.onTap, this.isShowLoading = false, this.buttonColor, this.borderRadius, this.contentPadding});
 
   @override
   Widget build(BuildContext context) {
