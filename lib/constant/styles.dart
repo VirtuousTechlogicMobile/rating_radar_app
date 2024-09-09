@@ -274,6 +274,13 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style26Bold = TextStyle(
+    fontSize: Dimens.twentyFour,
+    fontWeight: FontWeight.w600,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style28Bold = TextStyle(
     fontSize: Dimens.twentyEight,
     fontWeight: FontWeight.w700,
@@ -312,6 +319,13 @@ abstract class AppStyles {
   static TextStyle style32Normal = TextStyle(
     fontSize: Dimens.thirtyTwo,
     fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style32SemiBold = TextStyle(
+    fontSize: Dimens.thirtyTwo,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );

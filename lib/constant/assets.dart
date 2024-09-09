@@ -36,4 +36,8 @@ abstract class SvgAssets {
   static const lightWalletBoxBgImage = 'assets/svgs/light_mode_svgs/wallet_box_bg_image.svg';
   static const darkWalletBoxBgImage = 'assets/svgs/dark_mode_svgs/wallet_box_bg_image.svg';
   static const walletDepositIcon = 'assets/svgs/wallet_deposit_icon.svg';
+  static const myAccountIcon = 'assets/svgs/my_account_icon.svg';
+  static const paymentMethodIcon = 'assets/svgs/payment_method_icon.svg';
+  static const lockIcon = 'assets/svgs/lock_icon.svg';
+  static const deleteAccountIcon = 'assets/svgs/delete_account_icon.svg';
 }

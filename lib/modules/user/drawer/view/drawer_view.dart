@@ -128,7 +128,9 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
           onSelectMenuItem: (selectedMenu) async {
             drawerController.setDrawerIndex(firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu));
             drawerController.selectedMenuIndex.value = firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu);
-            if (drawerController.selectedMenuIndex.value == 6) {
+            if (drawerController.selectedMenuIndex.value == 4) {
+              RouteManagement.goToUserMyAccountSettingScreenView();
+            } else if (drawerController.selectedMenuIndex.value == 6) {
               RouteManagement.goToLogoutView();
             }
           },

@@ -16,6 +16,7 @@ import '../../modules/user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
 import '../../modules/user/user_wallet/model/user_transaction_model.dart';
+import '../../modules/user/user_wallet/model/user_transaction_interface.dart';
 import '../shared_preferences_manager/preferences_manager.dart';
 
 class DatabaseHelper {
@@ -553,13 +554,19 @@ class DatabaseHelper {
       CollectionReference userTransactionsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection);
 
       /// store the last document id
-      String? lastDocumentId = adLastDocument?.transactionDocId;
+      String? lastDocumentId = adLastDocument?.transactionCollectionDocId;
       List<UserTransactionModel> usersTransactionsList = [];
       late Query query;
       if (isTransactionTypeWithdraw) {
-        query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'withdraw').limit(nDataPerPage);
+        query = userTransactionsCollectionReference
+            .where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'withdraw')
+            .orderBy(DatabaseSynonyms.dateField, descending: false)
+            .limit(nDataPerPage);
       } else {
-        query = userTransactionsCollectionReference.where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposit').limit(nDataPerPage);
+        query = userTransactionsCollectionReference
+            .where(DatabaseSynonyms.transactionTypeField, isEqualTo: 'deposit')
+            .orderBy(DatabaseSynonyms.dateField, descending: false)
+            .limit(nDataPerPage);
       }
 
       if (lastDocumentId != null) {
@@ -643,7 +650,7 @@ class DatabaseHelper {
               transactionId: '-',
               transactionType: 'ads',
               submittedAdDocId: snapshotData.id,
-              transactionDocId: '',
+              transactionCollectionDocId: '',
             ),
           );
         }
@@ -651,6 +658,85 @@ class DatabaseHelper {
       return usersAdsTransactionsList.isNotEmpty ? usersAdsTransactionsList : null;
     } catch (e) {
       log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<String?> getUserCurrentBalance({required String uId}) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
+      if (userDoc.exists) {
+        num userCurrentBalance = userDoc['userBalance'] as num;
+        return userCurrentBalance.toStringAsFixed(2);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<UserTransactionInterface> withdrawUserBalanceFromAdmin({
+    required String uId,
+    required num newBalance,
+  }) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
+      if (userDoc.exists) {
+        num userCurrentBalance = userDoc['userBalance'] as num;
+        if (userCurrentBalance >= newBalance) {
+          num decreasedBalance = userCurrentBalance - newBalance;
+          await usersCollectionReference.doc(uId).update({
+            DatabaseSynonyms.userBalanceField: decreasedBalance, // Updating the field
+          });
+          return SuccessWithdrawResult(decreasedBalance);
+        } else {
+          return InsufficientBalanceWithdrawResult(userCurrentBalance);
+        }
+      } else {
+        return const UnsuccessfulTransactionResult();
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return const UnsuccessfulTransactionResult();
+    }
+  }
+
+  Future<UserTransactionInterface> depositUserBalanceFromAdmin({
+    required String uId,
+    required num newBalance,
+  }) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
+      if (userDoc.exists) {
+        num userCurrentBalance = userDoc['userBalance'] as num;
+        num increasedBalance = userCurrentBalance + newBalance;
+        await usersCollectionReference.doc(uId).update({
+          DatabaseSynonyms.userBalanceField: increasedBalance, // Updating the field
+        });
+        return SuccessDepositResult(increasedBalance);
+      } else {
+        return const UnsuccessfulTransactionResult();
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return const UnsuccessfulTransactionResult();
+    }
+  }
+
+  Future<String?> storeUserTransaction({required UserTransactionModel userTransactionModel}) async {
+    try {
+      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection);
+      DocumentReference documentReference = await collectionRef.add(userTransactionModel.toMap());
+      return documentReference.id;
+    } catch (e) {
       return null;
     }
   }

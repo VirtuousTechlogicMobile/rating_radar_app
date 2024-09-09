@@ -27,4 +27,12 @@ abstract class PreferencesManager {
   static Future<int> getDrawerIndex() async {
     return await SharedPrefGetterSetters().getInt('drawerIndex') ?? 0;
   }
+
+  static Future setSettingsDrawerIndex({required int index}) async {
+    await SharedPrefGetterSetters().setInt('settingsDrawerIndex', index);
+  }
+
+  static Future<int> getSettingsDrawerIndex() async {
+    return await SharedPrefGetterSetters().getInt('settingsDrawerIndex') ?? 0;
+  }
 }

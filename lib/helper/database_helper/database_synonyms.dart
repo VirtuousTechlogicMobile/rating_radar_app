@@ -20,7 +20,9 @@ abstract class DatabaseSynonyms {
   static const statusField = 'status';
   static const companyField = 'company';
   static const addedDateField = 'addedDate';
+  static const dateField = 'date';
   static const adIdField = 'adId';
   static const uIdField = 'uId';
   static const transactionTypeField = 'transactionType';
+  static const userBalanceField = 'userBalance';
 }
