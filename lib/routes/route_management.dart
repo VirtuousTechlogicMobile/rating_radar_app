@@ -30,7 +30,8 @@ abstract class RouteManagement {
   }
 
   static void goToUserSubmitAdScreenView({required String adDocumentId}) {
-    Get.toNamed(AppRoutes.userSubmitAd, parameters: {'adDocumentId': adDocumentId});
+    Get.toNamed(AppRoutes.userSubmitAd,
+        parameters: {'adDocumentId': adDocumentId});
   }
 
   static void goToUserAdsListMenuView() {
@@ -52,6 +53,26 @@ abstract class RouteManagement {
   }
 
   /// admin module --------------------------------------------------------------------------
+
+  static void goToAdminSignInView() {
+    Get.toNamed(AppRoutes.adminSignIn);
+  }
+
+  static void goToAdminHomePageView() {
+    Get.offAllNamed(AppRoutes.adminHomePage);
+  }
+
+  static void goToAdminAdsMenuView() {
+    Get.offAllNamed(AppRoutes.adminAdsList);
+  }
+
+  static void goToAdminCreatedAdScreenView() {
+    Get.toNamed(AppRoutes.adminCreateAd);
+  }
+
+  /*static void goToAdminSubmitAdScreenView() {
+    Get.toNamed(AppRoutes.adminSubmitAd);
+  }*/
 
   /// Go to back Page / Close Pages --------------------------------------------
 

@@ -29,15 +29,22 @@ class DrawerMenuComponent extends StatelessWidget {
         onSelectMenuItem(menuDataModel);
       },
       child: Container(
-        padding: EdgeInsets.only(top: Dimens.eleven, bottom: Dimens.eleven, right: 8.0, left: 11.0),
-        decoration: BoxDecoration(color: isSelected ? themeUtils.primaryColorSwitch : ColorValues.transparent, borderRadius: BorderRadius.circular(Dimens.twentyFive)),
+        padding: EdgeInsets.only(
+            top: Dimens.eleven, bottom: Dimens.eleven, right: 8.0, left: 11.0),
+        decoration: BoxDecoration(
+            color: isSelected
+                ? themeUtils.primaryColorSwitch
+                : ColorValues.transparent,
+            borderRadius: BorderRadius.circular(Dimens.twentyFive)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CommonWidgets.fromSvg(
               svgAsset: menuDataModel.prefixSvgIcon,
-              color: isSelected ? themeUtils.blackWhiteSwitchColor : themeUtils.whiteBlackSwitchColor,
+              color: isSelected
+                  ? themeUtils.blackWhiteSwitchColor
+                  : themeUtils.whiteBlackSwitchColor,
               height: menuDataModel.svgIconHeight ?? Dimens.twentyFour,
               width: menuDataModel.svgIconWidth ?? Dimens.twentyFour,
             ),
@@ -46,7 +53,9 @@ class DrawerMenuComponent extends StatelessWidget {
               child: Text(
                 menuDataModel.menuName,
                 style: AppStyles.style14SemiBold.copyWith(
-                  color: isSelected ? themeUtils.blackWhiteSwitchColor : themeUtils.whiteBlackSwitchColor,
+                  color: isSelected
+                      ? themeUtils.blackWhiteSwitchColor
+                      : themeUtils.whiteBlackSwitchColor,
                 ),
               ),
             ),
@@ -54,7 +63,11 @@ class DrawerMenuComponent extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: Alignment.centerRight,
-                  child: CommonWidgets.fromSvg(svgAsset: SvgAssets.rightArrowIcon, color: isSelected ? themeUtils.blackWhiteSwitchColor : themeUtils.whiteBlackSwitchColor),
+                  child: CommonWidgets.fromSvg(
+                      svgAsset: SvgAssets.rightArrowIcon,
+                      color: isSelected
+                          ? themeUtils.blackWhiteSwitchColor
+                          : themeUtils.whiteBlackSwitchColor),
                 ),
               ),
           ],

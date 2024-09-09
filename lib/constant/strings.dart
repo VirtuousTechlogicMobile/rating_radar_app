@@ -28,4 +28,9 @@ abstract class CustomStatus {
   static const canceled = 'canceled';
   static const received = 'received';
   static const failed = 'failed';
+  static const active = 'active';
+  static const play = 'play';
+  static const pause = 'pause';
+  static const resume = 'resume';
+  static const finished = 'finished';
 }

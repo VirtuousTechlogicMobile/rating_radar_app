@@ -70,41 +70,59 @@ class CustomTextField extends StatelessWidget {
       inputFormatters: inputFormatters,
       readOnly: isReadOnly,
       autofocus: autofocus ?? false,
-      style: textStyle ?? AppStyles.style14SemiLight.copyWith(color: themeColors.whiteBlackSwitchColor),
+      style: textStyle ??
+          AppStyles.style14SemiLight
+              .copyWith(color: themeColors.whiteBlackSwitchColor),
       maxLength: length,
       maxLines: maxLines,
       obscureText: obscureText ?? false,
       showCursor: !isReadOnly,
+      cursorColor: themeColors.blackColorWithWhiteColor,
       onTapOutside: onTapOutside,
       textAlign: textAlign ?? TextAlign.start,
       textAlignVertical: TextAlignVertical.center,
       decoration: InputDecoration(
         counterText: '',
-        contentPadding: contentPadding ?? EdgeInsets.only(top: Dimens.nineteen, bottom: Dimens.nineteen, left: Dimens.twenty),
+        contentPadding: contentPadding ??
+            EdgeInsets.only(
+                top: Dimens.nineteen,
+                bottom: Dimens.nineteen,
+                left: Dimens.twenty),
         isDense: true,
         suffixIcon: Padding(
           padding: EdgeInsets.only(right: Dimens.ten),
           child: suffixIcon,
         ),
         prefixIcon: prefixIcon,
-        suffixIconConstraints: BoxConstraints(maxWidth: Dimens.thirty, maxHeight: Dimens.thirty, minWidth: Dimens.fifteen, minHeight: Dimens.fifteen),
+        suffixIconConstraints: BoxConstraints(
+            maxWidth: Dimens.thirty,
+            maxHeight: Dimens.thirty,
+            minWidth: Dimens.fifteen,
+            minHeight: Dimens.fifteen),
         filled: true,
         fillColor: fillColor,
         hintText: hintText ?? '',
-        hintStyle: WidgetStateTextStyle.resolveWith((Set<MaterialState> states) {
+        hintStyle:
+            WidgetStateTextStyle.resolveWith((Set<MaterialState> states) {
           if (states.contains(WidgetState.focused)) {
-            return hintStyle ?? AppStyles.style14SemiLight.copyWith(color: themeColors.primaryColorSwitch.withOpacity(0.80));
+            return hintStyle ??
+                AppStyles.style14SemiLight.copyWith(
+                    color: themeColors.primaryColorSwitch.withOpacity(0.80));
           }
-          return hintStyle ?? AppStyles.style14SemiLight.copyWith(color: ColorValues.lightGrayColor);
+          return hintStyle ??
+              AppStyles.style14SemiLight
+                  .copyWith(color: ColorValues.lightGrayColor);
         }),
         // focusColor: themeColors.blackBlueSwitchColor,
         focusedBorder: OutlineInputBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(9.0),
-          borderSide: borderSide ?? BorderSide(color: themeColors.primaryColorSwitch, width: 1),
+          borderSide: borderSide ??
+              BorderSide(color: themeColors.primaryColorSwitch, width: 1),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: borderRadius ?? BorderRadius.circular(9.0),
-          borderSide: borderSide ?? const BorderSide(color: ColorValues.borderGrayColor, width: 1),
+          borderSide: borderSide ??
+              const BorderSide(color: ColorValues.borderGrayColor, width: 1),
         ),
       ),
       focusNode: focusNode,

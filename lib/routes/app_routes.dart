@@ -15,6 +15,13 @@ abstract class AppRoutes {
 
   /// manager module ---------------------------------------------------------------
   static const managerSignUp = _Routes.managerSignUp;
+
+  /// admin module ---------------------------------------------------------------
+  static const adminSignIn = _Routes.adminSignIn;
+  static const adminHomePage = _Routes.adminHomePage;
+  static const adminAllAds = _Routes.adminAllAds;
+  static const adminAdsList = _Routes.adminAdsList;
+  static const adminCreateAd = _Routes.adminCreateAd;
 }
 
 abstract class _Routes {
@@ -32,4 +39,11 @@ abstract class _Routes {
 
   /// manager module ----------------------------------------------------------------
   static const managerSignUp = '/manager/signup';
+
+  /// admin module ----------------------------------------------------------------
+  static const adminSignIn = '/admin/sign-in';
+  static const adminHomePage = '/admin/homepage';
+  static const adminAllAds = '/admin/admin-all-ads-list';
+  static const adminAdsList = '/admin/ads-list';
+  static const adminCreateAd = '/admin/admin-create-ad';
 }
