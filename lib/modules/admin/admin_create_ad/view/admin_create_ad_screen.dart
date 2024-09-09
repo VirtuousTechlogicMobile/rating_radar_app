@@ -1,6 +1,7 @@
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../../../common/cached_network_image.dart';
@@ -11,9 +12,10 @@ import '../../../../common/file_image.dart';
 import '../../../../constant/assets.dart';
 import '../../../../constant/colors.dart';
 import '../../../../constant/dimens.dart';
-import '../../../../constant/strings.dart';
 import '../../../../constant/styles.dart';
+import '../../../../helper/validators.dart';
 import '../../../../routes/route_management.dart';
+import '../../../../utility/responsive.dart';
 import '../../../../utility/utility.dart';
 import '../../../user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../admin_header/bindings/admin_header_binding.dart';
@@ -22,7 +24,7 @@ import '../../drawer/view/admin_drawer_view.dart';
 import '../admin_create_ad_controller.dart';
 
 class AdminCreateAdScreen extends StatelessWidget {
-  final adminSubmitAdController = Get.find<AdminCreateAdController>();
+  final adminCreateAdController = Get.find<AdminCreateAdController>();
 
   AdminCreateAdScreen({super.key});
 
@@ -127,16 +129,17 @@ class AdminCreateAdScreen extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsets.only(top: Dimens.thirty),
                                   child: textFieldWithLabel(
-                                      controller: adminSubmitAdController
-                                          .adNameController,
-                                      hintText: 'ad_name'.tr,
-                                      labelText: 'enter_ad_name'.tr,
-                                      themeColorsUtil: themeUtils,
-                                      obscureText: false,
-                                      maxLines: 1),
+                                    controller: adminCreateAdController
+                                        .adNameController,
+                                    hintText: 'ad_name'.tr,
+                                    labelText: 'enter_ad_name'.tr,
+                                    themeColorsUtil: themeUtils,
+                                    obscureText: false,
+                                    maxLines: 1,
+                                  ),
                                 ),
                                 textFieldWithLabel(
-                                  controller: adminSubmitAdController
+                                  controller: adminCreateAdController
                                       .byCompanyNameController,
                                   hintText: 'company_name'.tr,
                                   labelText: 'enter_name_of_company'.tr,
@@ -156,17 +159,18 @@ class AdminCreateAdScreen extends StatelessWidget {
                                     maxFontSize: 16,
                                   ),
                                 ),
+
                                 // Add Image Section
                                 Obx(
                                   () => Visibility(
-                                    visible: adminSubmitAdController
+                                    visible: adminCreateAdController
                                             .preFilledAdDetailData.value ==
                                         null,
                                     replacement: Wrap(
                                       direction: Axis.horizontal,
                                       spacing: Dimens.ten,
                                       children: List.generate(
-                                        adminSubmitAdController
+                                        adminCreateAdController
                                                 .preFilledAdDetailData
                                                 .value
                                                 ?.imageUrl
@@ -174,7 +178,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                             0,
                                         (index) {
                                           return NxNetworkImage(
-                                            imageUrl: adminSubmitAdController
+                                            imageUrl: adminCreateAdController
                                                     .preFilledAdDetailData
                                                     .value
                                                     ?.imageUrl?[index] ??
@@ -193,14 +197,14 @@ class AdminCreateAdScreen extends StatelessWidget {
                                         4, // Maximum of 4 image slots
                                         (index) {
                                           return index <
-                                                  adminSubmitAdController
+                                                  adminCreateAdController
                                                       .pickedFiles.length
                                               ? Stack(
                                                   alignment: Alignment.topRight,
                                                   children: [
                                                     NxFileImage(
                                                       file:
-                                                          adminSubmitAdController
+                                                          adminCreateAdController
                                                                   .pickedFiles[
                                                               index],
                                                       width: Dimens.hundred,
@@ -211,7 +215,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                       top: 0,
                                                       child: InkWell(
                                                         onTap: () {
-                                                          adminSubmitAdController
+                                                          adminCreateAdController
                                                               .removeImage(
                                                                   index);
                                                         },
@@ -225,77 +229,92 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                     ),
                                                   ],
                                                 )
-                                              : DottedBorder(
-                                                  borderType: BorderType.RRect,
-                                                  dashPattern: const [10, 10],
-                                                  color: themeUtils
-                                                      .primaryColorSwitch,
-                                                  strokeWidth: 1,
-                                                  child: InkWell(
-                                                    onTap: () async {
-                                                      await adminSubmitAdController
-                                                          .pickImages();
-                                                    },
-                                                    child: Stack(
-                                                      alignment: Alignment
-                                                          .bottomCenter,
-                                                      children: [
-                                                        Container(
-                                                          width: Dimens.hundred,
-                                                          height:
-                                                              Dimens.hundred,
-                                                          alignment:
-                                                              Alignment.center,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color: themeUtils
-                                                                .primaryColorSwitch
-                                                                .withOpacity(
-                                                                    0.10),
-                                                          ),
-                                                          child: Stack(
+                                              : Padding(
+                                                  padding: EdgeInsets.only(
+                                                      bottom:
+                                                          Responsive.isDesktop(
+                                                                  context)
+                                                              ? Dimens.twenty
+                                                              : Dimens.twenty),
+                                                  child: DottedBorder(
+                                                    borderType:
+                                                        BorderType.RRect,
+                                                    dashPattern: const [10, 10],
+                                                    color: themeUtils
+                                                        .primaryColorSwitch,
+                                                    strokeWidth: 1,
+                                                    child: InkWell(
+                                                      onTap: () async {
+                                                        await adminCreateAdController
+                                                            .pickImages();
+                                                      },
+                                                      child: Stack(
+                                                        alignment: Alignment
+                                                            .bottomCenter,
+                                                        children: [
+                                                          Container(
+                                                            width:
+                                                                Dimens.hundred,
+                                                            height:
+                                                                Dimens.hundred,
                                                             alignment: Alignment
                                                                 .center,
-                                                            children: [
-                                                              CommonWidgets
-                                                                  .fromSvg(
-                                                                svgAsset: SvgAssets
-                                                                    .uploadImageIcon,
-                                                                color: themeUtils
-                                                                    .primaryColorSwitch,
-                                                              ),
-                                                              CommonWidgets
-                                                                  .fromSvg(
-                                                                svgAsset: SvgAssets
-                                                                    .uploadImageAddIcon,
-                                                                color: themeUtils
-                                                                    .primaryColorSwitch,
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              EdgeInsets.only(
-                                                                  bottom: Dimens
-                                                                      .ten),
-                                                          child: CommonWidgets
-                                                              .autoSizeText(
-                                                            text: 'upload_image'
-                                                                .tr,
-                                                            textAlign: TextAlign
-                                                                .center,
-                                                            textStyle: AppStyles
-                                                                .style16Normal
-                                                                .copyWith(
+                                                            decoration:
+                                                                BoxDecoration(
                                                               color: themeUtils
-                                                                  .primaryColorSwitch,
+                                                                  .primaryColorSwitch
+                                                                  .withOpacity(
+                                                                      0.10),
                                                             ),
-                                                            minFontSize: 10,
-                                                            maxFontSize: 12,
+                                                            child: Stack(
+                                                              alignment:
+                                                                  Alignment
+                                                                      .center,
+                                                              children: [
+                                                                CommonWidgets
+                                                                    .fromSvg(
+                                                                  svgAsset:
+                                                                      SvgAssets
+                                                                          .uploadImageIcon,
+                                                                  color: themeUtils
+                                                                      .primaryColorSwitch,
+                                                                ),
+                                                                CommonWidgets
+                                                                    .fromSvg(
+                                                                  svgAsset:
+                                                                      SvgAssets
+                                                                          .uploadImageAddIcon,
+                                                                  color: themeUtils
+                                                                      .primaryColorSwitch,
+                                                                ),
+                                                              ],
+                                                            ),
                                                           ),
-                                                        ),
-                                                      ],
+                                                          Padding(
+                                                            padding:
+                                                                EdgeInsets.only(
+                                                                    bottom: Dimens
+                                                                        .ten),
+                                                            child: CommonWidgets
+                                                                .autoSizeText(
+                                                              text:
+                                                                  'upload_image'
+                                                                      .tr,
+                                                              textAlign:
+                                                                  TextAlign
+                                                                      .center,
+                                                              textStyle: AppStyles
+                                                                  .style16Normal
+                                                                  .copyWith(
+                                                                color: themeUtils
+                                                                    .primaryColorSwitch,
+                                                              ),
+                                                              minFontSize: 10,
+                                                              maxFontSize: 12,
+                                                            ),
+                                                          ),
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 );
@@ -306,9 +325,9 @@ class AdminCreateAdScreen extends StatelessWidget {
                                 ),
 
                                 Padding(
-                                  padding: EdgeInsets.only(top: Dimens.thirty),
+                                  padding: EdgeInsets.only(top: Dimens.ten),
                                   child: textFieldWithLabel(
-                                    controller: adminSubmitAdController
+                                    controller: adminCreateAdController
                                         .adContentController,
                                     hintText: 'enter_description'.tr,
                                     labelText: 'enter_description'.tr,
@@ -318,10 +337,10 @@ class AdminCreateAdScreen extends StatelessWidget {
                                   ),
                                 ),
                                 textFieldWithLabel(
-                                  controller: adminSubmitAdController
+                                  controller: adminCreateAdController
                                       .adManagerIdController,
                                   hintText: 'enter_manager_id'.tr,
-                                  labelText: 'enter_manager_id'.tr,
+                                  labelText: 'enter_manager_id_optional'.tr,
                                   themeColorsUtil: themeUtils,
                                   obscureText: false,
                                   maxLines: 1,
@@ -330,7 +349,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                   children: [
                                     Flexible(
                                       child: textFieldWithLabel(
-                                          controller: adminSubmitAdController
+                                          controller: adminCreateAdController
                                               .adLocationController,
                                           hintText: 'location'.tr,
                                           labelText: 'location'.tr,
@@ -343,13 +362,19 @@ class AdminCreateAdScreen extends StatelessWidget {
                                         padding: EdgeInsets.only(
                                             left: Dimens.twentyEight),
                                         child: textFieldWithLabel(
-                                            controller: adminSubmitAdController
-                                                .adPriceController,
-                                            hintText: 'amount'.tr,
-                                            labelText: 'enter_price_amount'.tr,
-                                            themeColorsUtil: themeUtils,
-                                            obscureText: false,
-                                            maxLines: 1),
+                                          controller: adminCreateAdController
+                                              .adPriceController,
+                                          hintText: 'amount'.tr,
+                                          labelText: 'enter_price_amount'.tr,
+                                          themeColorsUtil: themeUtils,
+                                          obscureText: false,
+                                          maxLines: 1,
+                                          inputFormatters: [
+                                            FilteringTextInputFormatter.allow(
+                                                RegExp(Validators
+                                                    .numberPatternWithPoint)),
+                                          ],
+                                        ),
                                       ),
                                     ),
                                   ],
@@ -361,7 +386,9 @@ class AdminCreateAdScreen extends StatelessWidget {
                           // Preview Image Area
                           Obx(
                             () => Padding(
-                              padding: EdgeInsets.only(left: Dimens.sixty),
+                              padding: EdgeInsets.only(
+                                left: Dimens.sixty,
+                              ),
                               child: Expanded(
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -380,7 +407,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                         maxFontSize: 16,
                                       ),
                                     ),
-                                    if (adminSubmitAdController
+                                    if (adminCreateAdController
                                         .pickedFiles.isNotEmpty)
                                       Padding(
                                         padding: EdgeInsets.only(
@@ -399,9 +426,9 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                       BorderRadius.circular(
                                                           Dimens.twenty),
                                                   child: Image.network(
-                                                    adminSubmitAdController
+                                                    adminCreateAdController
                                                         .pickedFiles[
-                                                            adminSubmitAdController
+                                                            adminCreateAdController
                                                                 .currentImageIndex
                                                                 .value]
                                                         .path,
@@ -414,7 +441,6 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                             4.5,
                                                   ),
                                                 ),
-
                                                 Positioned(
                                                   right: 10,
                                                   child: IconButton(
@@ -425,7 +451,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                           .whiteColor,
                                                     ),
                                                     onPressed: () {
-                                                      adminSubmitAdController
+                                                      adminCreateAdController
                                                           .nextImage();
                                                     },
                                                   ),
@@ -440,7 +466,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                           .whiteColor,
                                                     ),
                                                     onPressed: () {
-                                                      adminSubmitAdController
+                                                      adminCreateAdController
                                                           .previousImage();
                                                     },
                                                   ),
@@ -467,6 +493,8 @@ class AdminCreateAdScreen extends StatelessWidget {
                                               child: CommonWidgets.fromSvg(
                                                 svgAsset:
                                                     SvgAssets.uploadImageIcon,
+                                                width: 80,
+                                                height: 80,
                                                 color: themeUtils
                                                     .primaryColorSwitch,
                                               ),
@@ -481,7 +509,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                 color: ColorValues.whiteColor,
                                               ),
                                               onPressed: () {
-                                                adminSubmitAdController
+                                                adminCreateAdController
                                                     .nextImage();
                                               },
                                             ),
@@ -495,13 +523,56 @@ class AdminCreateAdScreen extends StatelessWidget {
                                                 color: ColorValues.whiteColor,
                                               ),
                                               onPressed: () {
-                                                adminSubmitAdController
+                                                adminCreateAdController
                                                     .previousImage();
                                               },
                                             ),
                                           ),
                                         ],
-                                      )
+                                      ),
+                                    Padding(
+                                      padding: EdgeInsets.only(
+                                          top: Dimens.thirtyFive,
+                                          bottom: Dimens.twentyFive,
+                                          left: Dimens.fifteen),
+                                      child: CommonWidgets.autoSizeText(
+                                        text: 'status'.tr,
+                                        textStyle: AppStyles.style18Bold
+                                            .copyWith(
+                                                color: themeUtils
+                                                    .whiteBlackSwitchColor),
+                                        minFontSize: 10,
+                                        maxFontSize: 18,
+                                      ),
+                                    ),
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: List.generate(
+                                        adminCreateAdController
+                                            .adminCustomStatus.length,
+                                        (index) {
+                                          return Padding(
+                                            padding: EdgeInsets.only(
+                                                left: Dimens.fifteen,
+                                                bottom: Dimens.fifteen),
+                                            child: customRadioButton(
+                                              themeUtils: themeUtils,
+                                              controller:
+                                                  adminCreateAdController
+                                                      .selectedAdStatus,
+                                              status: adminCreateAdController
+                                                  .adminCustomStatus[index],
+                                              // Pass the correct status
+                                              labelText: AppUtility.capitalizeStatus(
+                                                  adminCreateAdController
+                                                          .adminCustomStatus[
+                                                      index]), // Generate label text dynamically
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
                                   ],
                                 ),
                               ),
@@ -509,7 +580,7 @@ class AdminCreateAdScreen extends StatelessWidget {
                           )
                         ],
                       ),
-                      if (adminSubmitAdController.preFilledAdDetailData.value ==
+                      if (adminCreateAdController.preFilledAdDetailData.value ==
                           null)
                         Padding(
                           padding: EdgeInsets.only(
@@ -532,10 +603,11 @@ class AdminCreateAdScreen extends StatelessWidget {
                                   btnTextColor:
                                       themeUtils.blackWhiteSwitchColor,
                                   contentPadding: EdgeInsets.only(
-                                      top: Dimens.ten,
-                                      bottom: Dimens.ten,
-                                      left: Dimens.twentyFour,
-                                      right: Dimens.twentyFour),
+                                    top: Dimens.ten,
+                                    bottom: Dimens.ten,
+                                    left: Dimens.twentyFour,
+                                    right: Dimens.twentyFour,
+                                  ),
                                 ),
                               ),
 
@@ -543,61 +615,85 @@ class AdminCreateAdScreen extends StatelessWidget {
                               InkWell(
                                 onTap: () async {
                                   // Check if the number of picked images is less than required
-                                  if (adminSubmitAdController
+                                  if (adminCreateAdController
+                                      .adNameController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    AppUtility.showSnackBar(
+                                        'please_enter_ad_name'.tr);
+                                  } else if (adminCreateAdController
+                                      .byCompanyNameController.text
+                                      .trim()
+                                      .isEmpty) {
+                                    AppUtility.showSnackBar(
+                                        'please_enter_ad_company'.tr);
+                                  } else if (adminCreateAdController
                                           .pickedFiles.length <
                                       4) {
                                     AppUtility.showSnackBar(
                                         'please_upload_all_images'.tr);
-                                  } else if (adminSubmitAdController
-                                      .adNameController.text
+                                  } else if (adminCreateAdController
+                                      .adContentController.text
                                       .trim()
                                       .isEmpty) {
-                                    AppUtility.showSnackBar('enter_ad_name'.tr);
-                                  } else if (adminSubmitAdController
-                                      .byCompanyNameController.text
+                                    AppUtility.showSnackBar(
+                                        'please_enter_ad_content'.tr);
+                                  } else if (adminCreateAdController
+                                      .adLocationController.text
                                       .trim()
                                       .isEmpty) {
-                                    AppUtility.showSnackBar('enter_ad_name'.tr);
-                                  } else if (adminSubmitAdController
+                                    AppUtility.showSnackBar(
+                                        'please_enter_ad_location'.tr);
+                                  } else if (adminCreateAdController
                                       .adPriceController.text
                                       .trim()
                                       .isEmpty) {
-                                    AppUtility.showSnackBar('enter_ad_name'.tr);
+                                    AppUtility.showSnackBar(
+                                        'please_enter_ad_price'.tr);
                                   } else {
                                     // Get the user ID
                                     String? adminId =
-                                        await adminSubmitAdController
+                                        await adminCreateAdController
                                             .getAdminUid();
 
-                                    // Create the AdminSubmitAdDataModel with required details
                                     UserAdsListDataModel adDataModel =
                                         UserAdsListDataModel(
-                                      docId: adminSubmitAdController
+                                      docId: adminCreateAdController
                                           .adsDetailData.value?.docId,
-                                      adName: adminSubmitAdController
+                                      adName: adminCreateAdController
                                           .adNameController.text,
-                                      byCompany: adminSubmitAdController
+                                      byCompany: adminCreateAdController
                                           .byCompanyNameController.text,
-                                      imageUrl: adminSubmitAdController
-                                              .adsDetailData.value?.imageUrl ??
-                                          [],
+                                      imageUrl: [],
+                                      adManagerId: adminCreateAdController
+                                              .adManagerIdController
+                                              .text
+                                              .isEmpty
+                                          ? 'By Admin'
+                                          : adminCreateAdController
+                                              .adManagerIdController.text,
                                       addedDate: DateTime.now(),
-                                      adContent: adminSubmitAdController
+                                      adContent: adminCreateAdController
                                           .adContentController.text,
-                                      adStatus: CustomStatus.pending,
-                                      adPrice: 0,
+                                      adStatus: adminCreateAdController
+                                          .selectedAdStatus.value,
+                                      adPrice: num.parse(adminCreateAdController
+                                          .adPriceController.text),
+                                      adLocation: adminCreateAdController
+                                          .adLocationController.text,
                                     );
                                     String? documentId =
-                                        await adminSubmitAdController
-                                            .storeAdminSubmittedAds(
+                                        await adminCreateAdController
+                                            .storeAdminCreatedAds(
                                       adminSubmitAdDataModel: adDataModel,
+                                      adminId: adminId,
                                     );
-
+                                    print("documentId : $documentId");
                                     if (documentId != null) {
                                       RouteManagement.goToBack();
                                       AppUtility.showSnackBar(
                                           'task_submitted_successfully'.tr);
-                                      adminSubmitAdController
+                                      adminCreateAdController
                                           .clearControllers();
                                     } else {
                                       AppUtility.showSnackBar(
@@ -640,7 +736,8 @@ class AdminCreateAdScreen extends StatelessWidget {
       required int maxLines,
       Widget? suffixIcon,
       bool? obscureText,
-      required TextEditingController controller}) {
+      required TextEditingController controller,
+      List<TextInputFormatter>? inputFormatters}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -662,6 +759,7 @@ class AdminCreateAdScreen extends StatelessWidget {
             suffixIcon: suffixIcon,
             obscureText: obscureText,
             maxLines: maxLines,
+            inputFormatters: inputFormatters,
             borderSide:
                 BorderSide(color: themeColorsUtil.adsTextFieldBorderColor),
             fillColor: ColorValues.transparent,
@@ -669,6 +767,49 @@ class AdminCreateAdScreen extends StatelessWidget {
           ),
         )
       ],
+    );
+  }
+
+  Widget customRadioButton({
+    required ThemeColorsUtil themeUtils,
+    required ValueNotifier<String> controller,
+    required String status,
+    double? btnSize,
+    required String labelText,
+    TextStyle? labelTextStyle,
+    EdgeInsets? labelPadding,
+  }) {
+    return ValueListenableBuilder<String>(
+      valueListenable: controller,
+      builder: (context, currentStatus, child) {
+        return GestureDetector(
+          onTap: () {
+            controller.value = status;
+          },
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Icon(
+                currentStatus == status
+                    ? Icons.radio_button_checked
+                    : Icons.radio_button_off,
+                size: btnSize ?? Dimens.twenty,
+                color: themeUtils.primaryColorSwitch,
+              ),
+              Padding(
+                padding: labelPadding ?? EdgeInsets.only(left: Dimens.sixTeen),
+                child: Text(
+                  labelText,
+                  style: labelTextStyle ??
+                      AppStyles.style16Normal
+                          .copyWith(color: themeUtils.whiteBlackSwitchColor),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 }

@@ -145,7 +145,7 @@ abstract class AppPages {
     ),
     GetPage(
       name: _Routes.adminCreateAd,
-      page: () => AdminCreateAdScreen(),
+      page: AdminCreateAdScreen.new,
       binding: AdminCreateAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,

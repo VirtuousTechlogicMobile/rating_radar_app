@@ -9,6 +9,8 @@ class UserAdsListDataModel {
   String byCompany;
   List<String>? imageUrl;
   num adPrice;
+  String? adManagerId;
+  String? adLocation;
 
   UserAdsListDataModel({
     this.docId,
@@ -19,6 +21,8 @@ class UserAdsListDataModel {
     required this.byCompany,
     required this.imageUrl,
     required this.adPrice,
+    this.adManagerId,
+    this.adLocation,
   });
 
   factory UserAdsListDataModel.fromMap(Map<String, dynamic> map,
@@ -34,6 +38,8 @@ class UserAdsListDataModel {
       imageUrl: (map['adImageUrl'] as List<dynamic>?)?.cast<String>(),
       adContent: map['adContent'] as String,
       byCompany: map['byCompany'] as String,
+      adManagerId: map['adManagerId'] as String,
+      adLocation: map['adLocation'] as String,
     );
   }
 
@@ -44,8 +50,10 @@ class UserAdsListDataModel {
       'adStatus': adStatus,
       'addedDate': addedDate,
       'byCompany': byCompany,
-      'addedDate': addedDate,
+      'imageUrl': imageUrl,
       'adPrice': adPrice,
+      'adManagerId': adManagerId,
+      'adLocation': adLocation,
     };
   }
 }

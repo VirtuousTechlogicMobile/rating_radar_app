@@ -13,11 +13,16 @@ import '../admin_header_controller.dart';
 class AdminHeaderView extends StatelessWidget {
   final bool isAdsListScreen;
   final bool isDashboardScreen;
+  final TextEditingController? searchController;
+  final Function(String text)? onSearch;
+
   final adminHeaderController = Get.find<AdminHeaderController>();
   AdminHeaderView(
       {super.key,
       this.isAdsListScreen = false,
-      this.isDashboardScreen = false});
+      this.isDashboardScreen = false,
+      this.searchController,
+      this.onSearch});
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,13 @@ class AdminHeaderView extends StatelessWidget {
                           margin: EdgeInsets.only(top: Dimens.twentySeven),
                           width: MediaQuery.of(context).size.width / 3,
                           child: CustomTextField(
-                            controller: TextEditingController(),
+                            controller:
+                                searchController ?? TextEditingController(),
+                            onChange: (value) {
+                              if (onSearch != null) {
+                                onSearch!(value);
+                              }
+                            },
                             borderRadius: BorderRadius.circular(Dimens.twenty),
                             fillColor: themeUtils.darkGrayWhiteSwitchColor,
                             maxLines: 1,
@@ -65,9 +76,6 @@ class AdminHeaderView extends StatelessWidget {
                             hintStyle: AppStyles.style14Normal.copyWith(
                                 color: themeUtils.whiteBlackSwitchColor
                                     .withOpacity(0.50)),
-                            textStyle: AppStyles.style14Normal.copyWith(
-                                color:
-                                    ColorValues.whiteColor.withOpacity(0.50)),
                             prefixIcon: CommonWidgets.fromSvg(
                               svgAsset: SvgAssets.textFieldSearchIcon,
                               height: Dimens.twentyFour,
@@ -245,8 +253,6 @@ class AdminHeaderView extends StatelessWidget {
                         hintStyle: AppStyles.style14Normal.copyWith(
                             color: themeUtils.whiteBlackSwitchColor
                                 .withOpacity(0.50)),
-                        textStyle: AppStyles.style14Normal.copyWith(
-                            color: ColorValues.whiteColor.withOpacity(0.50)),
                         prefixIcon: CommonWidgets.fromSvg(
                           svgAsset: SvgAssets.textFieldSearchIcon,
                           height: Dimens.twentyFour,

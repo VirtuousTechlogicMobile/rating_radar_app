@@ -82,7 +82,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   String _handleAppInitialRoute() {
-    return AppRoutes.signIn;
+    return AppRoutes.adminSignIn;
   }
 
   ThemeMode _handleAppTheme(String mode) {

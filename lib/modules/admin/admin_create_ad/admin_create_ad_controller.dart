@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../constant/strings.dart';
 import '../../../helper/database_helper/database_helper.dart';
 import '../../../helper/shared_preferences_manager/preferences_manager.dart';
 
@@ -23,6 +24,12 @@ class AdminCreateAdController extends GetxController {
   RxInt currentImageIndex = 0.obs;
   RxInt totalSubmittedAdsCount = 0.obs;
 
+  List<String> adminCustomStatus = [
+    CustomStatus.active,
+    CustomStatus.play,
+    CustomStatus.pause,
+    CustomStatus.finished,
+  ];
   Future<String> getAdminUid() async {
     return await PreferencesManager.getAdminId() ?? '';
   }
@@ -37,14 +44,18 @@ class AdminCreateAdController extends GetxController {
     totalSubmittedAdsCount.value = count;
   }
 
-  Future<String?> storeAdminSubmittedAds(
-      {required UserAdsListDataModel adminSubmitAdDataModel}) async {
+  Future<String?> storeAdminCreatedAds(
+      {required UserAdsListDataModel adminSubmitAdDataModel,
+      required String adminId}) async {
     Get.context?.loaderOverlay.show();
     String adminId = await getAdminUid();
 
     /// store and get images in firebase storage
     List<String>? imageUrls = await DatabaseHelper.instance
-        .storeAdminCreatedAdsImages(adminId: adminId, filesList: pickedFiles);
+        .storeAdminCreatedAdsImages(
+            adminId: adminId,
+            filesList: pickedFiles,
+            adName: adminSubmitAdDataModel.adName);
 
     UserAdsListDataModel adAdsDataModel = UserAdsListDataModel(
       docId: adminSubmitAdDataModel.docId,
@@ -55,8 +66,9 @@ class AdminCreateAdController extends GetxController {
       adPrice: adminSubmitAdDataModel.adPrice,
       addedDate: adminSubmitAdDataModel.addedDate,
       adStatus: adminSubmitAdDataModel.adStatus,
+      adLocation: adminSubmitAdDataModel.adLocation,
+      adManagerId: adminSubmitAdDataModel.adManagerId,
     );
-    print("avni : ${adAdsDataModel.adPrice}");
 
     /// store submitted ad in database
     String? documentId = await DatabaseHelper.instance
@@ -91,6 +103,13 @@ class AdminCreateAdController extends GetxController {
       }
     }
     pickedFiles.refresh();
+  }
+
+  ValueNotifier<String> selectedAdStatus =
+      ValueNotifier<String>(CustomStatus.active);
+
+  void setAdStatus(String status) {
+    selectedAdStatus.value = status;
   }
 
   void clearControllers() {

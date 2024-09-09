@@ -72,7 +72,7 @@ class CustomTextField extends StatelessWidget {
       autofocus: autofocus ?? false,
       style: textStyle ??
           AppStyles.style14SemiLight
-              .copyWith(color: themeColors.blackColorWithWhiteColor),
+              .copyWith(color: themeColors.whiteBlackSwitchColor),
       maxLength: length,
       maxLines: maxLines,
       obscureText: obscureText ?? false,

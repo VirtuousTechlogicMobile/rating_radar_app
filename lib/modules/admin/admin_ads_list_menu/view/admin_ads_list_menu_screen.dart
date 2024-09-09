@@ -61,6 +61,12 @@ class AdminAdsListMenuScreen extends StatelessWidget {
     return AdminHeaderView(
       isDashboardScreen: false,
       isAdsListScreen: true,
+      onSearch: (text) async {
+        await Future.delayed(const Duration(milliseconds: 500));
+        adminAdsListMenuController.getAdsData(
+            sortBy: adminAdsListMenuController.selectedDropDownIndex.value,
+            searchTerm: text);
+      },
     );
   }
 
@@ -326,6 +332,12 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                                               index]
                                                           .adPrice
                                                           .toString(),
+                                                  location:
+                                                      adminAdsListMenuController
+                                                              .adminCreatedAdsList[
+                                                                  index]
+                                                              .adLocation ??
+                                                          'United States',
                                                   status:
                                                       adminAdsListMenuController
                                                               .adminCreatedAdsList[
@@ -455,6 +467,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
     required String email,
     required String date,
     required String price,
+    required String location,
     required String status,
   }) {
     return Padding(
@@ -508,7 +521,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
           Expanded(
             flex: 1,
             child: CommonWidgets.autoSizeText(
-              text: 'United States',
+              text: location,
               textStyle: AppStyles.style14SemiBold.copyWith(
                 color: themeUtils.fontColorBlackWhiteSwitchColor,
               ),
@@ -546,26 +559,21 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                   vertical: Dimens.six, horizontal: Dimens.fourteen),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: status == CustomStatus.rejected
+                color: status == CustomStatus.resume
                     ? ColorValues.statusColorRed.withOpacity(0.38)
-                    : status == CustomStatus.pending
+                    : status == CustomStatus.pause
                         ? ColorValues.statusColorYellow.withOpacity(0.38)
-                        : status == CustomStatus.blocked
-                            ? ColorValues.statusColorBlack.withOpacity(0.38)
-                            : status == CustomStatus.approved
-                                ? ColorValues.statusColorGreen.withOpacity(0.38)
-                                : ColorValues.statusColorGreen
-                                    .withOpacity(0.38),
+                        : status == CustomStatus.active
+                            ? ColorValues.statusColorGreen.withOpacity(0.38)
+                            : ColorValues.transparent,
                 border: Border.all(
-                  color: status == CustomStatus.rejected
+                  color: status == CustomStatus.resume
                       ? ColorValues.statusFontColorRed
-                      : status == CustomStatus.pending
+                      : status == CustomStatus.pause
                           ? ColorValues.statusColorYellow
-                          : status == CustomStatus.blocked
-                              ? ColorValues.blackColor
-                              : status == CustomStatus.approved
-                                  ? ColorValues.statusColorGreen
-                                  : ColorValues.statusColorGreen,
+                          : status == CustomStatus.active
+                              ? ColorValues.statusColorGreen
+                              : ColorValues.transparent,
                   width: 1.2,
                 ),
                 borderRadius: BorderRadius.circular(Dimens.twenty),
@@ -578,13 +586,13 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                     width: Dimens.seven,
                     margin: EdgeInsets.only(right: Dimens.five),
                     decoration: BoxDecoration(
-                      color: status == CustomStatus.rejected
+                      color: status == CustomStatus.resume
                           ? ColorValues.statusFontColorRed
-                          : status == CustomStatus.pending
+                          : status == CustomStatus.pause
                               ? ColorValues.statusColorYellow
-                              : status == CustomStatus.blocked
-                                  ? ColorValues.blackColor
-                                  : ColorValues.statusColorGreen,
+                              : status == CustomStatus.active
+                                  ? ColorValues.statusColorGreen
+                                  : ColorValues.transparent,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -592,13 +600,13 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                     child: CommonWidgets.autoSizeText(
                       text: AppUtility.capitalizeStatus(status),
                       textStyle: AppStyles.style14SemiBold.copyWith(
-                        color: status == CustomStatus.rejected
+                        color: status == CustomStatus.resume
                             ? ColorValues.statusFontColorRed
-                            : status == CustomStatus.pending
+                            : status == CustomStatus.pause
                                 ? ColorValues.statusColorYellow
-                                : status == CustomStatus.blocked
-                                    ? ColorValues.blackColor
-                                    : ColorValues.statusColorGreen,
+                                : status == CustomStatus.active
+                                    ? ColorValues.statusColorGreen
+                                    : ColorValues.statusColorBlack,
                       ),
                       minFontSize: 8,
                       maxFontSize: 14,
