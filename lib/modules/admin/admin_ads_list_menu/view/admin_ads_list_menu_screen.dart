@@ -1,7 +1,6 @@
 import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
-import 'package:RatingRadar_app/modules/admin/admin_header/bindings/admin_header_binding.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:flutter/material.dart';
@@ -57,7 +56,6 @@ class AdminAdsListMenuScreen extends StatelessWidget {
   }
 
   Widget adminHeader() {
-    AdminHeaderBinding().dependencies();
     return AdminHeaderView(
       isDashboardScreen: false,
       isAdsListScreen: true,
@@ -265,15 +263,15 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                                 .value = false,
                                         child: Obx(() => InkWell(
                                               onTap: () {
-                                                /*RouteManagement
-                                                    .goToAdminSubmitAdScreenView(
+                                                RouteManagement
+                                                    .goToAdminViewScreenView(
                                                   adDocumentId:
                                                       adminAdsListMenuController
                                                               .adminCreatedAdsList[
                                                                   index]
                                                               .docId ??
                                                           "",
-                                                );*/
+                                                );
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(

@@ -36,7 +36,9 @@ class CustomRadioButton extends StatelessWidget {
           padding: labelPadding ?? EdgeInsets.only(left: Dimens.sixTeen),
           child: Text(
             labelText,
-            style: labelTextStyle ?? AppStyles.style16Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
+            style: labelTextStyle ??
+                AppStyles.style16Normal
+                    .copyWith(color: themeUtils.whiteBlackSwitchColor),
           ),
         ),
       ],

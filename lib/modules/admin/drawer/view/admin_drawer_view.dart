@@ -1,5 +1,4 @@
 import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/modules/admin/drawer/bindings/admin_drawer_binding.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -16,10 +15,7 @@ import '../components/admin_drawer_menu_component.dart';
 
 class AdminDrawerView extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
-  AdminDrawerView({super.key, required this.scaffoldKey}) {
-    AdminDrawerBinding().dependencies();
-  }
-
+  const AdminDrawerView({super.key, required this.scaffoldKey});
   @override
   State<AdminDrawerView> createState() => _AdminDrawerViewState();
 }

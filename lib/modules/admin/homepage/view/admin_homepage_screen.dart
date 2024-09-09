@@ -9,14 +9,13 @@ import 'package:get/get.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
 import '../../../../utility/responsive.dart';
-import '../../admin_header/bindings/admin_header_binding.dart';
 import '../components/admin_custom_dropdown.dart';
 import '../components/admin_homepage_recent_user_component.dart';
 import '../components/admin_homepage_view_component.dart';
 import '../model/admin_homepage_ads_view_model.dart';
 
 class AdminHomepageScreen extends StatefulWidget {
-  const AdminHomepageScreen({super.key});
+  AdminHomepageScreen({super.key});
 
   @override
   State<AdminHomepageScreen> createState() => _AdminHomepageScreenState();
@@ -76,7 +75,6 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
   }
 
   Widget adminHeader() {
-    AdminHeaderBinding().dependencies();
     return AdminHeaderView(
       isDashboardScreen: true,
     );

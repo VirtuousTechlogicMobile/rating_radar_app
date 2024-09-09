@@ -68,12 +68,12 @@ class AdminDrawerMenuController extends GetxController {
       svgIconWidth: Dimens.twenty,
     ),
     AdminMenuDataModel(
-      prefixSvgIcon: SvgAssets.drawerAdsListIcon,
+      prefixSvgIcon: SvgAssets.drawerHelpIcon,
       menuName: 'help'.tr,
       isShowRightIcon: false,
     ),
     AdminMenuDataModel(
-      prefixSvgIcon: SvgAssets.drawerWalletIcon,
+      prefixSvgIcon: SvgAssets.drawerLogoutIcon,
       menuName: 'logout'.tr,
       isShowRightIcon: false,
     ),

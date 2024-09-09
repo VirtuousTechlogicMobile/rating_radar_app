@@ -4,6 +4,8 @@ import 'package:RatingRadar_app/modules/admin/admin_create_ad/bindings/admin_cre
 import 'package:RatingRadar_app/modules/admin/admin_create_ad/view/admin_create_ad_screen.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/bindings/admin_signin_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/view/admin_signin_screen.dart';
+import 'package:RatingRadar_app/modules/admin/admin_view_ad/bindings/admin_view_ad.dart';
+import 'package:RatingRadar_app/modules/admin/admin_view_ad/view/admin_view_ad_screen.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/bindings/admin_homepage_binding.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/view/admin_homepage_screen.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/bindings/manager_signup_binding.dart';
@@ -143,10 +145,20 @@ abstract class AppPages {
       transitionDuration: const Duration(milliseconds: 800),
       transition: Transition.fade,
     ),
+
     GetPage(
       name: _Routes.adminCreateAd,
       page: AdminCreateAdScreen.new,
       binding: AdminCreateAdBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.adminViewAd,
+      page: () =>
+          AdminViewAdScreen(adDocumentId: Get.parameters['adDocumentId'] ?? ''),
+      binding: AdminViewAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
     ),

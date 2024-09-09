@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import '../../../../common/admin_custom_radio_button.dart';
 import '../../../../common/cached_network_image.dart';
 import '../../../../common/common_widgets.dart';
 import '../../../../common/custom_button.dart';
@@ -18,7 +19,6 @@ import '../../../../routes/route_management.dart';
 import '../../../../utility/responsive.dart';
 import '../../../../utility/utility.dart';
 import '../../../user/user_homepage/model/user_ads_list_data_model.dart';
-import '../../admin_header/bindings/admin_header_binding.dart';
 import '../../admin_header/view/admin_header_view.dart';
 import '../../drawer/view/admin_drawer_view.dart';
 import '../admin_create_ad_controller.dart';
@@ -55,7 +55,6 @@ class AdminCreateAdScreen extends StatelessWidget {
   }
 
   Widget header() {
-    AdminHeaderBinding().dependencies();
     return AdminHeaderView(
       isDashboardScreen: false,
       isAdsListScreen: false,
@@ -385,11 +384,11 @@ class AdminCreateAdScreen extends StatelessWidget {
 
                           // Preview Image Area
                           Obx(
-                            () => Padding(
-                              padding: EdgeInsets.only(
-                                left: Dimens.sixty,
-                              ),
-                              child: Expanded(
+                            () => Expanded(
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: Dimens.sixty,
+                                ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -556,8 +555,8 @@ class AdminCreateAdScreen extends StatelessWidget {
                                             padding: EdgeInsets.only(
                                                 left: Dimens.fifteen,
                                                 bottom: Dimens.fifteen),
-                                            child: customRadioButton(
-                                              themeUtils: themeUtils,
+                                            child: AdminCustomRadioButton(
+                                              themeColorsUtil: themeUtils,
                                               controller:
                                                   adminCreateAdController
                                                       .selectedAdStatus,
@@ -769,7 +768,7 @@ class AdminCreateAdScreen extends StatelessWidget {
       ],
     );
   }
-
+/*
   Widget customRadioButton({
     required ThemeColorsUtil themeUtils,
     required ValueNotifier<String> controller,
@@ -811,5 +810,5 @@ class AdminCreateAdScreen extends StatelessWidget {
         );
       },
     );
-  }
+  }*/
 }

@@ -1,8 +1,9 @@
-import 'package:get/get_instance/src/bindings_interface.dart';
+import 'package:RatingRadar_app/modules/admin/admin_view_ad/admin_view_ad_controller.dart';
+import 'package:get/get.dart';
 
 class AdminViewAdBinding extends Bindings {
   @override
   void dependencies() {
-    // TODO: implement dependencies
+    return Get.lazyPut(AdminViewAdController.new);
   }
 }

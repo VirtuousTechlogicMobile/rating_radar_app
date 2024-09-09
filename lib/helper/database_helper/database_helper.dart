@@ -840,6 +840,7 @@ class DatabaseHelper {
   }
 
   ///  ---------------------------------------------- Admin Methods -------------------------------------------------
+
   Future<String> signInAdmin(
       {required AdminSignInModel adminSignInModel}) async {
     try {
@@ -868,30 +869,6 @@ class DatabaseHelper {
       return CustomStatus.userNotFound;
     }
   }
-/*
-  Future<List<AdminAdsListDataModel>?> adminGetLimitedAdsList({
-    required int limit,
-  }) async {
-    try {
-      Query query = fireStoreInstance
-          .collection(DatabaseSynonyms.adsListCollection)
-          .where(DatabaseSynonyms.adStatusField,
-              isEqualTo: DatabaseSynonyms.statusField)
-          .orderBy(DatabaseSynonyms.adStatusField, descending: false)
-          .limit(limit);
-
-      QuerySnapshot querySnapshot = await query.get();
-      List<AdminAdsListDataModel> adsList = querySnapshot.docs
-          .map((docs) => AdminAdsListDataModel.fromMap(
-              docs.data() as Map<String, dynamic>,
-              docId: docs.id))
-          .toList();
-      return adsList;
-    } catch (e) {
-      log("Exception: $e");
-      return null;
-    }
-  }*/
 
 // fetch users data
   Future<List<AdminHomepageRecentUserCompanyModel>?> getLimitedUserList({
