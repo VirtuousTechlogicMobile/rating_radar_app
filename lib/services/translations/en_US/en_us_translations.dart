@@ -17,8 +17,7 @@ final Map<String, String> enUs = {
   'password': 'Password',
   'enter_your_password': 'Enter your Password',
   'confirm_password': 'Confirm Password',
-  'enter_your_username_or_email_address':
-      'Enter your username or email address',
+  'enter_your_username_or_email_address': 'Enter your username or email address',
   'username_or_email_address': 'Username or email address',
   'forgot_password': 'Forgot Password',
   'no_account': 'No Account ?',
@@ -31,16 +30,14 @@ final Map<String, String> enUs = {
   'please_enter_valid_password': 'Please enter valid password',
   'please_enter_confirm_password': 'Please enter confirm password',
   'password_do_not_match': 'Password and confirm password do not match',
-  'password_must_be_at_least_6_characters':
-      'password must be at least 6 characters',
+  'password_must_be_at_least_6_characters': 'password must be at least 6 characters',
   'sign_up_successfully': 'Signup successfully',
   'something_want_wrong': 'Something want wrong!',
   'wrong_email_password': 'Wrong email/password',
   'user_not_found': 'User not found',
   'resend_email': 'Resend Email',
   'we_sent_a_confirmation_email_to': 'We Sent a Confirmation Email To:',
-  'check_your_email_and_click_on_the_confirmation_link_to_continue':
-      'Check your Email and click on the\nConfirmation Link to Continue',
+  'check_your_email_and_click_on_the_confirmation_link_to_continue': 'Check your Email and click on the\nConfirmation Link to Continue',
   'confirm_your_email_address': 'Confirm your Email address',
   'employee_id_manager_id': 'Employee ID/Manager ID',
   'please_enter_employee_id_manager_id': 'Please enter Employee ID/Manager ID',
@@ -72,8 +69,7 @@ final Map<String, String> enUs = {
   'settings': 'Settings',
   'help': 'Help',
   'logout': 'Logout',
-  'weHaveBlockedAllRequestsFromThisDeviceDueToUnusualActivityTryAfterSomeTime':
-      'We have blocked all requests from this device due to unusual activity. Try after some time.',
+  'weHaveBlockedAllRequestsFromThisDeviceDueToUnusualActivityTryAfterSomeTime': 'We have blocked all requests from this device due to unusual activity. Try after some time.',
   'resend_link': 'Resend link',
   'confirmation_link_sent': 'Confirmation link sent',
   'failed_to_logout': 'Failed to logout',
@@ -134,15 +130,11 @@ final Map<String, String> enUs = {
   'submitted_in_the_last_24_hours': 'Submitted in the last 24 hours',
   'you_are': 'You are',
   'logged_out': 'Logged Out',
-  'thank_you_for_using_review_and_rating':
-      'Thank you for using Review and Rating',
-  'thank_you_for_using_review_and_rating':
-      'Thank you for using Review and Rating',
+  'thank_you_for_using_review_and_rating': 'Thank you for using Review and Rating',
   'in_your_personal_wallet_you_can_store_funds_with_draw_them_and_make_transactions_it_is_completely_safe':
       'In your Personal Wallet, you can  store funds, withdraw them, and\nmake transactions. It is Completely safe.',
   'name': 'Name',
   'transaction_id': 'Transaction Id',
-  'amount': 'Amount',
   'action': 'Action',
   'transactions': 'Transactions',
   'your_balance': 'Your Balance',
@@ -174,5 +166,9 @@ final Map<String, String> enUs = {
   'male': 'Male',
   'female': 'Female',
   'pan_number': 'Pan Number',
+  'phone_number': 'Phone Number',
+  'profile_picture_updated_successfully': 'Profile picture updated successfully!',
+  'profile_picture_removed_successfully': 'Profile picture removed successfully!',
+  'profile_picture': 'Profile picture',
   // 'Youare': 'Youare',
 };

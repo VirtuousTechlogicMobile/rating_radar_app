@@ -17,16 +17,16 @@ class UserSettingsMenuDrawerController extends GetxController {
   }
 
   getDrawerIndex() async {
-    selectedMenuIndex.value = await PreferencesManager.getDrawerIndex();
+    selectedMenuIndex.value = await PreferencesManager.getSettingsDrawerIndex();
   }
 
   setDrawerIndex(int index) async {
-    await PreferencesManager.setDrawerIndex(index: index);
+    await PreferencesManager.setSettingsDrawerIndex(index: index);
   }
 
   List<MenuDataModel> menuDataList = [
     MenuDataModel(prefixSvgIcon: SvgAssets.myAccountIcon, menuName: 'my_account'.tr),
-    MenuDataModel(prefixSvgIcon: SvgAssets.paymentMethodIcon, menuName: 'payment_method'.tr),
+    MenuDataModel(prefixSvgIcon: SvgAssets.drawerPaymentsIcon, menuName: 'payment_method'.tr),
     MenuDataModel(prefixSvgIcon: SvgAssets.lockIcon, menuName: 'change_password'.tr),
     MenuDataModel(prefixSvgIcon: SvgAssets.deleteAccountIcon, menuName: 'delete_account'.tr),
   ];

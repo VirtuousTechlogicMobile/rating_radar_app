@@ -47,7 +47,7 @@ class UserSettingsMenuDrawerView extends StatelessWidget {
             text: 'settings'.tr,
             textStyle: AppStyles.style28Bold.copyWith(color: themeUtils.whiteBlackSwitchColor),
             minFontSize: 15,
-            maxFontSize: 24,
+            maxFontSize: 28,
           ).marginOnly(bottom: Dimens.thirtyFive, left: Dimens.thirtyFive),
         ),
         ...List.generate(
@@ -60,15 +60,15 @@ class UserSettingsMenuDrawerView extends StatelessWidget {
                 onSelectMenuItem: (selectedMenu) async {
                   drawerController.setDrawerIndex(drawerController.menuDataList.indexOf(selectedMenu));
                   drawerController.selectedMenuIndex.value = drawerController.menuDataList.indexOf(selectedMenu);
-                  /*if (drawerController.selectedMenuIndex.value == 0) {
-                    RouteManagement.goToUserHomePageView();
+                  if (drawerController.selectedMenuIndex.value == 0) {
+                    RouteManagement.goToUserMyAccountSettingScreenView();
                   } else if (drawerController.selectedMenuIndex.value == 1) {
-                    RouteManagement.goToUserAdsListMenuView();
+                    // RouteManagement.goToUserAdsListMenuView();
                   } else if (drawerController.selectedMenuIndex.value == 2) {
-                    RouteManagement.goToUserWalletScreenView();
+                    // RouteManagement.goToUserWalletScreenView();
                   } else {
                     // RouteManagement.goToUserSignInView();
-                  }*/
+                  }
                 },
               ).marginOnly(bottom: 16),
             );

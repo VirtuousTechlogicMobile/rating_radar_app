@@ -60,12 +60,12 @@ class DrawerMenuController extends GetxController {
       svgIconWidth: Dimens.twenty,
     ),
     MenuDataModel(
-      prefixSvgIcon: SvgAssets.drawerAdsListIcon,
+      prefixSvgIcon: SvgAssets.drawerHelpIcon,
       menuName: 'help'.tr,
       isShowRightIcon: false,
     ),
     MenuDataModel(
-      prefixSvgIcon: SvgAssets.drawerWalletIcon,
+      prefixSvgIcon: SvgAssets.drawerLogoutIcon,
       menuName: 'logout'.tr,
       isShowRightIcon: false,
     ),

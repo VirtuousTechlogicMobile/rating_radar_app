@@ -247,11 +247,15 @@ class UserSignUpScreen extends StatelessWidget {
                       } else {
                         /// go to conformation screen if user not exists
                         String registrationStatus = await userSignUpScreenController.signUpUser(
-                          userSignupModel: UserSignupModel(
-                              email: userSignUpScreenController.emailController.text,
-                              username: userSignUpScreenController.userNameController.text,
-                              phoneNumber: userSignUpScreenController.contactNumberController.text,
-                              password: userSignUpScreenController.passwordController1.text),
+                          userSignupModel: UserDataModel(
+                            email: userSignUpScreenController.emailController.text,
+                            username: userSignUpScreenController.userNameController.text,
+                            phoneNumber: userSignUpScreenController.contactNumberController.text,
+                            password: userSignUpScreenController.passwordController1.text,
+                            createdAt: DateTime.now(),
+                            profileImage: '',
+                            userBalance: 0,
+                          ),
                         );
                         if (registrationStatus == CustomStatus.success) {
                           RouteManagement.goToUserConformationView(

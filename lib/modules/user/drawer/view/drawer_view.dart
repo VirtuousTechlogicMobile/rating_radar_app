@@ -1,5 +1,5 @@
+import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
-import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -160,7 +160,7 @@ Widget animatedContainer({required DrawerMenuController drawerController, requir
             children: [
               ClipOval(
                 child: Image.network(
-                  'https://media.istockphoto.com/id/1386479313/photo/happy-millennial-afro-american-business-woman-posing-isolated-on-white.jpg?s=612x612&w=0&k=20&c=8ssXDNTp1XAPan8Bg6mJRwG7EXHshFO5o0v9SIj96nY=',
+                  StringValues.noProfileImageUrl,
                   width: Dimens.fifty,
                   height: Dimens.fifty,
                   fit: BoxFit.cover,

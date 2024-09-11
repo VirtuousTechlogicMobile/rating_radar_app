@@ -20,8 +20,8 @@ abstract class DatabaseSynonyms {
   static const statusField = 'status';
   static const companyField = 'company';
   static const addedDateField = 'addedDate';
-  static const createdAt = 'createdAt';
-  static const profileImage = 'profileImage';
+  static const createdAtField = 'createdAt';
+  static const profileImageField = 'profileImage';
   static const dateField = 'date';
   static const adIdField = 'adId';
   static const uIdField = 'uId';

@@ -15,7 +15,7 @@ class UserSignUpController extends GetxController {
   RxBool isShowConfirmPassword = false.obs;
   RxBool isShowLoadingOnButton = false.obs;
 
-  Future<String> signUpUser({required UserSignupModel userSignupModel}) async {
+  Future<String> signUpUser({required UserDataModel userSignupModel}) async {
     isShowLoadingOnButton.value = true;
     return await DatabaseHelper.instance
         .signUpUser(

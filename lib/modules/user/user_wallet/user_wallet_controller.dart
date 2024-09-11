@@ -37,11 +37,11 @@ class UserWalletController extends GetxController {
 
   Future getTotalCounts() async {
     if (selectedDropDownItemIndex.value == 0) {
-      totalDataCount.value = await DatabaseHelper.instance.getUserApprovedAdsCount();
+      totalDataCount.value = await DatabaseHelper.instance.getDepositTransactionsCount();
     } else if (selectedDropDownItemIndex.value == 1) {
       totalDataCount.value = await DatabaseHelper.instance.getWithdrawTransactionsCount();
     } else {
-      totalDataCount.value = await DatabaseHelper.instance.getDepositTransactionsCount();
+      totalDataCount.value = await DatabaseHelper.instance.getUserApprovedAdsCount();
     }
   }
 
