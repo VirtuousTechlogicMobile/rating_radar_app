@@ -101,6 +101,7 @@ final Map<String, String> enUs = {
   'please_enter_ad_company': 'Please enter ad company',
   'please_enter_ad_price': 'Please enter ad price',
   'please_enter_ad_location': 'Please enter ad location',
+  'enter_reason_for_blocking_ad': 'Enter Reason for blocking Ad',
   'preview': 'Preview',
   'ad_name': 'Ad Name',
   'enter_name_of_company': 'Enter Name Of Company',
@@ -134,8 +135,6 @@ final Map<String, String> enUs = {
   'submitted_in_the_last_24_hours': 'Submitted in the last 24 hours',
   'you_are': 'You are',
   'logged_out': 'Logged Out',
-  'thank_you_for_using_review_and_rating':
-      'Thank you for using Review and Rating',
   'thank_you_for_using_review_and_rating':
       'Thank you for using Review and Rating',
   'in_your_personal_wallet_you_can_store_funds_with_draw_them_and_make_transactions_it_is_completely_safe':

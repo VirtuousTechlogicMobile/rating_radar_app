@@ -31,6 +31,9 @@ abstract class ColorValues {
   static const Color adsTextFieldBorderColor = Color(0xff4285F4);
   static const Color midNightBlack = Color(0xff131313);
   static const Color softWhiteColor = Color(0xffFEFEFE);
+  static const Color commentColor = Color(0xff3A3A3A);
+  static const Color commentDarkColor = Color(0xffEFEFEF);
+  static const Color dividerColor = Color(0xffC9C9C9);
 
   static const Color darkBgColor = Color.fromARGB(255, 20, 20, 29);
   static const Color darkBodyTextColor = Color.fromARGB(255, 240, 240, 240);

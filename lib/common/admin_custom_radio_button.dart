@@ -32,6 +32,7 @@ class AdminCustomRadioButton extends StatelessWidget {
       builder: (context, currentStatus, child) {
         return GestureDetector(
           onTap: () {
+            // Update the controller's value directly
             controller.value = status;
           },
           child: Row(

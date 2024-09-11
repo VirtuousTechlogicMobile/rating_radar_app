@@ -126,4 +126,10 @@ class ThemeColorsUtil {
   Color get darkGraySoftWhiteSwitchColor {
     return isDarkTheme ? ColorValues.darkGrayColor : ColorValues.softWhiteColor;
   }
+
+  Color get commentViewAdColor {
+    return isDarkTheme
+        ? ColorValues.commentDarkColor
+        : ColorValues.commentColor;
+  }
 }

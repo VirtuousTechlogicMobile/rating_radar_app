@@ -47,7 +47,7 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
     adminHomePageController.scrollController1.dispose();
 
     adminHomePageController.scrollController2
-        .removeListener(adminHomePageController.updateScrollbar1Position);
+        .removeListener(adminHomePageController.updateScrollbar2Position);
     adminHomePageController.scrollController2.dispose();
     super.dispose();
   }
@@ -205,6 +205,10 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                             adminHomePageController.update(); // Force UI update
                           },
                           userList: adminHomePageController.userList.value,
+                          showScrollbar:
+                              (adminHomePageController.userList.value?.length ??
+                                      0) >
+                                  3,
                         ),
                       ),
                       SizedBox(
@@ -225,6 +229,10 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                             adminHomePageController.update(); // Force UI update
                           },
                           userList: adminHomePageController.companyList.value,
+                          showScrollbar:
+                              (adminHomePageController.userList.value?.length ??
+                                      0) >
+                                  3,
                         ),
                       ),
                     ],

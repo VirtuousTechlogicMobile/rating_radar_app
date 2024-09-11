@@ -13,23 +13,25 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
   final double scrollBarTop;
   final double scrollBarHeight;
   final bool isUser;
-  final List<AdminHomepageRecentUserCompanyModel>? userList;
   final Function(DragUpdateDetails) onPanUpaDate;
+  final List<AdminHomepageRecentUserCompanyModel>? userList;
+  final bool showScrollbar; // New parameter
 
-  const AdminHomepageRecentUserComponent({
+  AdminHomepageRecentUserComponent({
     super.key,
     required this.listScrollController,
-    required this.scrollBarHeight,
     required this.scrollBarTop,
+    required this.scrollBarHeight,
     required this.isUser,
-    required this.userList,
     required this.onPanUpaDate,
+    required this.userList,
+    required this.showScrollbar,
   });
 
-  // final adminHomepageController = Get.find<AdminHomepageController>();
   @override
   Widget build(BuildContext context) {
     final themeUtils = ThemeColorsUtil(context);
+
     return Container(
       height: Dimens.screenHeight / 2,
       margin: EdgeInsets.only(
@@ -69,6 +71,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
           Expanded(
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
                   child: ScrollConfiguration(
@@ -90,39 +93,40 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(right: Dimens.sevenTeen),
-                  child: Stack(
-                    children: [
-                      VerticalDivider(
-                        width: Dimens.ten,
-                        thickness: Dimens.two,
-                        color: themeUtils.whiteBlackSwitchColor,
-                        // indent: Dimens.sixTeen,
-                        endIndent: Dimens.sixTeen,
-                      ),
-                      Positioned(
-                        right: 0,
-                        top: scrollBarTop,
-                        child: GestureDetector(
-                          onVerticalDragUpdate: (details) {
-                            onPanUpaDate(details);
-                          },
-                          child: Container(
-                            width: Dimens.ten,
-                            height: scrollBarHeight > Dimens.sixTeen
-                                ? scrollBarHeight - Dimens.sixTeen
-                                : 0, // Adjust height as needed
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(Dimens.four),
-                              color: themeUtils.primaryColorSwitch,
+                if (showScrollbar) // Show scrollbar conditionally
+                  Padding(
+                    padding: EdgeInsets.only(right: Dimens.sevenTeen),
+                    child: Stack(
+                      children: [
+                        VerticalDivider(
+                          width: Dimens.ten,
+                          thickness: Dimens.two,
+                          color: themeUtils.whiteBlackSwitchColor,
+                          endIndent: Dimens.sixTeen,
+                        ),
+                        Positioned(
+                          right: 0,
+                          top: scrollBarTop,
+                          child: GestureDetector(
+                            onVerticalDragUpdate: (details) {
+                              onPanUpaDate(details);
+                            },
+                            child: Container(
+                              width: Dimens.ten,
+                              height: scrollBarHeight > Dimens.sixTeen
+                                  ? scrollBarHeight - Dimens.sixTeen
+                                  : 0,
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    BorderRadius.circular(Dimens.four),
+                                color: themeUtils.primaryColorSwitch,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
               ],
             ),
           ),

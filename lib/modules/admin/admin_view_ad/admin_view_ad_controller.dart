@@ -10,33 +10,48 @@ import '../../../helper/database_helper/database_helper.dart';
 import '../../../helper/shared_preferences_manager/preferences_manager.dart';
 import '../../user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../user/user_submit_ad/model/user_submit_ad_data_model.dart';
+import 'admin_ad_comments_data.dart';
 
 class AdminViewAdController extends GetxController {
   Rx<UserAdsListDataModel?> adsDetailData = (null as UserAdsListDataModel?).obs;
   Rx<UserSubmitAdDataModel?> preFilledAdDetailData =
       (null as UserSubmitAdDataModel?).obs;
   RxList<XFile> pickedFiles = <XFile>[].obs;
+  RxList<AdminCommentsListUserData> getUserCommentedDataList =
+      <AdminCommentsListUserData>[].obs;
   TextEditingController commentsController = TextEditingController();
+  RxList<AdminCommentsListUserData> userCommentedList =
+      <AdminCommentsListUserData>[].obs;
 
-  RxInt currentImageIndex = 1.obs;
+  RxInt currentImageIndex = 0.obs;
   RxInt totalSubmittedAdsCount = 0.obs;
 
   Future<String> getUid() async {
     return await PreferencesManager.getUserId() ?? '';
   }
 
+  Future<String> getAdminUid() async {
+    return await PreferencesManager.getAdminId() ?? '';
+  }
+
   ValueNotifier<String> selectedAdStatus =
       ValueNotifier<String>(CustomStatus.active);
 
-  /* void setAdStatus(String status) {
+  void setAdStatus(String status) {
     selectedAdStatus.value = status;
   }
-*/
+
   List<String> adminCustomStatus = [
     CustomStatus.active,
     CustomStatus.play,
     CustomStatus.pause,
     CustomStatus.finished,
+  ];
+  List<String> adminCustomAction = [
+    CustomStatus.approved,
+    CustomStatus.pending,
+    CustomStatus.rejected,
+    CustomStatus.blocked,
   ];
   Future pickImages() async {
     try {
@@ -70,7 +85,6 @@ class AdminViewAdController extends GetxController {
       commentsController.text = preFilledAdDetailData.value?.comments ?? '';
     }
     adsDetailData.value = getAdsData;
-    // getTotalSubmittedAdsCount(adId: getAdsData.docId);
     Get.context?.loaderOverlay.hide();
   }
 
@@ -80,60 +94,65 @@ class AdminViewAdController extends GetxController {
     totalSubmittedAdsCount.value = count;
   }
 
-  Future<String?> storeUserSubmittedAds(
-      {required UserSubmitAdDataModel userSubmitAdDataModel}) async {
-    Get.context?.loaderOverlay.show();
+  Future<String?> updateAdminCustomStatusAds({
+    required String status,
+    required String adId,
+  }) async {
+    try {
+      // Show loader before starting the update
+      Get.context?.loaderOverlay.show();
 
-    /// store and get images in firebase storage
-    List<String>? imageUrls = await DatabaseHelper.instance
-        .storeUserSubmittedAdImages(
-            adId: userSubmitAdDataModel.adId,
-            uid: userSubmitAdDataModel.uId,
-            filesList: pickedFiles);
-    UserSubmitAdDataModel updatedModel = UserSubmitAdDataModel(
-      adId: userSubmitAdDataModel.adId,
-      uId: userSubmitAdDataModel.uId,
-      addedDate: userSubmitAdDataModel.addedDate,
-      comments: userSubmitAdDataModel.comments,
-      imageList: imageUrls,
-      status: userSubmitAdDataModel.status,
-      adName: userSubmitAdDataModel.adName,
-      company: userSubmitAdDataModel.company,
-      adPrice: userSubmitAdDataModel.adPrice,
-    );
+      // Call the database helper method to update the status
+      String? documentId = await DatabaseHelper.instance
+          .updateAdCustomStatus(status: status, adId: adId);
 
-    /// store submitted ad in database
-    String? documentId = await DatabaseHelper.instance
-        .storeUserSubmittedAds(userSubmitAdDataModel: updatedModel);
-    Get.context?.loaderOverlay.hide();
-    return documentId;
+      // Hide loader after the operation is done
+      Get.context?.loaderOverlay.hide();
+
+      // Log and check the result
+      if (documentId == CustomStatus.success) {
+        print("Status updated successfully: Status = $status, Ad ID = $adId");
+      } else {
+        print("Failed to update status for Ad ID = $adId");
+      }
+
+      // Return the document ID or success status
+      return documentId;
+    } catch (e) {
+      // Hide the loader in case of an exception
+      Get.context?.loaderOverlay.hide();
+
+      // Log the exception
+      print("Error updating status: $e");
+      return null;
+    }
   }
 
-  final List<Map<String, String>> commentsData = [
-    {
-      "username": "User",
-      "content":
-          "Horem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus.",
-    },
-    {
-      "username": "User",
-      "content":
-          "Horem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus.",
-    },
-    {
-      "username": "User",
-      "content":
-          "Horem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus.",
-    },
-    {
-      "username": "User",
-      "content":
-          "Horem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus.",
-    },
-    {
-      "username": "User",
-      "content":
-          "Horem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eu turpis molestie, dictum est a, mattis tellus. Sed dignissim, metus nec fringilla accumsan, risus sem sollicitudin lacus.",
-    },
-  ];
+  void nextImage() {
+    if (currentImageIndex.value < pickedFiles.length - 1) {
+      currentImageIndex.value++;
+    }
+  }
+
+  void previousImage() {
+    if (currentImageIndex.value > 0) {
+      currentImageIndex.value--;
+    }
+  }
+
+  Future<void> getUserList({required String adId}) async {
+    Get.context?.loaderOverlay.show();
+
+    List<AdminCommentsListUserData>? getUserCommentedDataList =
+        await DatabaseHelper.instance.getCommentedUsersData(adId: adId);
+
+    if (getUserCommentedDataList != null) {
+      print("Fetched Comments: ${getUserCommentedDataList.length}");
+      userCommentedList.value = getUserCommentedDataList;
+    } else {
+      print("No comments fetched");
+    }
+
+    Get.context?.loaderOverlay.hide();
+  }
 }

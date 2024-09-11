@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 import '../../constant/strings.dart';
 import '../../modules/admin/admin_signin/model/admin_signin_model.dart';
+import '../../modules/admin/admin_view_ad/admin_ad_comments_data.dart';
 import '../../modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
 import '../../modules/signin/model/signin_model.dart';
 import '../../modules/user/user_ads_list_menu/model/user_submitted_ads_list_data_model.dart';
@@ -1110,6 +1111,68 @@ class DatabaseHelper {
           await collectionRef.add(userAdsListDataModel.toMap());
       return documentReference.id;
     } catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<AdminCommentsListUserData>?> getCommentedUsersData(
+      {required String adId}) async {
+    List<AdminCommentsListUserData> userAdDataList = [];
+    try {
+      // Fetch comments from userSubmittedAdCollection by adId
+      QuerySnapshot adSnapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection)
+          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
+          .get();
+
+      // Loop through each comment
+      for (var adDoc in adSnapshot.docs) {
+        Map<String, dynamic> adData = adDoc.data() as Map<String, dynamic>;
+        String userId = adData['uId']; // User ID from the comment collection
+        String comment =
+            adData['comments']; // Comment from the comment collection
+
+        // Fetch user details from users collection using the userId
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await fireStoreInstance
+                .collection(DatabaseSynonyms.usersCollection)
+                .doc(userId)
+                .get();
+
+        if (userSnapshot.exists) {
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
+
+          // Combine user details with comment data
+          AdminCommentsListUserData userAdData = AdminCommentsListUserData(
+            userId: userId,
+            username: userData['username'],
+            userProfileImage: userData['profileImage'],
+            comment: comment, // Comment from the userSubmittedAdCollection
+          );
+
+          // Add to the list
+          userAdDataList.add(userAdData);
+        }
+      }
+    } catch (e) {
+      print("Error fetching data: $e");
+    }
+
+    return userAdDataList.isEmpty ? null : userAdDataList;
+  }
+
+  Future<String?> updateAdCustomStatus(
+      {required String status, required String adId}) async {
+    try {
+      CollectionReference adsCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      await adsCollectionReference
+          .doc(adId)
+          .update({DatabaseSynonyms.adStatusField: status});
+      return CustomStatus.success;
+    } catch (e) {
+      log('Exception : $e');
       return null;
     }
   }
