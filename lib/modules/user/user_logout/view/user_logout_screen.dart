@@ -106,7 +106,7 @@ class UserLogoutScreen extends StatelessWidget {
                     buttonColor: themeColorsUtil.primaryColorSwitch,
                     margin: EdgeInsets.only(top: Dimens.forty, bottom: Dimens.forty),
                     onTap: () async {
-                      RouteManagement.goToUserSignInView();
+                      RouteManagement.goToUserSignInScreen();
                     },
                   ),
                 ),

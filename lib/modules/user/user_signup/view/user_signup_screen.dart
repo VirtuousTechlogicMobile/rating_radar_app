@@ -109,7 +109,7 @@ class UserSignUpScreen extends StatelessWidget {
                     Flexible(
                       child: InkWell(
                         onTap: () {
-                          RouteManagement.goToUserSignInView();
+                          RouteManagement.goToUserSignInScreen();
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -243,7 +243,7 @@ class UserSignUpScreen extends StatelessWidget {
                       } else if (userSignUpScreenController.passwordController2.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_confirm_password'.tr);
                       } else if (userSignUpScreenController.passwordController1.text != userSignUpScreenController.passwordController2.text) {
-                        AppUtility.showSnackBar('password_do_not_match'.tr);
+                        AppUtility.showSnackBar('password_confirm_password_do_not_match'.tr);
                       } else {
                         /// go to conformation screen if user not exists
                         String registrationStatus = await userSignUpScreenController.signUpUser(
@@ -255,10 +255,14 @@ class UserSignUpScreen extends StatelessWidget {
                             createdAt: DateTime.now(),
                             profileImage: '',
                             userBalance: 0,
+                            gender: '',
+                            city: '',
+                            state: '',
+                            panNumber: '',
                           ),
                         );
                         if (registrationStatus == CustomStatus.success) {
-                          RouteManagement.goToUserConformationView(
+                          RouteManagement.goToUserConformationScreen(
                             email: userSignUpScreenController.emailController.text,
                           );
                           userSignUpScreenController.clearControllers();

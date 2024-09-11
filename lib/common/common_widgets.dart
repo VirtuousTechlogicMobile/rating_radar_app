@@ -22,9 +22,11 @@ class CommonWidgets {
     TextAlign? textAlign,
     required double minFontSize,
     required double maxFontSize,
+    Key? key,
     int? maxLines,
   }) {
     return AutoSizeText(
+      key: key,
       text,
       softWrap: true,
       style: textStyle,

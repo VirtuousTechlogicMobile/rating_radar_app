@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserDataModel {
+  String? uId;
   String email;
   String username;
   String phoneNumber;
@@ -8,8 +9,13 @@ class UserDataModel {
   DateTime? createdAt;
   String? profileImage;
   num? userBalance;
+  String? gender;
+  String? city;
+  String? state;
+  String? panNumber;
 
   UserDataModel({
+    this.uId,
     required this.email,
     required this.username,
     required this.phoneNumber,
@@ -17,6 +23,10 @@ class UserDataModel {
     this.createdAt,
     this.profileImage,
     this.userBalance,
+    this.gender,
+    this.city,
+    this.state,
+    this.panNumber,
   });
 
   UserDataModel copyWith({
@@ -27,6 +37,10 @@ class UserDataModel {
     String? newPhoneNumber,
     DateTime? newCreatedAt,
     num? newUserBalance,
+    String? newGender,
+    String? newCity,
+    String? newState,
+    String? newPanNumber,
   }) {
     return UserDataModel(
       email: newEmail ?? email,
@@ -36,6 +50,10 @@ class UserDataModel {
       userBalance: newUserBalance ?? userBalance,
       profileImage: newProfileImage ?? profileImage,
       username: newUserName ?? username,
+      gender: newGender ?? gender,
+      city: newCity ?? city,
+      panNumber: newPanNumber ?? panNumber,
+      state: newState ?? state,
     );
   }
 
@@ -48,6 +66,10 @@ class UserDataModel {
       'createdAt': createdAt,
       'profileImage': profileImage,
       'userBalance': userBalance,
+      'gender': gender,
+      'city': city,
+      'state': state,
+      'panNumber': panNumber,
     };
   }
 
@@ -60,6 +82,10 @@ class UserDataModel {
       createdAt: (map['createdAt'] as Timestamp).toDate(),
       profileImage: map['profileImage'],
       userBalance: map['userBalance'],
+      gender: map['gender'],
+      city: map['city'],
+      state: map['state'],
+      panNumber: map['panNumber'],
     );
   }
 }

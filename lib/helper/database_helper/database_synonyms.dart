@@ -14,6 +14,10 @@ abstract class DatabaseSynonyms {
   static const emailField = 'email';
   static const passwordField = 'password';
   static const userNameField = 'username';
+  static const stateField = 'state';
+  static const cityField = 'city';
+  static const genderField = 'gender';
+  static const panNumberField = 'panNumber';
   static const phoneNumberField = 'phoneNumber';
   static const adNameField = 'adName';
   static const adStatusField = 'adStatus';

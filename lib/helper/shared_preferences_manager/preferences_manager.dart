@@ -6,6 +6,11 @@ abstract class PreferencesManager {
     await SharedPrefGetterSetters().setString('userId', uid);
   }
 
+  static Future deleteAllUserPreferences() async {
+    await deleteUserUid();
+    await deleteDrawerIndexes();
+  }
+
   static Future deleteUserUid() async {
     await SharedPrefGetterSetters().clearKey('userId');
   }

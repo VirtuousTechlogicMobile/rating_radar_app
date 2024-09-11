@@ -137,7 +137,7 @@ Widget screenMainLayout({required ThemeColorsUtil themeUtils, required UserAllAd
                                         adPrice: userAllAdsController.adsList[index].adPrice,
                                       ),
                                       onViewButtonTap: () {
-                                        RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAllAdsController.adsList[index].docId ?? '');
+                                        RouteManagement.goToUserSubmitAdScreen(adDocumentId: userAllAdsController.adsList[index].docId ?? '');
                                       },
                                     );
                                   },

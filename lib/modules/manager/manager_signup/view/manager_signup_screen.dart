@@ -108,7 +108,7 @@ class ManagerSignUpScreen extends StatelessWidget {
                     Flexible(
                       child: InkWell(
                         onTap: () {
-                          RouteManagement.goToUserSignInView();
+                          RouteManagement.goToUserSignInScreen();
                         },
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -254,7 +254,7 @@ class ManagerSignUpScreen extends StatelessWidget {
                       } else if (managerSignUpScreenController.passwordController2.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_confirm_password'.tr);
                       } else if (managerSignUpScreenController.passwordController1.text != managerSignUpScreenController.passwordController2.text) {
-                        AppUtility.showSnackBar('password_do_not_match'.tr);
+                        AppUtility.showSnackBar('password_confirm_password_do_not_match'.tr);
                       } else {
                         /// register user
                         bool isManagerExists = await managerSignUpScreenController.checkManagerExists(email: managerSignUpScreenController.emailController.text);

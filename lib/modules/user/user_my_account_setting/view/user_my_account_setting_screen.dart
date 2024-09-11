@@ -220,8 +220,8 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                             controller: userMyAccountSettingController.fullNameController,
                                             borderRadius: BorderRadius.circular(Dimens.six),
                                             hintText: 'full_name'.tr,
-                                            hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
-                                            textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                            hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
+                                            textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                             contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
                                             fillColor: ColorValues.transparent,
                                             borderSide: BorderSide(color: themeUtils.primaryColorSwitch, width: 1),
@@ -236,8 +236,8 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                             isReadOnly: true,
                                             borderRadius: BorderRadius.circular(Dimens.six),
                                             hintText: 'email'.tr,
-                                            hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
-                                            textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                            hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
+                                            textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                             contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
                                             fillColor: ColorValues.transparent,
                                             borderSide: BorderSide(color: themeUtils.primaryColorSwitch, width: 1),
@@ -257,8 +257,8 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                             controller: userMyAccountSettingController.phoneNumberController,
                                             borderRadius: BorderRadius.circular(Dimens.six),
                                             hintText: 'phone_number'.tr,
-                                            hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
-                                            textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                            hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
+                                            textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                             inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                                             length: 15,
                                             contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
@@ -276,9 +276,9 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                                 textField: CustomTextField(
                                                   controller: userMyAccountSettingController.cityController,
                                                   borderRadius: BorderRadius.circular(Dimens.six),
-                                                  textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                                  textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                                   hintText: 'city'.tr,
-                                                  hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                                  hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                                   contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
                                                   fillColor: ColorValues.transparent,
                                                   borderSide: BorderSide(color: themeUtils.primaryColorSwitch, width: 1),
@@ -291,9 +291,9 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                                 textField: CustomTextField(
                                                   controller: userMyAccountSettingController.stateController,
                                                   borderRadius: BorderRadius.circular(Dimens.six),
-                                                  textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                                  textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                                   hintText: 'state'.tr,
-                                                  hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                                  hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                                   contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
                                                   fillColor: ColorValues.transparent,
                                                   borderSide: BorderSide(color: themeUtils.primaryColorSwitch, width: 1),
@@ -315,9 +315,9 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                           textField: CustomTextField(
                                             controller: userMyAccountSettingController.panNumberController,
                                             hintText: 'pan_number'.tr,
-                                            hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                            hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                             borderRadius: BorderRadius.circular(Dimens.six),
-                                            textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                            textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                             contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
                                             fillColor: ColorValues.transparent,
                                             borderSide: BorderSide(color: themeUtils.primaryColorSwitch, width: 1),
@@ -381,10 +381,10 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                             textField: CustomTextField(
                                               controller: userMyAccountSettingController.passwordController,
                                               hintText: 'password'.tr,
-                                              hintStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                              hintStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                               isReadOnly: true,
                                               borderRadius: BorderRadius.circular(Dimens.six),
-                                              textStyle: AppStyles.style14Normal.copyWith(color: ColorValues.lightGrayColor),
+                                              textStyle: AppStyles.style12SemiLight.copyWith(color: ColorValues.lightGrayColor),
                                               contentPadding: EdgeInsets.symmetric(horizontal: Dimens.eighteen, vertical: Dimens.sixTeen),
                                               fillColor: ColorValues.transparent,
                                               borderSide: BorderSide(color: themeUtils.primaryColorSwitch, width: 1),
@@ -425,7 +425,14 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                           contentPadding: EdgeInsets.symmetric(vertical: Dimens.sixTeen),
                                           borderRadius: BorderRadius.circular(Dimens.thirty),
                                           margin: EdgeInsets.only(top: Dimens.fifteen, left: Dimens.fifteen),
-                                          onTap: () {},
+                                          onTap: () async {
+                                            String? updateStatus = await userMyAccountSettingController.updateUserData();
+                                            if (updateStatus == CustomStatus.success) {
+                                              AppUtility.showSnackBar('your_profile_updated_successfully'.tr);
+                                            } else {
+                                              AppUtility.showSnackBar('failed_to_update_profile'.tr);
+                                            }
+                                          },
                                         ),
                                       ),
                                       const Flexible(child: SizedBox.shrink()),

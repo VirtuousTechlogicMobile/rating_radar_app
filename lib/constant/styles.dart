@@ -393,6 +393,13 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style42SemiBold = TextStyle(
+    fontSize: Dimens.fortyTwo,
+    fontWeight: FontWeight.w500,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style48Black = TextStyle(
     fontSize: Dimens.fortyEight,
     fontWeight: FontWeight.w900,

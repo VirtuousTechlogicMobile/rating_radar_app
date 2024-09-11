@@ -113,7 +113,7 @@ class UserSignInScreen extends StatelessWidget {
                       child: InkWell(
                         onTap: () {
                           if (userSignInScreenController.selectedRole.value == 1) {
-                            RouteManagement.goToUserSignUpView();
+                            RouteManagement.goToUserSignUpScreen();
                           } else {
                             RouteManagement.goToManagerSignUpView();
                           }
@@ -210,12 +210,12 @@ class UserSignInScreen extends StatelessWidget {
                             password: userSignInScreenController.passwordController.text,
                           );
                           if (signInStatus == CustomStatus.success) {
-                            RouteManagement.goToUserHomePageView();
+                            RouteManagement.goToUserHomePageScreen();
                             userSignInScreenController.clearControllers();
                           } else if (signInStatus == CustomStatus.wrongEmailPassword) {
                             AppUtility.showSnackBar('wrong_email_password'.tr);
                           } else if (signInStatus == CustomStatus.userNotVerified) {
-                            RouteManagement.goToUserConformationView(email: userSignInScreenController.emailOrUserNameController.text);
+                            RouteManagement.goToUserConformationScreen(email: userSignInScreenController.emailOrUserNameController.text);
                           } else {
                             AppUtility.showSnackBar('user_not_found'.tr);
                           }
