@@ -42,6 +42,10 @@ abstract class RouteManagement {
     Get.offNamed(AppRoutes.userWalletScreen);
   }
 
+  static void goToUserMyAccountSettingScreenView() {
+    Get.offNamed(AppRoutes.userMyAccountScreen);
+  }
+
   /// manager module --------------------------------------------------------------------------
 
   static void goToManagerSignUpView() {

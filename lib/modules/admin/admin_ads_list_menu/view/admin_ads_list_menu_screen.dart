@@ -21,8 +21,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
 
   AdminAdsListMenuScreen({super.key}) {
     adminAdsListMenuController.getAdsCount();
-    adminAdsListMenuController.getAdsData(
-        sortBy: adminAdsListMenuController.selectedDropDownIndex.value);
+    adminAdsListMenuController.getAdsData(sortBy: adminAdsListMenuController.selectedDropDownIndex.value);
   }
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
@@ -61,9 +60,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
       isAdsListScreen: true,
       onSearch: (text) async {
         await Future.delayed(const Duration(milliseconds: 500));
-        adminAdsListMenuController.getAdsData(
-            sortBy: adminAdsListMenuController.selectedDropDownIndex.value,
-            searchTerm: text);
+        adminAdsListMenuController.getAdsData(sortBy: adminAdsListMenuController.selectedDropDownIndex.value, searchTerm: text);
       },
     );
   }
@@ -74,11 +71,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
         return Container(
           width: constraints.maxWidth,
           height: constraints.maxHeight,
-          margin: EdgeInsets.only(
-              top: Dimens.thirtyFour,
-              left: Dimens.twentyFour,
-              right: Dimens.twentyFour,
-              bottom: Dimens.forty),
+          margin: EdgeInsets.only(top: Dimens.thirtyFour, left: Dimens.twentyFour, right: Dimens.twentyFour, bottom: Dimens.forty),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(Dimens.thirty),
             color: themeUtils.deepBlackWhiteSwitchColor,
@@ -87,8 +80,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                 offset: const Offset(0, 10),
                 blurRadius: 60,
                 spreadRadius: 0,
-                color:
-                    themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50),
+                color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50),
               ),
             ],
           ),
@@ -97,11 +89,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(
-                    left: Dimens.thirtyEight,
-                    right: Dimens.thirtyEight,
-                    bottom: Dimens.forty,
-                    top: Dimens.twentyEight),
+                padding: EdgeInsets.only(left: Dimens.thirtyEight, right: Dimens.thirtyEight, bottom: Dimens.forty, top: Dimens.twentyEight),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,8 +103,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: Dimens.seven),
                           child: CommonWidgets.autoSizeText(
                             text: 'all_ads'.tr,
-                            textStyle: AppStyles.style24Bold.copyWith(
-                                color: themeUtils.whiteBlackSwitchColor),
+                            textStyle: AppStyles.style24Bold.copyWith(color: themeUtils.whiteBlackSwitchColor),
                             minFontSize: 16,
                             maxFontSize: 24,
                           ),
@@ -125,8 +112,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                           padding: EdgeInsets.only(bottom: Dimens.ten),
                           child: CommonWidgets.autoSizeText(
                             text: 'active_ads'.tr,
-                            textStyle: AppStyles.style14Normal
-                                .copyWith(color: themeUtils.primaryColorSwitch),
+                            textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
                             minFontSize: 16,
                             maxFontSize: 24,
                           ),
@@ -144,22 +130,18 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                             child: Container(
                               height: Dimens.thirtyEight,
                               width: Dimens.oneHundredFiftyFive,
-                              decoration: BoxDecoration(
-                                  color: themeUtils.primaryColorSwitch,
-                                  borderRadius:
-                                      BorderRadius.circular(Dimens.twenty)),
+                              decoration: BoxDecoration(color: themeUtils.primaryColorSwitch, borderRadius: BorderRadius.circular(Dimens.twenty)),
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   CommonWidgets.fromSvg(
-                                    svgAsset: SvgAssets.plus_icon,
+                                    svgAsset: SvgAssets.plusIcon,
                                     width: Dimens.fourteen,
                                     height: Dimens.fourteen,
                                     color: themeUtils.blackWhiteSwitchColor,
                                   ),
                                   Padding(
-                                    padding:
-                                        EdgeInsets.only(left: Dimens.fifteen),
+                                    padding: EdgeInsets.only(left: Dimens.fifteen),
                                     child: Text(
                                       'add_ads'.tr,
                                       style: AppStyles.style14SemiBold.copyWith(
@@ -176,18 +158,11 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                         /// custom dropdown
                         Obx(
                           () => AdsListCustomDropdown(
-                            dropDownItems:
-                                adminAdsListMenuController.adsListDropDownList,
-                            selectedItem:
-                                adminAdsListMenuController.adsListDropDownList[
-                                    adminAdsListMenuController
-                                        .selectedDropDownIndex.value],
+                            dropDownItems: adminAdsListMenuController.adsListDropDownList,
+                            selectedItem: adminAdsListMenuController.adsListDropDownList[adminAdsListMenuController.selectedDropDownIndex.value],
                             onItemSelected: (index) {
-                              adminAdsListMenuController
-                                  .selectedDropDownIndex.value = index;
-                              adminAdsListMenuController.getAdsData(
-                                  sortBy: adminAdsListMenuController
-                                      .selectedDropDownIndex.value);
+                              adminAdsListMenuController.selectedDropDownIndex.value = index;
+                              adminAdsListMenuController.getAdsData(sortBy: adminAdsListMenuController.selectedDropDownIndex.value);
                             },
                           ),
                         ),
@@ -200,16 +175,14 @@ class AdminAdsListMenuScreen extends StatelessWidget {
               /// ads list layout
               Obx(
                 () => Visibility(
-                  visible:
-                      adminAdsListMenuController.adminCreatedAdsList.isNotEmpty,
+                  visible: adminAdsListMenuController.adminCreatedAdsList.isNotEmpty,
                   replacement: Expanded(
                     child: Padding(
                       padding: EdgeInsets.only(bottom: Dimens.sixtyFive),
                       child: Center(
                         child: CommonWidgets.autoSizeText(
                           text: 'no_data_available_right_now'.tr,
-                          textStyle: AppStyles.style35SemiBold
-                              .copyWith(color: ColorValues.noDataTextColor),
+                          textStyle: AppStyles.style35SemiBold.copyWith(color: ColorValues.noDataTextColor),
                           minFontSize: 20,
                           maxFontSize: 35,
                         ),
@@ -228,18 +201,11 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                             Container(
                               height: Dimens.fifty,
                               width: constraints.maxWidth,
-                              padding: EdgeInsets.only(
-                                  left: Dimens.forty,
-                                  top: Dimens.fifteen,
-                                  bottom: Dimens.fifteen),
-                              margin: EdgeInsets.only(
-                                  left: Dimens.thirtyEight,
-                                  right: Dimens.thirtyEight,
-                                  bottom: Dimens.fifteen),
+                              padding: EdgeInsets.only(left: Dimens.forty, top: Dimens.fifteen, bottom: Dimens.fifteen),
+                              margin: EdgeInsets.only(left: Dimens.thirtyEight, right: Dimens.thirtyEight, bottom: Dimens.fifteen),
                               decoration: BoxDecoration(
                                 color: themeUtils.darkGrayOfWhiteSwitchColor,
-                                borderRadius:
-                                    BorderRadius.circular(Dimens.twentyFive),
+                                borderRadius: BorderRadius.circular(Dimens.twentyFive),
                               ),
                               child: tableHeader(),
                             ),
@@ -249,18 +215,11 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: List.generate(
-                                    adminAdsListMenuController
-                                        .adminCreatedAdsList.length,
+                                    adminAdsListMenuController.adminCreatedAdsList.length,
                                     (index) {
                                       return MouseRegion(
-                                        onEnter: (_) =>
-                                            adminAdsListMenuController
-                                                .isHoveredList[index]
-                                                .value = true,
-                                        onExit: (_) =>
-                                            adminAdsListMenuController
-                                                .isHoveredList[index]
-                                                .value = false,
+                                        onEnter: (_) => adminAdsListMenuController.isHoveredList[index].value = true,
+                                        onExit: (_) => adminAdsListMenuController.isHoveredList[index].value = false,
                                         child: Obx(() => InkWell(
                                               onTap: () {
                                                 RouteManagement
@@ -275,73 +234,29 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                               },
                                               child: Container(
                                                 decoration: BoxDecoration(
-                                                  color: adminAdsListMenuController
-                                                          .isHoveredList[index]
-                                                          .value
-                                                      ? themeUtils
-                                                          .darkGrayOfWhiteSwitchColor
-                                                          .withOpacity(0.5)
-                                                      : Colors
-                                                          .transparent, // Background color based on hover
-                                                  border:
-                                                      adminAdsListMenuController
-                                                              .isHoveredList[
-                                                                  index]
-                                                              .value
-                                                          ? Border.all(
-                                                              color: themeUtils
-                                                                  .borderTableHoverColor,
-                                                              width: 1,
-                                                            )
-                                                          : Border(
-                                                              top: BorderSide(
-                                                                  color: themeUtils
-                                                                      .dividerSwitchColor),
-                                                              bottom: BorderSide(
-                                                                  color: themeUtils
-                                                                      .dividerSwitchColor),
-                                                              left: BorderSide
-                                                                  .none,
-                                                              right: BorderSide
-                                                                  .none,
-                                                            ),
+                                                  color: adminAdsListMenuController.isHoveredList[index].value
+                                                      ? themeUtils.darkGrayOfWhiteSwitchColor.withOpacity(0.5)
+                                                      : Colors.transparent, // Background color based on hover
+                                                  border: adminAdsListMenuController.isHoveredList[index].value
+                                                      ? Border.all(
+                                                          color: themeUtils.borderTableHoverColor,
+                                                          width: 1,
+                                                        )
+                                                      : Border(
+                                                          top: BorderSide(color: themeUtils.dividerSwitchColor),
+                                                          bottom: BorderSide(color: themeUtils.dividerSwitchColor),
+                                                          left: BorderSide.none,
+                                                          right: BorderSide.none,
+                                                        ),
                                                 ),
                                                 child: customTableRow(
-                                                  task:
-                                                      adminAdsListMenuController
-                                                          .adminCreatedAdsList[
-                                                              index]
-                                                          .adName,
-                                                  company:
-                                                      adminAdsListMenuController
-                                                          .adminCreatedAdsList[
-                                                              index]
-                                                          .byCompany,
+                                                  task: adminAdsListMenuController.adminCreatedAdsList[index].adName,
+                                                  company: adminAdsListMenuController.adminCreatedAdsList[index].byCompany,
                                                   email: "admin@gmail.com",
-                                                  date: adminAdsListMenuController
-                                                      .parseDate(
-                                                          adminAdsListMenuController
-                                                              .adminCreatedAdsList[
-                                                                  index]
-                                                              .addedDate),
-                                                  price:
-                                                      adminAdsListMenuController
-                                                          .adminCreatedAdsList[
-                                                              index]
-                                                          .adPrice
-                                                          .toString(),
-                                                  location:
-                                                      adminAdsListMenuController
-                                                              .adminCreatedAdsList[
-                                                                  index]
-                                                              .adLocation ??
-                                                          'United States',
-                                                  status:
-                                                      adminAdsListMenuController
-                                                              .adminCreatedAdsList[
-                                                                  index]
-                                                              .adStatus ??
-                                                          "Status",
+                                                  date: adminAdsListMenuController.parseDate(adminAdsListMenuController.adminCreatedAdsList[index].addedDate),
+                                                  price: adminAdsListMenuController.adminCreatedAdsList[index].adPrice.toString(),
+                                                  location: adminAdsListMenuController.adminCreatedAdsList[index].adLocation ?? 'United States',
+                                                  status: adminAdsListMenuController.adminCreatedAdsList[index].adStatus ?? "Status",
                                                 ),
                                               ),
                                             )),
@@ -352,23 +267,14 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(
-                                  top: Dimens.forty,
-                                  left: Dimens.forty,
-                                  right: Dimens.forty,
-                                  bottom: Dimens.forty),
+                              padding: EdgeInsets.only(top: Dimens.forty, left: Dimens.forty, right: Dimens.forty, bottom: Dimens.forty),
                               child: Obx(
                                 () => CustomPaginationWidget(
-                                  currentPage: adminAdsListMenuController
-                                      .selectedPage.value,
-                                  totalCount: adminAdsListMenuController
-                                      .totalAdminSubmittedAds.value,
+                                  currentPage: adminAdsListMenuController.selectedPage.value,
+                                  totalCount: adminAdsListMenuController.totalAdminSubmittedAds.value,
                                   onPageChanged: (currentPage) {
-                                    adminAdsListMenuController
-                                        .selectedPage.value = currentPage;
-                                    adminAdsListMenuController.getAdsData(
-                                        sortBy: adminAdsListMenuController
-                                            .selectedDropDownIndex.value);
+                                    adminAdsListMenuController.selectedPage.value = currentPage;
+                                    adminAdsListMenuController.getAdsData(sortBy: adminAdsListMenuController.selectedDropDownIndex.value);
                                   },
                                 ),
                               ),
@@ -469,11 +375,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
     required String status,
   }) {
     return Padding(
-      padding: EdgeInsets.only(
-          left: Dimens.eighty,
-          right: Dimens.forty,
-          top: Dimens.twenty,
-          bottom: Dimens.twenty),
+      padding: EdgeInsets.only(left: Dimens.eighty, right: Dimens.forty, top: Dimens.twenty, bottom: Dimens.twenty),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -553,8 +455,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
           Expanded(
             flex: 1,
             child: Container(
-              padding: EdgeInsets.symmetric(
-                  vertical: Dimens.six, horizontal: Dimens.fourteen),
+              padding: EdgeInsets.symmetric(vertical: Dimens.six, horizontal: Dimens.fourteen),
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: status == CustomStatus.resume

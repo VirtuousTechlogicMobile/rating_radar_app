@@ -9,6 +9,7 @@ abstract class StringValues {
   static const days = 'Days';
   static const day = 'Day';
   static const left = 'left';
+  static const noProfileImageUrl = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ9cCbFR1xZLPExFxxotik5Awvh4HYwMgxGOg&s';
 }
 
 abstract class CustomStatus {

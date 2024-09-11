@@ -1,5 +1,4 @@
 import 'dart:math';
-import 'dart:ui';
 
 import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
@@ -19,6 +18,7 @@ import '../../../../utility/theme_assets_util.dart';
 import '../../drawer/view/drawer_view.dart';
 import '../../header/view/header_view.dart';
 import '../component/user_transactions_sortby_dropdown.dart';
+import '../model/user_transaction_interface.dart';
 
 class UserWalletScreen extends StatefulWidget {
   const UserWalletScreen({super.key});
@@ -39,8 +39,6 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    userWalletController.getTransactionData();
-    userWalletController.getTotalCounts();
     userWalletController.scrollController.addListener(
       () => userWalletController.onScroll(),
     );
@@ -223,11 +221,13 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        CommonWidgets.autoSizeText(
-                          text: 'Rs.2000.00',
-                          textStyle: AppStyles.style32Bold.copyWith(color: themeUtils.blackWhiteSwitchColor),
-                          minFontSize: 22,
-                          maxFontSize: 32,
+                        Obx(
+                          () => CommonWidgets.autoSizeText(
+                            text: "Rs.${userWalletController.userCurrentBalance.value}",
+                            textStyle: AppStyles.style32Bold.copyWith(color: themeUtils.blackWhiteSwitchColor),
+                            minFontSize: 22,
+                            maxFontSize: 32,
+                          ),
                         ),
                         Padding(
                           padding: EdgeInsets.only(top: Dimens.ten),
@@ -258,16 +258,35 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                   Expanded(
                     child: InkWell(
                       onTap: () {
-                        userWalletController.isDialogVisible.value = true;
                         UserTransactionDialogs.showDepositDialog(
                           context: context,
-                          amountController: TextEditingController(),
+                          amountController: userWalletController.depositController,
                           onChangePaymentOption: (selectedPaymentOption) {},
-                          onConfirm: () {
-                            print("deduct amount");
+                          onConfirm: () async {
+                            String? docId = await userWalletController.storeUserTransaction(
+                              isWithdraw: false,
+                              date: DateTime.now(),
+                              amount: userWalletController.depositController.text,
+                            );
+                            if (docId != null) {
+                              RouteManagement.goToBack();
+                              AppUtility.showSnackBar('deposit_request_submitted_awaiting_admin_approval'.tr, duration: 4);
+                              userWalletController.depositController.clear();
+                            } else {
+                              AppUtility.showSnackBar('something_want_wrong'.tr);
+                            }
+                            /*UserTransactionInterface withdrawResult = await userWalletController.depositUserAmountFromAdmin();
+                            if (withdrawResult is SuccessDepositResult) {
+                              RouteManagement.goToBack();
+                              AppUtility.showSnackBar(
+                                  '${'your_deposit_of'.tr}${userWalletController.withdrawController.text}${'has_been_successfully_added_your_new_balance_is'.tr}${withdrawResult.currentBalance}',
+                                  duration: 4);
+                              userWalletController.depositController.clear();
+                            } else if (withdrawResult is UnsuccessfulTransactionResult) {
+                              AppUtility.showSnackBar('something_want_wrong'.tr);
+                            }*/
                           },
                           onClose: () {
-                            userWalletController.isDialogVisible.value = false;
                             RouteManagement.goToBack();
                           },
                         );
@@ -312,7 +331,43 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
                   /// withdraw button
                   Expanded(
                     child: InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        UserTransactionDialogs.showWithdrawDialog(
+                          context: context,
+                          onClose: () {
+                            RouteManagement.goToBack();
+                          },
+                          onConfirm: () async {
+                            String? docId = await userWalletController.storeUserTransaction(
+                              isWithdraw: true,
+                              date: DateTime.now(),
+                              amount: userWalletController.withdrawController.text,
+                            );
+                            if (docId != null) {
+                              RouteManagement.goToBack();
+                              AppUtility.showSnackBar('withdrawal_request_submitted_awaiting_admin_approval'.tr, duration: 4);
+                              userWalletController.withdrawController.clear();
+                            } else {
+                              AppUtility.showSnackBar('something_want_wrong'.tr);
+                            }
+                            /*UserTransactionInterface withdrawResult = await userWalletController.withdrawUserAmountFromAdmin();
+                            if (withdrawResult is SuccessWithdrawResult) {
+                              RouteManagement.goToBack();
+                              AppUtility.showSnackBar(
+                                  '${'success_your_withdrawal_of'.tr}${userWalletController.withdrawController.text}${'has_been_processed_your_new_balance_is'.tr}${withdrawResult.decreasedBalance}',
+                                  duration: 4);
+                              userWalletController.withdrawController.clear();
+                            } else if (withdrawResult is InsufficientBalanceWithdrawResult) {
+                              AppUtility.showSnackBar(
+                                  '${'insufficient_balance_you_cannot_withdraw_more_than_your_current_balance_of'.tr}${withdrawResult.currentBalance.toStringAsFixed(2)}',
+                                  duration: 4);
+                            } else if (withdrawResult is UnsuccessfulTransactionResult) {
+                              AppUtility.showSnackBar('something_want_wrong'.tr);
+                            }*/
+                          },
+                          amountController: userWalletController.withdrawController,
+                        );
+                      },
                       child: Container(
                         padding: EdgeInsets.symmetric(vertical: Dimens.ten),
                         decoration: BoxDecoration(

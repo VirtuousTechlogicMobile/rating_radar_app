@@ -5,6 +5,8 @@ import 'package:get/get.dart';
 
 import '../modules/admin/admin_header/admin_header_controller.dart';
 
+import '../modules/user/user_settings_menu_drawer/user_settings_menu_drawer_controller.dart';
+
 class InitialBindings extends Bindings {
   @override
   void dependencies() {
@@ -12,5 +14,6 @@ class InitialBindings extends Bindings {
     Get.put(HeaderController());
     Get.put(AdminHeaderController());
     Get.put(AdminDrawerMenuController());
+    Get.put(UserSettingsMenuDrawerController());
   }
 }

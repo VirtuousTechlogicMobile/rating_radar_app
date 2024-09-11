@@ -1,18 +1,43 @@
-class UserSignupModel {
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class UserDataModel {
   String email;
   String username;
   String phoneNumber;
   String password;
-  String? createdAt;
+  DateTime? createdAt;
   String? profileImage;
-  String? userBalance;
+  num? userBalance;
 
-  UserSignupModel({
+  UserDataModel({
     required this.email,
     required this.username,
     required this.phoneNumber,
     required this.password,
+    this.createdAt,
+    this.profileImage,
+    this.userBalance,
   });
+
+  UserDataModel copyWith({
+    String? newProfileImage,
+    String? newUserName,
+    String? newEmail,
+    String? newPassword,
+    String? newPhoneNumber,
+    DateTime? newCreatedAt,
+    num? newUserBalance,
+  }) {
+    return UserDataModel(
+      email: newEmail ?? email,
+      password: newPassword ?? password,
+      phoneNumber: newPhoneNumber ?? phoneNumber,
+      createdAt: newCreatedAt ?? createdAt,
+      userBalance: newUserBalance ?? userBalance,
+      profileImage: newProfileImage ?? profileImage,
+      username: newUserName ?? username,
+    );
+  }
 
   Map<String, dynamic> toMap() {
     return {
@@ -20,15 +45,21 @@ class UserSignupModel {
       'username': username,
       'phoneNumber': phoneNumber,
       'password': password,
+      'createdAt': createdAt,
+      'profileImage': profileImage,
+      'userBalance': userBalance,
     };
   }
 
-  factory UserSignupModel.fromMap(Map<String, dynamic> map) {
-    return UserSignupModel(
+  factory UserDataModel.fromMap(Map<String, dynamic> map) {
+    return UserDataModel(
       email: map['email'],
+      password: map['password'],
       username: map['username'],
       phoneNumber: map['phoneNumber'],
-      password: map['password'],
+      createdAt: (map['createdAt'] as Timestamp).toDate(),
+      profileImage: map['profileImage'],
+      userBalance: map['userBalance'],
     );
   }
 }

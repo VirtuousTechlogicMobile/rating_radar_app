@@ -28,6 +28,8 @@ import '../modules/user/user_conformation/bindings/user_conformation_binding.dar
 import '../modules/user/user_conformation/view/user_conformation_screen.dart';
 import '../modules/user/user_homepage/bindings/user_homepage_binding.dart';
 import '../modules/user/user_homepage/view/user_homepage_screen.dart';
+import '../modules/user/user_my_account_setting/bindings/user_my_account_setting_binding.dart';
+import '../modules/user/user_my_account_setting/view/user_my_account_setting_screen.dart';
 import '../modules/user/user_signup/bindings/user_signup_binding.dart';
 import '../modules/user/user_signup/view/user_signup_screen.dart';
 
@@ -107,7 +109,15 @@ abstract class AppPages {
       page: UserWalletScreen.new,
       binding: UserWalletBinding(),
       transitionDuration: transitionDuration,
-      transition: defaultTransition,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.userMyAccountScreen,
+      page: UserMyAccountSettingScreen.new,
+      binding: UserMyAccountSettingBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
     ),
 
     /// manager module ------------------------------------------------------------------------

@@ -6,14 +6,13 @@ abstract class PreferencesManager {
     await SharedPrefGetterSetters().setString('userId', uid);
   }
 
-  static Future deleteUserUid({required String uid}) async {
+  static Future deleteUserUid() async {
     await SharedPrefGetterSetters().clearKey('userId');
   }
 
   static Future<String?> getUserId() async {
     String? userId = await SharedPrefGetterSetters().getString('userId');
-    String? managerId =
-        await SharedPrefGetterSetters().getString('managerUserId');
+    String? managerId = await SharedPrefGetterSetters().getString('managerUserId');
     return userId ?? managerId;
   }
 
@@ -27,6 +26,19 @@ abstract class PreferencesManager {
 
   static Future<int> getDrawerIndex() async {
     return await SharedPrefGetterSetters().getInt('drawerIndex') ?? 0;
+  }
+
+  static Future setSettingsDrawerIndex({required int index}) async {
+    await SharedPrefGetterSetters().setInt('settingsDrawerIndex', index);
+  }
+
+  static Future<int> getSettingsDrawerIndex() async {
+    return await SharedPrefGetterSetters().getInt('settingsDrawerIndex') ?? 0;
+  }
+
+  static Future deleteDrawerIndexes() async {
+    await SharedPrefGetterSetters().clearKey('drawerIndex');
+    await SharedPrefGetterSetters().clearKey('settingsDrawerIndex');
   }
 
   /// admin methods ----------------------------------------------------------
