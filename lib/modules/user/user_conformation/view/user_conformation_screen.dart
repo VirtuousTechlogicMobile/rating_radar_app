@@ -27,7 +27,6 @@ class _UserConformationScreenState extends State<UserConformationScreen> with Si
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userConformationController.startTimer();
     userConformationController.animationController = AnimationController(
@@ -223,6 +222,7 @@ class _UserConformationScreenState extends State<UserConformationScreen> with Si
                               onTap: () async {
                                 bool isUserVerified = await userConformationController.onRefresh();
                                 if (isUserVerified) {
+                                  await userConformationController.addReferredByUserAmount();
                                   RouteManagement.goToUserHomePageScreen();
                                 }
                               },

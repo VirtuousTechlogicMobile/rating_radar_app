@@ -24,7 +24,6 @@ class UserHomepageViewComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return Container(
       margin: EdgeInsets.only(top: Dimens.twentyFive),
       decoration: BoxDecoration(

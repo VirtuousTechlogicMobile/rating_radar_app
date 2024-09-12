@@ -16,6 +16,8 @@ import 'package:RatingRadar_app/modules/user/user_delete_account/bindings/user_d
 import 'package:RatingRadar_app/modules/user/user_delete_account/view/user_delete_account_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_logout/bindings/user_logout_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_logout/view/user_logout_screen.dart';
+import 'package:RatingRadar_app/modules/user/user_payment_method_setting/bindings/user_payment_method_setting_binding.dart';
+import 'package:RatingRadar_app/modules/user/user_payment_method_setting/view/user_payment_method_setting_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_referral/bindings/user_referral_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_referral/view/user_referral_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/bindings/user_submit_ad_binding.dart';
@@ -127,6 +129,14 @@ abstract class AppPages {
       name: _Routes.userMyAccountScreen,
       page: UserMyAccountSettingScreen.new,
       binding: UserMyAccountSettingBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.userPaymentMethodScreen,
+      page: UserPaymentMethodSettingScreen.new,
+      binding: UserPaymentMethodSettingBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
     ),

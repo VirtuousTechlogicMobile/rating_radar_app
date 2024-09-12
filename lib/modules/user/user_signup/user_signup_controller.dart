@@ -1,7 +1,8 @@
+import 'dart:developer';
 import 'package:RatingRadar_app/helper/database_helper/database_helper.dart';
+import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-
 import 'model/user_signup_model.dart';
 
 class UserSignUpController extends GetxController {
@@ -35,5 +36,22 @@ class UserSignUpController extends GetxController {
     contactNumberController.clear();
     passwordController1.clear();
     passwordController2.clear();
+  }
+
+  Future<String?> getUserIdFromUrl({required String url}) async {
+    try {
+      final userParamStart = url.indexOf('?user=');
+      if (userParamStart != -1) {
+        final userParamSubstring = url.substring(userParamStart + 6);
+        final id = userParamSubstring.split('&').first;
+        await PreferencesManager.setUserReferredBy(referredByUserId: id);
+        return id;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
   }
 }

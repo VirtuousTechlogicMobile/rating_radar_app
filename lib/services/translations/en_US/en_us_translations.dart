@@ -55,6 +55,7 @@ final Map<String, String> enUs = {
   'copy_link': 'Copy Link',
   'send': 'Send',
   'invite_by_email': 'Invite by Email',
+  'link_copied': 'Link copied',
   'enter_email': 'Enter Email',
   'dark_mode': 'Dark Mode',
   'light_mode': 'Light Mode',
@@ -193,5 +194,10 @@ final Map<String, String> enUs = {
   'your_account_deleted_successfully': 'Your account deleted successfully',
   'wrong_password': 'Wrong password',
   'failed_to_delete_account': 'Something want wrong!. Failed to delete account.',
+  'cards': 'Cards',
+  'add_cards': 'Add Cards',
+  'bank_accounts': 'Bank Accounts',
+  'add_account': 'Add Account',
+  'add_card': 'Add Card',
   // 'Youare': 'Youare',
 };

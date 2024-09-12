@@ -26,7 +26,6 @@ class UserMyAccountSettingController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    // TODO: implement onInit
     Get.context?.loaderOverlay.show();
     super.onInit();
     await getUserId();
@@ -70,6 +69,7 @@ class UserMyAccountSettingController extends GetxController {
         city: cityController.text,
         gender: userGender.value,
         uId: userId.value,
+        referredBy: '',
       ),
     );
     await getUserData();

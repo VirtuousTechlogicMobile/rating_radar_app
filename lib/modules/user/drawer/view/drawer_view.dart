@@ -136,8 +136,7 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
               if (settingDrawerIndex == 0) {
                 RouteManagement.goToUserMyAccountSettingScreen();
               } else if (settingDrawerIndex == 1) {
-                // TODO: add payment method screen
-                RouteManagement.goToUserMyAccountSettingScreen();
+                RouteManagement.goToUserPaymentMethodSettingScreen();
               } else if (settingDrawerIndex == 2) {
                 RouteManagement.goToUserChangePasswordScreen();
               } else if (settingDrawerIndex == 3) {

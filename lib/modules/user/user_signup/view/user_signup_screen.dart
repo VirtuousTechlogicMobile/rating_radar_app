@@ -3,13 +3,13 @@ import 'package:RatingRadar_app/common/custom_textfield.dart';
 import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
+import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:RatingRadar_app/helper/validators.dart';
 import 'package:RatingRadar_app/modules/user/user_signup/model/user_signup_model.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-
 import '../../../../common/custom_button.dart';
 import '../../../../common/custom_theme_switch_button.dart';
 import '../../../../constant/dimens.dart';
@@ -17,9 +17,13 @@ import '../../../../constant/strings.dart';
 import '../../../../routes/route_management.dart';
 import '../../../../utility/utility.dart';
 import '../user_signup_controller.dart';
+import 'dart:html' as html;
 
 class UserSignUpScreen extends StatelessWidget {
-  UserSignUpScreen({super.key});
+  UserSignUpScreen({super.key}) {
+    final url = html.window.location.href;
+    userSignUpScreenController.getUserIdFromUrl(url: url);
+  }
 
   final userSignUpScreenController = Get.find<UserSignUpController>();
 
@@ -246,6 +250,7 @@ class UserSignUpScreen extends StatelessWidget {
                         AppUtility.showSnackBar('password_confirm_password_do_not_match'.tr);
                       } else {
                         /// go to conformation screen if user not exists
+                        String? userReferredById = await PreferencesManager.getUserReferredBy();
                         String registrationStatus = await userSignUpScreenController.signUpUser(
                           userSignupModel: UserDataModel(
                             email: userSignUpScreenController.emailController.text,
@@ -259,6 +264,9 @@ class UserSignUpScreen extends StatelessWidget {
                             city: '',
                             state: '',
                             panNumber: '',
+                            referredBy: userReferredById ?? '',
+                            userBanksDataList: [],
+                            userCardsList: [],
                           ),
                         );
                         if (registrationStatus == CustomStatus.success) {

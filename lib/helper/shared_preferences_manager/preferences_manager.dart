@@ -46,6 +46,18 @@ abstract class PreferencesManager {
     await SharedPrefGetterSetters().clearKey('settingsDrawerIndex');
   }
 
+  static Future setUserReferredBy({required String referredByUserId}) async {
+    await SharedPrefGetterSetters().setString('referredBy', referredByUserId);
+  }
+
+  static Future<String?> getUserReferredBy() async {
+    return await SharedPrefGetterSetters().getString('referredBy');
+  }
+
+  static Future deleteUserReferredBy() async {
+    await SharedPrefGetterSetters().clearKey('referredBy');
+  }
+
   /// admin methods ----------------------------------------------------------
 
   static Future setAdminUid({required String adminUid}) async {

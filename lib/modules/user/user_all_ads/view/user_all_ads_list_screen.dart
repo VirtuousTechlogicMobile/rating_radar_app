@@ -25,7 +25,6 @@ class _UserAllAdsListScreenState extends State<UserAllAdsListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userAllAdsController.getAdsList();
     userAllAdsController.scrollController.addListener(

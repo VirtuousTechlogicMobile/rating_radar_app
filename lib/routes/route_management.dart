@@ -49,6 +49,10 @@ abstract class RouteManagement {
     Get.offNamed(AppRoutes.userMyAccountScreen);
   }
 
+  static void goToUserPaymentMethodSettingScreen() {
+    Get.offNamed(AppRoutes.userPaymentMethodScreen);
+  }
+
   static void goToUserChangePasswordScreen() {
     Get.offNamed(AppRoutes.userChangePasswordScreen);
   }

@@ -53,6 +53,22 @@ class DatabaseHelper {
     }
   }
 
+  Future addReferredByUserAmount(String referredByUserId) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(referredByUserId).get();
+      if (userDoc.exists) {
+        num userCurrentBalance = userDoc['userBalance'] as num;
+        num increasedBalance = userCurrentBalance + 100;
+        await usersCollectionReference.doc(referredByUserId).update({
+          DatabaseSynonyms.userBalanceField: increasedBalance, // Updating the field
+        });
+      }
+    } catch (e) {
+      log("Exception: $e");
+    }
+  }
+
   Future<bool> checkIsUserVerified() async {
     User? user = firebaseAuth.currentUser;
     await user?.reload();
@@ -851,7 +867,6 @@ class DatabaseHelper {
         if (userDoc.exists) {
           password = await userDoc[DatabaseSynonyms.passwordField];
         }
-        print("mansi : ${userPassword} && $password");
         if (userPassword == password) {
           /// delete user in user table
           await usersCollectionReference.doc(user.uid).delete();

@@ -13,6 +13,7 @@ abstract class AppRoutes {
   static const userWalletScreen = _Routes.userWalletScreen;
   static const userReferralScreen = _Routes.userReferralScreen;
   static const userMyAccountScreen = _Routes.userMyAccountScreen;
+  static const userPaymentMethodScreen = _Routes.userPaymentMethodScreen;
   static const userChangePasswordScreen = _Routes.userChangePasswordScreen;
   static const userDeleteAccountScreen = _Routes.userDeleteAccountScreen;
 
@@ -40,6 +41,7 @@ abstract class _Routes {
   static const userWalletScreen = '/user/wallet';
   static const userReferralScreen = '/user/referral';
   static const userMyAccountScreen = '/user/settings/my-account';
+  static const userPaymentMethodScreen = '/user/settings/payment-method';
   static const userChangePasswordScreen = '/user/settings/change-password';
   static const userDeleteAccountScreen = '/user/settings/delete-account';
 

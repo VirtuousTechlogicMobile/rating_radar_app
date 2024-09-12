@@ -65,7 +65,7 @@ class UserSettingsMenuDrawerView extends StatelessWidget {
                   if (settingsDrawerController.selectedMenuIndex.value == 0) {
                     RouteManagement.goToUserMyAccountSettingScreen();
                   } else if (settingsDrawerController.selectedMenuIndex.value == 1) {
-                    // RouteManagement.goToUserChangePasswordScreen();
+                    RouteManagement.goToUserPaymentMethodSettingScreen();
                   } else if (settingsDrawerController.selectedMenuIndex.value == 2) {
                     RouteManagement.goToUserChangePasswordScreen();
                   } else {
