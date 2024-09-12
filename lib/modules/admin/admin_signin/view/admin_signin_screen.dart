@@ -46,8 +46,7 @@ class AdmSignInScreen extends StatelessWidget {
             ],
           ),
           signUpLayout(context, themeColorsUtil),
-          const Positioned(
-              right: 0, bottom: 0, child: CustomThemeSwitchButton())
+          const Positioned(right: 0, bottom: 0, child: CustomThemeSwitchButton())
         ],
       ),
     );
@@ -56,9 +55,7 @@ class AdmSignInScreen extends StatelessWidget {
   Widget signUpLayout(BuildContext context, ThemeColorsUtil themeColorsUtil) {
     return Container(
       margin: EdgeInsets.only(top: Dimens.forty, bottom: Dimens.forty),
-      width: Responsive.isDesktop(context)
-          ? MediaQuery.of(context).size.width / 3.5
-          : MediaQuery.of(context).size.width / 2,
+      width: Responsive.isDesktop(context) ? MediaQuery.of(context).size.width / 3.5 : MediaQuery.of(context).size.width / 2,
       decoration: BoxDecoration(
         color: themeColorsUtil.deepBlackWhiteSwitchColor,
         border: Border.all(color: themeColorsUtil.primaryColorSwitch, width: 1),
@@ -80,13 +77,11 @@ class AdmSignInScreen extends StatelessWidget {
                   textSpans: [
                     TextSpan(
                       text: 'welcome_to'.tr,
-                      style: AppStyles.style21Normal.copyWith(
-                          color: themeColorsUtil.whiteBlackSwitchColor),
+                      style: AppStyles.style21Normal.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
                     ),
                     TextSpan(
                       text: " ${'admin'.tr}",
-                      style: AppStyles.style21Bold
-                          .copyWith(color: themeColorsUtil.primaryColorSwitch),
+                      style: AppStyles.style21Bold.copyWith(color: themeColorsUtil.primaryColorSwitch),
                     ),
                   ],
                   minFontSize: 10,
@@ -96,8 +91,7 @@ class AdmSignInScreen extends StatelessWidget {
                   padding: EdgeInsets.only(top: Dimens.ten),
                   child: CommonWidgets.autoSizeText(
                     text: 'sign_in'.tr,
-                    textStyle: AppStyles.style55SemiBold
-                        .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+                    textStyle: AppStyles.style55SemiBold.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
                     minFontSize: 30,
                     maxFontSize: 55,
                   ),
@@ -119,19 +113,14 @@ class AdmSignInScreen extends StatelessWidget {
                       themeColorsUtil: themeColorsUtil,
                       suffixIcon: InkWell(
                         onTap: () {
-                          adminSignInScreenController.isShowPassword.value =
-                              !adminSignInScreenController.isShowPassword.value;
+                          adminSignInScreenController.isShowPassword.value = !adminSignInScreenController.isShowPassword.value;
                         },
                         child: adminSignInScreenController.isShowPassword.value
-                            ? CommonWidgets.fromSvg(
-                                svgAsset: SvgAssets.eyeVisibilityIcon)
-                            : CommonWidgets.fromSvg(
-                                svgAsset: SvgAssets.eyeVisibilityOffIcon),
+                            ? CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityIcon)
+                            : CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityOffIcon),
                       ),
-                      controller:
-                          adminSignInScreenController.passwordController,
-                      obscureText:
-                          !adminSignInScreenController.isShowPassword.value,
+                      controller: adminSignInScreenController.passwordController,
+                      obscureText: !adminSignInScreenController.isShowPassword.value,
                     ),
                   ),
                 ),
@@ -141,8 +130,7 @@ class AdmSignInScreen extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: CommonWidgets.autoSizeText(
                       text: 'forgot_password'.tr,
-                      textStyle: AppStyles.style13Normal
-                          .copyWith(color: themeColorsUtil.primaryColorSwitch),
+                      textStyle: AppStyles.style13Normal.copyWith(color: themeColorsUtil.primaryColorSwitch),
                       minFontSize: 8,
                       maxFontSize: 13,
                     ),
@@ -152,47 +140,27 @@ class AdmSignInScreen extends StatelessWidget {
                   () => CustomButton(
                     borderRadius: BorderRadius.circular(Dimens.thirty),
                     btnText: 'sign_in'.tr,
-                    isShowLoading:
-                        adminSignInScreenController.isShowLoadingOnButton.value,
+                    isShowLoading: adminSignInScreenController.isShowLoadingOnButton.value,
                     margin: EdgeInsets.only(top: Dimens.fortyFour),
                     onTap: () async {
-                      if (adminSignInScreenController.emailController.text
-                          .trim()
-                          .isEmpty) {
+                      if (adminSignInScreenController.emailController.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_email'.tr);
-                      } else if (adminSignInScreenController
-                              .emailController.text
-                              .trim()
-                              .isNotEmpty &&
-                          !Validators.isValidEmail(adminSignInScreenController
-                              .emailController.text)) {
+                      } else if (adminSignInScreenController.emailController.text.trim().isNotEmpty && !Validators.isValidEmail(adminSignInScreenController.emailController.text)) {
                         AppUtility.showSnackBar('please_enter_valid_email'.tr);
-                      } else if (adminSignInScreenController
-                          .passwordController.text
-                          .trim()
-                          .isEmpty) {
+                      } else if (adminSignInScreenController.passwordController.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_password'.tr);
-                      } else if (adminSignInScreenController
-                              .passwordController.text
-                              .trim()
-                              .length <
-                          6) {
-                        AppUtility.showSnackBar(
-                            'password_must_be_at_least_6_characters'.tr);
+                      } else if (adminSignInScreenController.passwordController.text.trim().length < 6) {
+                        AppUtility.showSnackBar('password_must_be_at_least_6_characters'.tr);
                       } else {
-                        String signInStatus =
-                            await adminSignInScreenController.signInAdmin(
-                          email:
-                              adminSignInScreenController.emailController.text,
-                          password: adminSignInScreenController
-                              .passwordController.text,
+                        String signInStatus = await adminSignInScreenController.signInAdmin(
+                          email: adminSignInScreenController.emailController.text,
+                          password: adminSignInScreenController.passwordController.text,
                         );
 
                         if (signInStatus == CustomStatus.success) {
                           RouteManagement.goToAdminHomePageView();
                           adminSignInScreenController.clearControllers();
-                        } else if (signInStatus ==
-                            CustomStatus.wrongEmailPassword) {
+                        } else if (signInStatus == CustomStatus.wrongEmailPassword) {
                           AppUtility.showSnackBar('wrong_email_password'.tr);
                         } else {
                           AppUtility.showSnackBar('user_not_found'.tr);
@@ -226,8 +194,7 @@ class AdmSignInScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom: Dimens.ten),
           child: CommonWidgets.autoSizeText(
             text: labelText,
-            textStyle: AppStyles.style16Normal
-                .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+            textStyle: AppStyles.style16Normal.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
             minFontSize: 10,
             maxFontSize: 16,
           ),
@@ -239,6 +206,7 @@ class AdmSignInScreen extends StatelessWidget {
           length: length,
           inputFormatters: inputFormatters,
           obscureText: obscureText,
+          textStyle: TextStyle(color: ColorValues.blackColor),
           maxLines: 1,
           contentPadding: contentPadding,
           fillColor: ColorValues.whiteColor,

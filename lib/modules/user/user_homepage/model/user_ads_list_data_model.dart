@@ -11,6 +11,8 @@ class UserAdsListDataModel {
   num adPrice;
   String? adManagerId;
   String? adLocation;
+  String? companyAdAction;
+  String? adBlockReason;
 
   UserAdsListDataModel({
     this.docId,
@@ -23,23 +25,24 @@ class UserAdsListDataModel {
     required this.adPrice,
     this.adManagerId,
     this.adLocation,
+    this.companyAdAction,
+    this.adBlockReason,
   });
 
-  factory UserAdsListDataModel.fromMap(Map<String, dynamic> map,
-      {String? docId}) {
+  factory UserAdsListDataModel.fromMap(Map<String, dynamic> map, {String? docId}) {
     return UserAdsListDataModel(
       docId: docId,
       adName: map['adName'] as String,
       adPrice: map['adPrice'] as num,
       adStatus: map['adStatus'] as String,
-      addedDate: map['addedDate'] != null
-          ? (map['addedDate'] as Timestamp).toDate()
-          : null,
+      addedDate: map['addedDate'] != null ? (map['addedDate'] as Timestamp).toDate() : null,
       imageUrl: (map['adImageUrl'] as List<dynamic>?)?.cast<String>(),
       adContent: map['adContent'] as String,
       byCompany: map['byCompany'] as String,
       adManagerId: map['adManagerId'] as String,
       adLocation: map['adLocation'] as String,
+      companyAdAction: map['companyAdAction'] as String,
+      adBlockReason: map['adBlockReason'] as String,
     );
   }
 

@@ -12,6 +12,7 @@ class AdminCustomRadioButton extends StatelessWidget {
   final String labelText;
   final TextStyle? labelTextStyle;
   final EdgeInsets? labelPadding;
+  final VoidCallback? onTap; // Add onTap callback
 
   const AdminCustomRadioButton({
     super.key,
@@ -22,6 +23,7 @@ class AdminCustomRadioButton extends StatelessWidget {
     required this.labelText,
     this.labelTextStyle,
     this.labelPadding,
+    this.onTap, // Include onTap in constructor
   });
 
   @override
@@ -32,9 +34,12 @@ class AdminCustomRadioButton extends StatelessWidget {
       builder: (context, currentStatus, child) {
         return GestureDetector(
           onTap: () {
-            // Update the controller's value directly
-            controller.value = status;
-          },
+            controller.value =
+                status; // Update the controller with the new status
+            if (onTap != null) {
+              onTap!(); // Trigger additional onTap logic
+            }
+          }, // Use the onTap callback
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,

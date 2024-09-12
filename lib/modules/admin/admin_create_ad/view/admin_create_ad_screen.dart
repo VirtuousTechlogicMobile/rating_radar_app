@@ -563,10 +563,15 @@ class AdminCreateAdScreen extends StatelessWidget {
                                               status: adminCreateAdController
                                                   .adminCustomStatus[index],
                                               // Pass the correct status
-                                              labelText: AppUtility.capitalizeStatus(
-                                                  adminCreateAdController
-                                                          .adminCustomStatus[
-                                                      index]), // Generate label text dynamically
+                                              labelText:
+                                                  AppUtility.capitalizeStatus(
+                                                      adminCreateAdController
+                                                              .adminCustomStatus[
+                                                          index]),
+                                              onTap: () {
+                                                adminCreateAdController
+                                                    .selectedAdStatus;
+                                              }, // Generate label text dynamically
                                             ),
                                           );
                                         },

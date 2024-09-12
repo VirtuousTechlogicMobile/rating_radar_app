@@ -170,5 +170,8 @@ final Map<String, String> enUs = {
   'profile_picture_updated_successfully': 'Profile picture updated successfully!',
   'profile_picture_removed_successfully': 'Profile picture removed successfully!',
   'profile_picture': 'Profile picture',
+  'enter_reason_for_blocking_ad': 'Enter Reason for blocking Ad',
+  'add_user': 'Add User',
+  'all_user': 'All User',
   // 'Youare': 'Youare',
 };

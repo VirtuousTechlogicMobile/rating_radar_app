@@ -2,8 +2,12 @@ import 'package:RatingRadar_app/modules/admin/admin_ads_list_menu/bindings/admin
 import 'package:RatingRadar_app/modules/admin/admin_ads_list_menu/view/admin_ads_list_menu_screen.dart';
 import 'package:RatingRadar_app/modules/admin/admin_create_ad/bindings/admin_create_ad_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_create_ad/view/admin_create_ad_screen.dart';
+import 'package:RatingRadar_app/modules/admin/admin_logout/bindings/admin_logout_binding.dart';
+import 'package:RatingRadar_app/modules/admin/admin_logout/view/admin_logout_screen.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/bindings/admin_signin_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/view/admin_signin_screen.dart';
+import 'package:RatingRadar_app/modules/admin/admin_user/bindings/admin_all_user_binding.dart';
+import 'package:RatingRadar_app/modules/admin/admin_user/view/admin_all_user_view.dart';
 import 'package:RatingRadar_app/modules/admin/admin_view_ad/bindings/admin_view_ad.dart';
 import 'package:RatingRadar_app/modules/admin/admin_view_ad/view/admin_view_ad_screen.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/bindings/admin_homepage_binding.dart';
@@ -89,8 +93,7 @@ abstract class AppPages {
 
     GetPage(
       name: _Routes.userSubmitAd,
-      page: () => UserSubmitAdScreen(
-          adDocumentId: Get.parameters['adDocumentId'] ?? ''),
+      page: () => UserSubmitAdScreen(adDocumentId: Get.parameters['adDocumentId'] ?? ''),
       binding: UserSubmitAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
@@ -166,11 +169,25 @@ abstract class AppPages {
 
     GetPage(
       name: _Routes.adminViewAd,
-      page: () =>
-          AdminViewAdScreen(adDocumentId: Get.parameters['adDocumentId'] ?? ''),
+      page: () => AdminViewAdScreen(adDocumentId: Get.parameters['adDocumentId'] ?? ''),
       binding: AdminViewAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.adminAllUser,
+      page: AdminAllUserView.new,
+      binding: AdminAllUserBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+    GetPage(
+      name: _Routes.adminLogout,
+      page: AdminLogoutScreen.new,
+      binding: AdminLogoutBinding(),
+      transitionDuration: transitionDuration,
+      transition: defaultTransition,
     ),
   ];
 

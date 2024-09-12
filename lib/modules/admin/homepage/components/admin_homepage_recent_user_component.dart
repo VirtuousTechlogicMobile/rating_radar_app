@@ -1,5 +1,6 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
+import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -17,16 +18,15 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
   final List<AdminHomepageRecentUserCompanyModel>? userList;
   final bool showScrollbar; // New parameter
 
-  AdminHomepageRecentUserComponent({
-    super.key,
-    required this.listScrollController,
-    required this.scrollBarTop,
-    required this.scrollBarHeight,
-    required this.isUser,
-    required this.onPanUpaDate,
-    required this.userList,
-    required this.showScrollbar,
-  });
+  const AdminHomepageRecentUserComponent(
+      {super.key,
+      required this.listScrollController,
+      required this.scrollBarTop,
+      required this.scrollBarHeight,
+      required this.isUser,
+      required this.onPanUpaDate,
+      required this.userList,
+      required this.showScrollbar});
 
   @override
   Widget build(BuildContext context) {
@@ -57,13 +57,20 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                   minFontSize: 8,
                   maxFontSize: 16,
                 ),
-                CommonWidgets.autoSizeText(
-                  text: 'see_all'.tr,
-                  textStyle: AppStyles.style12Bold.copyWith(
-                    color: themeUtils.primaryColorSwitch,
+                InkWell(
+                  onTap: () {
+                    if (isUser) {
+                      RouteManagement.goToAdminAllUserView();
+                    }
+                  },
+                  child: CommonWidgets.autoSizeText(
+                    text: 'see_all'.tr,
+                    textStyle: AppStyles.style12Bold.copyWith(
+                      color: themeUtils.primaryColorSwitch,
+                    ),
+                    minFontSize: 8,
+                    maxFontSize: 12,
                   ),
-                  minFontSize: 8,
-                  maxFontSize: 12,
                 ),
               ],
             ),
@@ -75,8 +82,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
               children: [
                 Expanded(
                   child: ScrollConfiguration(
-                    behavior: ScrollConfiguration.of(context)
-                        .copyWith(scrollbars: false),
+                    behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
                     child: SingleChildScrollView(
                       controller: listScrollController,
                       child: Column(
@@ -84,8 +90,7 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                           userList?.length ?? 0,
                           (index) {
                             return AdminHomepageRecentUserCompanyComponents(
-                              adminHomepageRecentUserCompanyModel:
-                                  userList?[index],
+                              adminHomepageRecentUserCompanyModel: userList?[index],
                             );
                           },
                         ),
@@ -113,12 +118,9 @@ class AdminHomepageRecentUserComponent extends StatelessWidget {
                             },
                             child: Container(
                               width: Dimens.ten,
-                              height: scrollBarHeight > Dimens.sixTeen
-                                  ? scrollBarHeight - Dimens.sixTeen
-                                  : 0,
+                              height: scrollBarHeight > Dimens.sixTeen ? scrollBarHeight - Dimens.sixTeen : 0,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.circular(Dimens.four),
+                                borderRadius: BorderRadius.circular(Dimens.four),
                                 color: themeUtils.primaryColorSwitch,
                               ),
                             ),

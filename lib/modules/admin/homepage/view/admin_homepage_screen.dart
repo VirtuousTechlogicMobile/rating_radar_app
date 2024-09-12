@@ -22,19 +22,16 @@ class AdminHomepageScreen extends StatefulWidget {
 }
 
 class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
-  final AdminHomepageController adminHomePageController =
-      Get.find<AdminHomepageController>();
+  final AdminHomepageController adminHomePageController = Get.find<AdminHomepageController>();
 
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
   @override
   void initState() {
     super.initState();
-    adminHomePageController.scrollController1
-        .addListener(adminHomePageController.updateScrollbar1Position);
+    adminHomePageController.scrollController1.addListener(adminHomePageController.updateScrollbar1Position);
 
-    adminHomePageController.scrollController2
-        .addListener(adminHomePageController.updateScrollbar2Position);
+    adminHomePageController.scrollController2.addListener(adminHomePageController.updateScrollbar2Position);
 
     adminHomePageController.getUserList();
     adminHomePageController.getCompanyList();
@@ -42,12 +39,10 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
 
   @override
   void dispose() {
-    adminHomePageController.scrollController1
-        .removeListener(adminHomePageController.updateScrollbar1Position);
+    adminHomePageController.scrollController1.removeListener(adminHomePageController.updateScrollbar1Position);
     adminHomePageController.scrollController1.dispose();
 
-    adminHomePageController.scrollController2
-        .removeListener(adminHomePageController.updateScrollbar2Position);
+    adminHomePageController.scrollController2.removeListener(adminHomePageController.updateScrollbar2Position);
     adminHomePageController.scrollController2.dispose();
     super.dispose();
   }
@@ -84,8 +79,7 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(
-              horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -100,31 +94,24 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                         padding: EdgeInsets.only(bottom: Dimens.eight),
                         child: CommonWidgets.autoSizeText(
                           text: 'overview'.tr,
-                          textStyle: AppStyles.style24SemiBold.copyWith(
-                              color: themeUtils.whiteBlackSwitchColor),
+                          textStyle: AppStyles.style24SemiBold.copyWith(color: themeUtils.whiteBlackSwitchColor),
                           minFontSize: 20,
                           maxFontSize: 24,
                         ),
                       ),
                       CommonWidgets.autoSizeText(
                         text: 'overall_your_progress'.tr,
-                        textStyle: AppStyles.style14Normal
-                            .copyWith(color: themeUtils.primaryColorSwitch),
+                        textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
                         minFontSize: 8,
                         maxFontSize: 14,
                       ),
                     ],
                   ),
                   Obx(() => AdminCustomDropdown(
-                        dropDownItems:
-                            adminHomePageController.adminDropdownItemList,
-                        selectedItem:
-                            adminHomePageController.adminDropdownItemList[
-                                adminHomePageController
-                                    .selectedDropdownItemIndex.value],
+                        dropDownItems: adminHomePageController.adminDropdownItemList,
+                        selectedItem: adminHomePageController.adminDropdownItemList[adminHomePageController.selectedDropdownItemIndex.value],
                         onItemSelected: (index) async {
-                          adminHomePageController
-                              .selectedDropdownItemIndex.value = index;
+                          adminHomePageController.selectedDropdownItemIndex.value = index;
                           // await adminHomePageController.getAdsList();
                         },
                       )),
@@ -133,8 +120,7 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
               // Grid Section
               LayoutBuilder(
                 builder: (context, constraints) {
-                  double spacing = _calculateGridSpacing(
-                      constraints.maxWidth, Dimens.twoHundredTwenty);
+                  double spacing = _calculateGridSpacing(constraints.maxWidth, Dimens.twoHundredTwenty);
 
                   return Wrap(
                     spacing: spacing,
@@ -145,10 +131,7 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                         themeUtils: themeUtils,
                         index: index,
                         listLength: 4,
-                        viewsModel: AdminHomepageAdsViewsDataModel(
-                            totalViews: 1265,
-                            isMarketValueUp: true,
-                            marketValuePercentage: 11.02),
+                        viewsModel: AdminHomepageAdsViewsDataModel(totalViews: 1265, isMarketValueUp: true, marketValuePercentage: 11.02),
                       ),
                     ),
                   );
@@ -156,13 +139,10 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
               ),
               // Members Section
               Padding(
-                padding:
-                    EdgeInsets.only(top: Dimens.twentySix, bottom: Dimens.nine),
+                padding: EdgeInsets.only(top: Dimens.twentySix, bottom: Dimens.nine),
                 child: CommonWidgets.autoSizeText(
                   text: 'members'.tr,
-                  textStyle: AppStyles.style24Normal.copyWith(
-                      color: themeUtils.whiteBlackSwitchColor,
-                      fontWeight: FontWeight.w600),
+                  textStyle: AppStyles.style24Normal.copyWith(color: themeUtils.whiteBlackSwitchColor, fontWeight: FontWeight.w600),
                   minFontSize: 15,
                   maxFontSize: 24,
                 ),
@@ -172,8 +152,7 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                 children: [
                   CommonWidgets.autoSizeText(
                     text: 'recent_joined_members'.tr,
-                    textStyle: AppStyles.style14Normal
-                        .copyWith(color: themeUtils.primaryColorSwitch),
+                    textStyle: AppStyles.style14Normal.copyWith(color: themeUtils.primaryColorSwitch),
                     minFontSize: 8,
                     maxFontSize: 14,
                   ),
@@ -183,56 +162,36 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
               LayoutBuilder(builder: (context, constraints) {
                 return Obx(
                   () => Flex(
-                    direction: Responsive.isDesktop(context)
-                        ? Axis.horizontal
-                        : Axis.vertical,
+                    direction: Responsive.isDesktop(context) ? Axis.horizontal : Axis.vertical,
                     children: [
                       SizedBox(
-                        width: Responsive.isDesktop(context)
-                            ? constraints.maxWidth / 2
-                            : constraints.maxWidth,
+                        width: Responsive.isDesktop(context) ? constraints.maxWidth / 2 : constraints.maxWidth,
                         child: AdminHomepageRecentUserComponent(
-                          listScrollController:
-                              adminHomePageController.scrollController1,
-                          scrollBarTop:
-                              adminHomePageController.scrollbar1Top.value,
-                          scrollBarHeight:
-                              adminHomePageController.scrollbar1Height.value,
+                          listScrollController: adminHomePageController.scrollController1,
+                          scrollBarTop: adminHomePageController.scrollbar1Top.value,
+                          scrollBarHeight: adminHomePageController.scrollbar1Height.value,
                           isUser: true,
                           onPanUpaDate: (DragUpdateDetails details) {
-                            adminHomePageController
-                                .onScrollbarPan1Update(details);
+                            adminHomePageController.onScrollbarPan1Update(details);
                             adminHomePageController.update(); // Force UI update
                           },
                           userList: adminHomePageController.userList.value,
-                          showScrollbar:
-                              (adminHomePageController.userList.value?.length ??
-                                      0) >
-                                  3,
+                          showScrollbar: (adminHomePageController.userList.value?.length ?? 0) > 3,
                         ),
                       ),
                       SizedBox(
-                        width: Responsive.isDesktop(context)
-                            ? constraints.maxWidth / 2
-                            : constraints.maxWidth,
+                        width: Responsive.isDesktop(context) ? constraints.maxWidth / 2 : constraints.maxWidth,
                         child: AdminHomepageRecentUserComponent(
-                          listScrollController:
-                              adminHomePageController.scrollController2,
-                          scrollBarTop:
-                              adminHomePageController.scrollbar2Top.value,
-                          scrollBarHeight:
-                              adminHomePageController.scrollbar2Height.value,
+                          listScrollController: adminHomePageController.scrollController2,
+                          scrollBarTop: adminHomePageController.scrollbar2Top.value,
+                          scrollBarHeight: adminHomePageController.scrollbar2Height.value,
                           isUser: false,
                           onPanUpaDate: (DragUpdateDetails details) {
-                            adminHomePageController
-                                .onScrollbarPan2Update(details);
+                            adminHomePageController.onScrollbarPan2Update(details);
                             adminHomePageController.update(); // Force UI update
                           },
                           userList: adminHomePageController.companyList.value,
-                          showScrollbar:
-                              (adminHomePageController.userList.value?.length ??
-                                      0) >
-                                  3,
+                          showScrollbar: (adminHomePageController.userList.value?.length ?? 0) > 3,
                         ),
                       ),
                     ],

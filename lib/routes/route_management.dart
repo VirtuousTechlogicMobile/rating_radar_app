@@ -30,8 +30,7 @@ abstract class RouteManagement {
   }
 
   static void goToUserSubmitAdScreenView({required String adDocumentId}) {
-    Get.toNamed(AppRoutes.userSubmitAd,
-        parameters: {'adDocumentId': adDocumentId});
+    Get.toNamed(AppRoutes.userSubmitAd, parameters: {'adDocumentId': adDocumentId});
   }
 
   static void goToUserAdsListMenuView() {
@@ -70,9 +69,22 @@ abstract class RouteManagement {
     Get.toNamed(AppRoutes.adminCreateAd);
   }
 
-  static void goToAdminViewScreenView({required String adDocumentId}) {
-    Get.toNamed(AppRoutes.adminViewAd,
-        parameters: {'adDocumentId': adDocumentId});
+  static void goToAdminViewScreenView({required String adDocumentId, Function()? whenComplete}) {
+    Get.toNamed(AppRoutes.adminViewAd, parameters: {'adDocumentId': adDocumentId})?.whenComplete(
+      () {
+        if (whenComplete != null) {
+          whenComplete();
+        }
+      },
+    );
+  }
+
+  static void goToAdminAllUserView() {
+    Get.toNamed(AppRoutes.adminAllUser);
+  }
+
+  static void goToAdminLogoutView() {
+    Get.offAllNamed(AppRoutes.adminLogout);
   }
 
   /// Go to back Page / Close Pages --------------------------------------------

@@ -14,7 +14,7 @@ import '../../../user/user_ads_list_menu/components/custom_pagination_widget.dar
 import '../../admin_header/view/admin_header_view.dart';
 import '../../drawer/view/admin_drawer_view.dart';
 import '../admin_ads_list_menu_controller.dart';
-import '../components/ads_list_custom_dropdown.dart';
+import '../components/admin_ads_list_custom_dropdown.dart';
 
 class AdminAdsListMenuScreen extends StatelessWidget {
   final adminAdsListMenuController = Get.find<AdminAdsListMenuController>();
@@ -89,7 +89,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               Padding(
-                padding: EdgeInsets.only(left: Dimens.thirtyEight, right: Dimens.thirtyEight, bottom: Dimens.forty, top: Dimens.twentyEight),
+                padding: EdgeInsets.only(left: Dimens.thirtyEight, right: Dimens.thirtyEight, top: Dimens.twentyEight),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,7 +157,7 @@ class AdminAdsListMenuScreen extends StatelessWidget {
 
                         /// custom dropdown
                         Obx(
-                          () => AdsListCustomDropdown(
+                          () => AdminAdsListCustomDropdown(
                             dropDownItems: adminAdsListMenuController.adsListDropDownList,
                             selectedItem: adminAdsListMenuController.adsListDropDownList[adminAdsListMenuController.selectedDropDownIndex.value],
                             onItemSelected: (index) {
@@ -222,14 +222,11 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                         onExit: (_) => adminAdsListMenuController.isHoveredList[index].value = false,
                                         child: Obx(() => InkWell(
                                               onTap: () {
-                                                RouteManagement
-                                                    .goToAdminViewScreenView(
-                                                  adDocumentId:
-                                                      adminAdsListMenuController
-                                                              .adminCreatedAdsList[
-                                                                  index]
-                                                              .docId ??
-                                                          "",
+                                                RouteManagement.goToAdminViewScreenView(
+                                                  adDocumentId: adminAdsListMenuController.adminCreatedAdsList[index].docId ?? "",
+                                                  whenComplete: () {
+                                                    adminAdsListMenuController.getAdsData(sortBy: adminAdsListMenuController.selectedDropDownIndex.value);
+                                                  },
                                                 );
                                               },
                                               child: Container(
@@ -255,8 +252,10 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                                                   email: "admin@gmail.com",
                                                   date: adminAdsListMenuController.parseDate(adminAdsListMenuController.adminCreatedAdsList[index].addedDate),
                                                   price: adminAdsListMenuController.adminCreatedAdsList[index].adPrice.toString(),
-                                                  location: adminAdsListMenuController.adminCreatedAdsList[index].adLocation ?? 'United States',
-                                                  status: adminAdsListMenuController.adminCreatedAdsList[index].adStatus ?? "Status",
+                                                  location: adminAdsListMenuController.adminCreatedAdsList[index].adLocation!.isEmpty
+                                                      ? 'United States'
+                                                      : adminAdsListMenuController.adminCreatedAdsList[index].adLocation ?? "",
+                                                  status: adminAdsListMenuController.adminCreatedAdsList[index].companyAdAction ?? "status",
                                                 ),
                                               ),
                                             )),
@@ -458,21 +457,21 @@ class AdminAdsListMenuScreen extends StatelessWidget {
               padding: EdgeInsets.symmetric(vertical: Dimens.six, horizontal: Dimens.fourteen),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: status == CustomStatus.resume
+                color: status == CustomStatus.rejected
                     ? ColorValues.statusColorRed.withOpacity(0.38)
-                    : status == CustomStatus.pause
+                    : status == CustomStatus.pending
                         ? ColorValues.statusColorYellow.withOpacity(0.38)
-                        : status == CustomStatus.active
-                            ? ColorValues.statusColorGreen.withOpacity(0.38)
-                            : ColorValues.transparent,
+                        : status == CustomStatus.blocked
+                            ? ColorValues.statusColorBlack.withOpacity(0.38)
+                            : ColorValues.statusColorGreen.withOpacity(0.38),
                 border: Border.all(
-                  color: status == CustomStatus.resume
+                  color: status == CustomStatus.rejected
                       ? ColorValues.statusFontColorRed
-                      : status == CustomStatus.pause
+                      : status == CustomStatus.pending
                           ? ColorValues.statusColorYellow
-                          : status == CustomStatus.active
-                              ? ColorValues.statusColorGreen
-                              : ColorValues.transparent,
+                          : status == CustomStatus.blocked
+                              ? ColorValues.statusColorBlack
+                              : ColorValues.statusColorGreen,
                   width: 1.2,
                 ),
                 borderRadius: BorderRadius.circular(Dimens.twenty),
@@ -485,13 +484,13 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                     width: Dimens.seven,
                     margin: EdgeInsets.only(right: Dimens.five),
                     decoration: BoxDecoration(
-                      color: status == CustomStatus.resume
+                      color: status == CustomStatus.rejected
                           ? ColorValues.statusFontColorRed
-                          : status == CustomStatus.pause
+                          : status == CustomStatus.pending
                               ? ColorValues.statusColorYellow
-                              : status == CustomStatus.active
-                                  ? ColorValues.statusColorGreen
-                                  : ColorValues.transparent,
+                              : status == CustomStatus.blocked
+                                  ? ColorValues.statusColorBlack
+                                  : ColorValues.statusColorGreen,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -499,13 +498,13 @@ class AdminAdsListMenuScreen extends StatelessWidget {
                     child: CommonWidgets.autoSizeText(
                       text: AppUtility.capitalizeStatus(status),
                       textStyle: AppStyles.style14SemiBold.copyWith(
-                        color: status == CustomStatus.resume
+                        color: status == CustomStatus.rejected
                             ? ColorValues.statusFontColorRed
-                            : status == CustomStatus.pause
+                            : status == CustomStatus.pending
                                 ? ColorValues.statusColorYellow
-                                : status == CustomStatus.active
-                                    ? ColorValues.statusColorGreen
-                                    : ColorValues.statusColorBlack,
+                                : status == CustomStatus.blocked
+                                    ? ColorValues.statusColorBlack
+                                    : ColorValues.statusColorGreen,
                       ),
                       minFontSize: 8,
                       maxFontSize: 14,

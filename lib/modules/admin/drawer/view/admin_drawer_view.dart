@@ -15,13 +15,14 @@ import '../components/admin_drawer_menu_component.dart';
 
 class AdminDrawerView extends StatefulWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
+
   const AdminDrawerView({super.key, required this.scaffoldKey});
+
   @override
   State<AdminDrawerView> createState() => _AdminDrawerViewState();
 }
 
-class _AdminDrawerViewState extends State<AdminDrawerView>
-    with SingleTickerProviderStateMixin {
+class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProviderStateMixin {
   final adminDrawerController = Get.find<AdminDrawerMenuController>();
 
   @override
@@ -32,9 +33,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
       duration: const Duration(microseconds: 300),
     );
     adminDrawerController.animation = Tween<double>(begin: 0, end: 1).animate(
-      CurvedAnimation(
-          parent: adminDrawerController.animationController,
-          curve: Curves.bounceIn),
+      CurvedAnimation(parent: adminDrawerController.animationController, curve: Curves.bounceIn),
     );
     adminDrawerController.getUserEmail();
     adminDrawerController.getAdminDrawerIndex();
@@ -50,19 +49,11 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
         child: Container(
           width: Dimens.threeHundredSix,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.only(
-              top: Dimens.thirty,
-              right: Dimens.twentyEight,
-              left: Dimens.twentyEight),
+          padding: EdgeInsets.only(top: Dimens.thirty, right: Dimens.twentyEight, left: Dimens.twentyEight),
           decoration: BoxDecoration(
             color: themeUtils.drawerBgWhiteSwitchColor,
             boxShadow: [
-              BoxShadow(
-                  offset: const Offset(0, 10),
-                  blurRadius: 60,
-                  spreadRadius: 0,
-                  color: themeUtils.drawerShadowBlackSwitchColor
-                      .withOpacity(0.50)),
+              BoxShadow(offset: const Offset(0, 10), blurRadius: 60, spreadRadius: 0, color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50)),
             ],
           ),
           child: Stack(
@@ -71,24 +62,19 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                 top: Dimens.sixtyFive + Dimens.thirtyFour,
                 left: 0,
                 right: 0,
-                child:
-                    adminMenuList(adminDrawerController: adminDrawerController),
+                child: adminMenuList(adminDrawerController: adminDrawerController),
               ),
               Positioned(
                 bottom: 0,
                 left: 0,
                 right: 0,
-                child: adminEndMenuList(
-                    adminDrawerController: adminDrawerController),
+                child: adminEndMenuList(adminDrawerController: adminDrawerController),
               ),
               Positioned(
                 top: 0,
                 left: 0,
                 right: 0,
-                child: animatedContainer(
-                    adminDrawerController: adminDrawerController,
-                    themeUtils: themeUtils,
-                    context: context),
+                child: animatedContainer(adminDrawerController: adminDrawerController, themeUtils: themeUtils, context: context),
               ),
             ],
           ),
@@ -97,8 +83,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
     );
   }
 
-  Widget adminMenuList(
-      {required AdminDrawerMenuController adminDrawerController}) {
+  Widget adminMenuList({required AdminDrawerMenuController adminDrawerController}) {
     return ListView.builder(
       shrinkWrap: true,
       itemCount: adminDrawerController.adminMenuDataList.length,
@@ -108,15 +93,14 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
             adminMenuDataModel: adminDrawerController.adminMenuDataList[index],
             isSelected: index == adminDrawerController.selectedMenuIndex.value,
             onSelectMenuItem: (selectedMenu) {
-              adminDrawerController.setAdminDrawerIndex(adminDrawerController
-                  .adminMenuDataList
-                  .indexOf(selectedMenu));
-              adminDrawerController.selectedMenuIndex.value =
-                  adminDrawerController.adminMenuDataList.indexOf(selectedMenu);
+              adminDrawerController.setAdminDrawerIndex(adminDrawerController.adminMenuDataList.indexOf(selectedMenu));
+              adminDrawerController.selectedMenuIndex.value = adminDrawerController.adminMenuDataList.indexOf(selectedMenu);
               if (adminDrawerController.selectedMenuIndex.value == 0) {
                 RouteManagement.goToAdminHomePageView();
               } else if (adminDrawerController.selectedMenuIndex.value == 1) {
                 RouteManagement.goToAdminAdsMenuView();
+              } else if (adminDrawerController.selectedMenuIndex.value == 3) {
+                RouteManagement.goToAdminAllUserView();
               }
             },
           ).marginOnly(bottom: 16),
@@ -125,8 +109,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
     );
   }
 
-  Widget adminEndMenuList(
-      {required AdminDrawerMenuController adminDrawerController}) {
+  Widget adminEndMenuList({required AdminDrawerMenuController adminDrawerController}) {
     int firstMenuListLength = adminDrawerController.adminMenuDataList.length;
     return ListView.builder(
       shrinkWrap: true,
@@ -134,15 +117,16 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
       itemBuilder: (context, index) {
         return Obx(
           () => AdminDrawerMenuComponent(
-            adminMenuDataModel:
-                adminDrawerController.adminEndMenuDataList[index],
-            isSelected: (index + firstMenuListLength) ==
-                adminDrawerController.selectedMenuIndex.value,
+            adminMenuDataModel: adminDrawerController.adminEndMenuDataList[index],
+            isSelected: (index + firstMenuListLength) == adminDrawerController.selectedMenuIndex.value,
             onSelectMenuItem: (selectedMenu) {
-              adminDrawerController.selectedMenuIndex.value =
-                  firstMenuListLength +
-                      adminDrawerController.adminEndMenuDataList
-                          .indexOf(selectedMenu);
+              adminDrawerController.setAdminDrawerIndex(firstMenuListLength + adminDrawerController.adminEndMenuDataList.indexOf(selectedMenu));
+              adminDrawerController.selectedMenuIndex.value = firstMenuListLength + adminDrawerController.adminEndMenuDataList.indexOf(selectedMenu);
+              if (adminDrawerController.selectedMenuIndex.value == 4) {
+                RouteManagement.goToUserMyAccountSettingScreenView();
+              } else if (adminDrawerController.selectedMenuIndex.value == 8) {
+                RouteManagement.goToAdminLogoutView();
+              }
             },
           ).marginOnly(bottom: 16),
         );
@@ -150,23 +134,16 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
     );
   }
 
-  Widget animatedContainer(
-      {required AdminDrawerMenuController adminDrawerController,
-      required ThemeColorsUtil themeUtils,
-      required BuildContext context}) {
+  Widget animatedContainer({required AdminDrawerMenuController adminDrawerController, required ThemeColorsUtil themeUtils, required BuildContext context}) {
     return Obx(
       () => AnimatedContainer(
-        duration: const Duration(milliseconds: 800),
-        height: adminDrawerController.isExpanded.value
-            ? Dimens.oneHundredFortyFive
-            : Dimens.sixtyFive,
+        duration: const Duration(milliseconds: 500),
+        height: adminDrawerController.isExpanded.value ? Dimens.oneHundredFortyFive : Dimens.sixtyFive,
         width: Dimens.twoHundredFifty,
         padding: EdgeInsets.all(Dimens.seven),
         decoration: BoxDecoration(
             color: themeUtils.primaryColorSwitch,
-            borderRadius: adminDrawerController.isExpanded.value
-                ? BorderRadius.circular(Dimens.thirty)
-                : BorderRadius.circular(Dimens.fifty)),
+            borderRadius: adminDrawerController.isExpanded.value ? BorderRadius.circular(Dimens.thirty) : BorderRadius.circular(Dimens.fifty)),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -181,8 +158,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                   height: Dimens.fifty,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: themeUtils
-                        .blackWhiteSwitchColor, // Background color for the circle
+                    color: themeUtils.blackWhiteSwitchColor, // Background color for the circle
                   ),
                   alignment: Alignment.center,
                   child: Text(
@@ -200,20 +176,14 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonWidgets.autoSizeText(
-                          text: 'admin'.tr,
-                          textStyle: AppStyles.style14SemiBold.copyWith(
-                              color: themeUtils.blackWhiteSwitchColor),
-                          minFontSize: 10,
-                          maxFontSize: 14),
+                          text: 'admin'.tr, textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor), minFontSize: 10, maxFontSize: 14),
                       Padding(
                         padding: EdgeInsets.only(top: Dimens.five),
                         child: CommonWidgets.autoSizeText(
                           text: adminDrawerController.email.value,
                           maxFontSize: 12,
                           minFontSize: 10,
-                          textStyle: AppStyles.style12Normal.copyWith(
-                              color: themeUtils.blackWhiteSwitchColor
-                                  .withOpacity(0.70)),
+                          textStyle: AppStyles.style12Normal.copyWith(color: themeUtils.blackWhiteSwitchColor.withOpacity(0.70)),
                         ),
                       ),
                     ],
@@ -226,8 +196,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                       animation: adminDrawerController.animation,
                       builder: (context, child) {
                         return Transform.rotate(
-                          angle: adminDrawerController.animation.value *
-                              -3.1415927,
+                          angle: adminDrawerController.animation.value * -3.1415927,
                           child: child,
                         );
                       },
@@ -249,11 +218,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
             ),
             Flexible(
               child: Padding(
-                padding: EdgeInsets.only(
-                    top: Dimens.thirteen,
-                    bottom: Dimens.ten,
-                    left: Dimens.sixTeen,
-                    right: Dimens.sixTeen),
+                padding: EdgeInsets.only(top: Dimens.thirteen, bottom: Dimens.ten, left: Dimens.sixTeen, right: Dimens.sixTeen),
                 child: Divider(
                   height: 1,
                   color: themeUtils.blackWhiteSwitchColor.withOpacity(0.50),
@@ -277,8 +242,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                         padding: EdgeInsets.only(left: Dimens.sevenTeen),
                         child: Text(
                           ThemeStringsUtil(context).lightDarkModeValue,
-                          style: AppStyles.style12Normal.copyWith(
-                              color: themeUtils.blackWhiteSwitchColor),
+                          style: AppStyles.style12Normal.copyWith(color: themeUtils.blackWhiteSwitchColor),
                         ),
                       ),
                       Expanded(
@@ -290,10 +254,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView>
                                 adminDrawerController.changeTheme();
                               }
                             },
-                            child: CommonWidgets.fromSvg(
-                                svgAsset: ThemeAssetsUtil(context)
-                                    .themeSwitchSmallButton,
-                                width: Dimens.twentySix),
+                            child: CommonWidgets.fromSvg(svgAsset: ThemeAssetsUtil(context).themeSwitchSmallButton, width: Dimens.twentySix),
                           ),
                         ),
                       ),

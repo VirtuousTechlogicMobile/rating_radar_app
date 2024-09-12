@@ -17,8 +17,7 @@ class AdminCreateAdController extends GetxController {
   TextEditingController adLocationController = TextEditingController();
 
   Rx<UserAdsListDataModel?> adsDetailData = (null as UserAdsListDataModel?).obs;
-  Rx<UserAdsListDataModel?> preFilledAdDetailData =
-      (null as UserAdsListDataModel?).obs;
+  Rx<UserAdsListDataModel?> preFilledAdDetailData = (null as UserAdsListDataModel?).obs;
   RxList<XFile> pickedFiles = <XFile>[].obs;
 
   RxInt currentImageIndex = 0.obs;
@@ -26,10 +25,10 @@ class AdminCreateAdController extends GetxController {
 
   List<String> adminCustomStatus = [
     CustomStatus.active,
-    CustomStatus.play,
     CustomStatus.pause,
     CustomStatus.finished,
   ];
+
   Future<String> getAdminUid() async {
     return await PreferencesManager.getAdminId() ?? '';
   }
@@ -39,23 +38,16 @@ class AdminCreateAdController extends GetxController {
   }
 
   Future getTotalSubmittedAdsCount({required String adId}) async {
-    int count = await DatabaseHelper.instance
-        .getTotalSubmittedAdsCountLast24Hours(adId: adId);
+    int count = await DatabaseHelper.instance.getTotalSubmittedAdsCountLast24Hours(adId: adId);
     totalSubmittedAdsCount.value = count;
   }
 
-  Future<String?> storeAdminCreatedAds(
-      {required UserAdsListDataModel adminSubmitAdDataModel,
-      required String adminId}) async {
+  Future<String?> storeAdminCreatedAds({required UserAdsListDataModel adminSubmitAdDataModel, required String adminId}) async {
     Get.context?.loaderOverlay.show();
     String adminId = await getAdminUid();
 
     /// store and get images in firebase storage
-    List<String>? imageUrls = await DatabaseHelper.instance
-        .storeAdminCreatedAdsImages(
-            adminId: adminId,
-            filesList: pickedFiles,
-            adName: adminSubmitAdDataModel.adName);
+    List<String>? imageUrls = await DatabaseHelper.instance.storeAdminCreatedAdsImages(adminId: adminId, filesList: pickedFiles, adName: adminSubmitAdDataModel.adName);
 
     UserAdsListDataModel adAdsDataModel = UserAdsListDataModel(
       docId: adminSubmitAdDataModel.docId,
@@ -71,8 +63,7 @@ class AdminCreateAdController extends GetxController {
     );
 
     /// store submitted ad in database
-    String? documentId = await DatabaseHelper.instance
-        .storeAdminCreatedAds(userAdsListDataModel: adAdsDataModel);
+    String? documentId = await DatabaseHelper.instance.storeAdminCreatedAds(userAdsListDataModel: adAdsDataModel);
     Get.context?.loaderOverlay.hide();
     return documentId;
   }
@@ -105,8 +96,7 @@ class AdminCreateAdController extends GetxController {
     pickedFiles.refresh();
   }
 
-  ValueNotifier<String> selectedAdStatus =
-      ValueNotifier<String>(CustomStatus.active);
+  ValueNotifier<String> selectedAdStatus = ValueNotifier<String>(CustomStatus.active);
 
   void setAdStatus(String status) {
     selectedAdStatus.value = status;

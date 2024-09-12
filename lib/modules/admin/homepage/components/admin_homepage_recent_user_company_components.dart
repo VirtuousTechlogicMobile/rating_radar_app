@@ -9,11 +9,9 @@ import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
 
 class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
-  final AdminHomepageRecentUserCompanyModel?
-      adminHomepageRecentUserCompanyModel;
+  final AdminHomepageRecentUserCompanyModel? adminHomepageRecentUserCompanyModel;
 
-  const AdminHomepageRecentUserCompanyComponents(
-      {super.key, required this.adminHomepageRecentUserCompanyModel});
+  const AdminHomepageRecentUserCompanyComponents({super.key, required this.adminHomepageRecentUserCompanyModel});
 
   @override
   Widget build(BuildContext context) {
@@ -22,21 +20,14 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
       decoration: BoxDecoration(
           color: themeColorsUtil.blackWhiteSwitchColor,
           boxShadow: [
-            BoxShadow(
-                spreadRadius: -1,
-                blurRadius: 8,
-                offset: const Offset(0, 2),
-                color: themeColorsUtil.boxShadowContainerColor),
+            BoxShadow(spreadRadius: -1, blurRadius: 8, offset: const Offset(0, 2), color: themeColorsUtil.boxShadowContainerColor),
           ],
           border: Border.all(
             color: ColorValues.primaryColorBlue.withOpacity(0.15),
             width: 0.8,
           ),
           borderRadius: BorderRadius.circular(Dimens.ten)),
-      margin: EdgeInsets.only(
-          right: Dimens.nineteen,
-          left: Dimens.twentyFive,
-          bottom: Dimens.eighteen),
+      margin: EdgeInsets.only(right: Dimens.nineteen, left: Dimens.twentyFive, bottom: Dimens.eighteen),
       child: Padding(
         padding: EdgeInsets.all(Dimens.sixTeen),
         child: Row(
@@ -44,12 +35,10 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Builder(builder: (context) {
-              if (adminHomepageRecentUserCompanyModel?.imageUrl != null &&
-                  adminHomepageRecentUserCompanyModel?.imageUrl != '') {
+              if (adminHomepageRecentUserCompanyModel?.imageUrl != null && adminHomepageRecentUserCompanyModel?.imageUrl != '') {
                 return ClipOval(
                   child: NxNetworkImage(
-                    imageUrl:
-                        adminHomepageRecentUserCompanyModel?.imageUrl ?? '',
+                    imageUrl: adminHomepageRecentUserCompanyModel?.imageUrl ?? '',
                     width: Dimens.fortyEight,
                     height: Dimens.fortyEight,
                     imageFit: BoxFit.cover,
@@ -61,15 +50,11 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
                   height: Dimens.fortyEight,
                   decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    color: ColorValues
-                        .primaryColorBlue, // Background color for the circle
+                    color: ColorValues.primaryColorBlue, // Background color for the circle
                   ),
                   alignment: Alignment.center,
                   child: Text(
-                    adminHomepageRecentUserCompanyModel?.name
-                            .substring(0, 2)
-                            .toUpperCase() ??
-                        '',
+                    adminHomepageRecentUserCompanyModel?.name.substring(0, 2).toUpperCase() ?? '',
                     style: TextStyle(
                       fontSize: Dimens.twenty, // Adjust the font size as needed
                       fontWeight: FontWeight.bold,
@@ -81,8 +66,7 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
             }),
             Expanded(
               child: Padding(
-                padding:
-                    EdgeInsets.only(top: Dimens.eight, left: Dimens.sixTeen),
+                padding: EdgeInsets.only(top: Dimens.eight, left: Dimens.sixTeen),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -92,8 +76,7 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: Dimens.eight),
                         child: CommonWidgets.autoSizeText(
                           text: adminHomepageRecentUserCompanyModel?.name ?? '',
-                          textStyle: AppStyles.style16Bold
-                              .copyWith(color: themeColorsUtil.cardTextColor),
+                          textStyle: AppStyles.style16Bold.copyWith(color: themeColorsUtil.cardTextColor),
                           minFontSize: 16,
                           maxFontSize: 16,
                           maxLines: 1,
@@ -103,8 +86,7 @@ class AdminHomepageRecentUserCompanyComponents extends StatelessWidget {
                     Flexible(
                       child: CommonWidgets.autoSizeText(
                         text: adminHomepageRecentUserCompanyModel?.email ?? '',
-                        textStyle: AppStyles.style14Normal
-                            .copyWith(color: themeColorsUtil.cardTextColor),
+                        textStyle: AppStyles.style14Normal.copyWith(color: themeColorsUtil.cardTextColor),
                         minFontSize: 10,
                         maxFontSize: 16,
                         maxLines: 2,

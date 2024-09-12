@@ -8,22 +8,18 @@ import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
 import '../../../../utility/theme_colors_util.dart';
 
-class AdsListCustomDropdown extends StatefulWidget {
+class AdminAdsListCustomDropdown extends StatefulWidget {
   List<String> dropDownItems;
   String selectedItem;
   Function(int index) onItemSelected;
 
-  AdsListCustomDropdown(
-      {super.key,
-      required this.dropDownItems,
-      required this.selectedItem,
-      required this.onItemSelected});
+  AdminAdsListCustomDropdown({super.key, required this.dropDownItems, required this.selectedItem, required this.onItemSelected});
 
   @override
-  State<AdsListCustomDropdown> createState() => _AdsListCustomDropdownState();
+  State<AdminAdsListCustomDropdown> createState() => _AdminAdsListCustomDropdownState();
 }
 
-class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
+class _AdminAdsListCustomDropdownState extends State<AdminAdsListCustomDropdown> {
   OverlayEntry? overlayEntry;
   GlobalKey buttonKey = GlobalKey();
 
@@ -39,9 +35,7 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
           child: Container(
             width: Dimens.oneHundredFiftyFive,
             height: Dimens.thirtyEight,
-            decoration: BoxDecoration(
-                color: themeUtils.darkGrayOfWhiteSwitchColor,
-                borderRadius: BorderRadius.circular(Dimens.twenty)),
+            decoration: BoxDecoration(color: themeUtils.darkGrayOfWhiteSwitchColor, borderRadius: BorderRadius.circular(Dimens.twenty)),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               key: buttonKey,
@@ -52,16 +46,11 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
                     textSpans: [
                       TextSpan(
                         text: "${'sort_by'.tr} : ",
-                        style: AppStyles.style12Normal.copyWith(
-                            color: themeUtils.whiteBlackSwitchColor
-                                .withOpacity(0.50),
-                            fontWeight: FontWeight.w500),
+                        style: AppStyles.style12Normal.copyWith(color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50), fontWeight: FontWeight.w500),
                       ),
                       TextSpan(
                         text: widget.selectedItem,
-                        style: AppStyles.style12Normal.copyWith(
-                            color: themeUtils.whiteBlackSwitchColor,
-                            fontWeight: FontWeight.w600),
+                        style: AppStyles.style12Normal.copyWith(color: themeUtils.whiteBlackSwitchColor, fontWeight: FontWeight.w600),
                       ),
                     ],
                     maxFontSize: 14,
@@ -85,8 +74,7 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
   void showPopUp(ThemeColorsUtil themeUtils) {
     if (overlayEntry != null) return;
 
-    final buttonRenderBox =
-        buttonKey.currentContext!.findRenderObject() as RenderBox?;
+    final buttonRenderBox = buttonKey.currentContext!.findRenderObject() as RenderBox?;
     final buttonPosition = buttonRenderBox!.localToGlobal(Offset.zero);
 
     overlayEntry = OverlayEntry(
@@ -103,15 +91,12 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
             ),
             Positioned(
               right: Dimens.sixtyFive,
-              top: buttonPosition.dy +
-                  (buttonRenderBox.size.height + Dimens.four),
+              top: buttonPosition.dy + (buttonRenderBox.size.height + Dimens.four),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
                   width: Dimens.oneHundredSixtyFive,
-                  decoration: BoxDecoration(
-                      color: themeUtils.darkGrayOfWhiteSwitchColor,
-                      borderRadius: BorderRadius.circular(Dimens.eight)),
+                  decoration: BoxDecoration(color: themeUtils.darkGrayOfWhiteSwitchColor, borderRadius: BorderRadius.circular(Dimens.eight)),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,13 +118,9 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
                             children: [
                               Text(
                                 'sort_by'.tr,
-                                style: AppStyles.style12Normal.copyWith(
-                                    color: ColorValues.lightGrayColor),
+                                style: AppStyles.style12Normal.copyWith(color: ColorValues.lightGrayColor),
                               ),
-                              CommonWidgets.fromSvg(
-                                  svgAsset: SvgAssets.dropdownDownArrowIcon,
-                                  margin:
-                                      EdgeInsets.only(right: Dimens.fifteen))
+                              CommonWidgets.fromSvg(svgAsset: SvgAssets.dropdownDownArrowIcon, margin: EdgeInsets.only(right: Dimens.fifteen))
                             ],
                           ),
                         ),
@@ -161,20 +142,12 @@ class _AdsListCustomDropdownState extends State<AdsListCustomDropdown> {
                               hidePopUp();
                             },
                             child: Container(
-                              color: widget.selectedItem ==
-                                      widget.dropDownItems[index]
-                                  ? themeUtils.primaryLightColorSwitch
-                                  : ColorValues.transparent,
-                              padding: EdgeInsets.symmetric(
-                                  vertical: Dimens.five,
-                                  horizontal: Dimens.thirteen),
+                              color: widget.selectedItem == widget.dropDownItems[index] ? themeUtils.primaryLightColorSwitch : ColorValues.transparent,
+                              padding: EdgeInsets.symmetric(vertical: Dimens.five, horizontal: Dimens.thirteen),
                               child: Text(
                                 widget.dropDownItems[index],
-                                style: AppStyles.style12SemiLight.copyWith(
-                                    color: widget.selectedItem ==
-                                            widget.dropDownItems[index]
-                                        ? themeUtils.blackWhiteSwitchColor
-                                        : themeUtils.whiteBlackSwitchColor),
+                                style: AppStyles.style12SemiLight
+                                    .copyWith(color: widget.selectedItem == widget.dropDownItems[index] ? themeUtils.blackWhiteSwitchColor : themeUtils.whiteBlackSwitchColor),
                               ),
                             ),
                           );

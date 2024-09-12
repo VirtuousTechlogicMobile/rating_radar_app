@@ -18,8 +18,8 @@ import '../../modules/user/user_ads_list_menu/model/user_submitted_ads_list_data
 import '../../modules/user/user_homepage/model/user_ads_list_data_model.dart';
 import '../../modules/user/user_signup/model/user_signup_model.dart';
 import '../../modules/user/user_submit_ad/model/user_submit_ad_data_model.dart';
-import '../../modules/user/user_wallet/model/user_transaction_model.dart';
 import '../../modules/user/user_wallet/model/user_transaction_interface.dart';
+import '../../modules/user/user_wallet/model/user_transaction_model.dart';
 import '../shared_preferences_manager/preferences_manager.dart';
 
 class DatabaseHelper {
@@ -422,17 +422,13 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<String>?> storeUserSubmittedAdImages(
-      {required List<XFile> filesList,
-      required String uid,
-      required String adId}) async {
+  Future<List<String>?> storeUserSubmittedAdImages({required List<XFile> filesList, required String uid, required String adId}) async {
     try {
       List<String> uploadedFilesUrl = [];
       for (XFile filesData in filesList) {
         final fileBytes = await filesData.readAsBytes();
         String filepath = 'ADID-$adId/UID-$uid/${filesData.name.split('.')[0]}';
-        Reference storageRef =
-            firebaseStorage.ref().child('user-submitted-ads/$filepath');
+        Reference storageRef = firebaseStorage.ref().child('user-submitted-ads/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -456,13 +452,10 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> storeUserSubmittedAds(
-      {required UserSubmitAdDataModel userSubmitAdDataModel}) async {
+  Future<String?> storeUserSubmittedAds({required UserSubmitAdDataModel userSubmitAdDataModel}) async {
     try {
-      CollectionReference collectionRef = fireStoreInstance
-          .collection(DatabaseSynonyms.userSubmittedAdCollection);
-      DocumentReference documentReference =
-          await collectionRef.add(userSubmitAdDataModel.toMap());
+      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+      DocumentReference documentReference = await collectionRef.add(userSubmitAdDataModel.toMap());
       return documentReference.id;
     } catch (e) {
       return null;
@@ -471,10 +464,7 @@ class DatabaseHelper {
 
   Future<int> getsUserSubmittedAdsListCount({required String uId}) async {
     try {
-      QuerySnapshot snapshot = await fireStoreInstance
-          .collection(DatabaseSynonyms.userSubmittedAdCollection)
-          .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
-          .get();
+      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).where(DatabaseSynonyms.uIdField, isEqualTo: uId).get();
       return snapshot.size;
     } catch (e) {
       log("Error fetching document count: $e");
@@ -854,18 +844,15 @@ class DatabaseHelper {
 
   ///  ---------------------------------------------- Admin Methods -------------------------------------------------
 
-  Future<String> signInAdmin(
-      {required AdminSignInModel adminSignInModel}) async {
+  Future<String> signInAdmin({required AdminSignInModel adminSignInModel}) async {
     try {
-      UserCredential userCredential =
-          await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
         email: adminSignInModel.email,
         password: adminSignInModel.password,
       );
       if (userCredential.user != null) {
         /// store data in shared preferences
-        await PreferencesManager.setAdminUid(
-            adminUid: userCredential.user?.uid ?? '');
+        await PreferencesManager.setAdminUid(adminUid: userCredential.user?.uid ?? '');
         return CustomStatus.success;
       } else if (userCredential.user?.emailVerified == false) {
         return CustomStatus.userNotVerified;
@@ -882,47 +869,34 @@ class DatabaseHelper {
       return CustomStatus.userNotFound;
     }
   }
-/*
-  Future<List<AdminAdsListDataModel>?> adminGetLimitedAdsList({
-    required int limit,
-  }) async {
-    try {
-      Query query = fireStoreInstance
-          .collection(DatabaseSynonyms.adsListCollection)
-          .where(DatabaseSynonyms.adStatusField,
-              isEqualTo: DatabaseSynonyms.statusField)
-          .orderBy(DatabaseSynonyms.adStatusField, descending: false)
-          .limit(limit);
 
-      QuerySnapshot querySnapshot = await query.get();
-      List<AdminAdsListDataModel> adsList = querySnapshot.docs
-          .map((docs) => AdminAdsListDataModel.fromMap(
-              docs.data() as Map<String, dynamic>,
-              docId: docs.id))
-          .toList();
-      return adsList;
+  Future<UserAdsListDataModel?> getAdminSubmittedAdDetailData({required String adId}) async {
+    try {
+      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      QuerySnapshot querySnapshot = await collectionRef.where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
+      if (querySnapshot.docs.isNotEmpty) {
+        QueryDocumentSnapshot documentSnapshot = querySnapshot.docs.first;
+        UserAdsListDataModel submittedAdData = UserAdsListDataModel.fromMap(documentSnapshot.data() as Map<String, dynamic>, docId: documentSnapshot.id);
+        return submittedAdData;
+      } else {
+        return null;
+      }
     } catch (e) {
       log("Exception: $e");
       return null;
     }
-  }*/
+  }
 
 // fetch users data
   Future<List<AdminHomepageRecentUserCompanyModel>?> getLimitedUserList({
     required int limit,
   }) async {
     try {
-      Query query = fireStoreInstance
-          .collection(DatabaseSynonyms.usersCollection)
-          .orderBy(DatabaseSynonyms.createdAt, descending: false)
-          .limit(limit);
+      Query query = fireStoreInstance.collection(DatabaseSynonyms.usersCollection).orderBy(DatabaseSynonyms.createdAtField, descending: false).limit(limit);
 
       QuerySnapshot querySnapshot = await query.get();
-      List<AdminHomepageRecentUserCompanyModel> userList = querySnapshot.docs
-          .map((docs) => AdminHomepageRecentUserCompanyModel.fromMap(
-              docs.data() as Map<String, dynamic>,
-              docId: docs.id))
-          .toList();
+      List<AdminHomepageRecentUserCompanyModel> userList =
+          querySnapshot.docs.map((docs) => AdminHomepageRecentUserCompanyModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList();
       return userList;
     } catch (e) {
       log("Exception: $e");
@@ -942,8 +916,7 @@ class DatabaseHelper {
     String? searchTerm,
   }) async {
     try {
-      CollectionReference adminAdsCollectionReference =
-          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      CollectionReference adminAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
 
       int startAt = (pageNumber - 1) * nDataPerPage;
 
@@ -956,15 +929,13 @@ class DatabaseHelper {
         String startSearch = searchTerm!;
         String endSearch = '$searchTerm\uf8ff';
         initialQuery = adminAdsCollectionReference
-            .where(DatabaseSynonyms.adNameField,
-                isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.adNameField, isGreaterThanOrEqualTo: startSearch)
             .where(DatabaseSynonyms.adNameField, isLessThanOrEqualTo: endSearch)
             .orderBy(
-              DatabaseSynonyms.adNameField,
+              DatabaseSynonyms.companyAdAction,
             );
       } else {
-        initialQuery = adminAdsCollectionReference
-            .orderBy(DatabaseSynonyms.adStatusField, descending: sortBy == 0);
+        initialQuery = adminAdsCollectionReference.orderBy(DatabaseSynonyms.adStatusField, descending: sortBy == 0);
       }
 
       QuerySnapshot? startSnapshot;
@@ -977,8 +948,7 @@ class DatabaseHelper {
 
       if (startSnapshot != null && startSnapshot.docs.isNotEmpty) {
         DocumentSnapshot startDocument = startSnapshot.docs.last;
-        paginatedQuery =
-            initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
+        paginatedQuery = initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
       } else {
         paginatedQuery = initialQuery.limit(nDataPerPage);
       }
@@ -997,6 +967,7 @@ class DatabaseHelper {
               docId: snapshotData.id,
               adStatus: snapshotData['adStatus'],
               adLocation: snapshotData['adLocation'],
+              companyAdAction: snapshotData['companyAdAction'],
               imageUrl: [],
             ),
           );
@@ -1013,15 +984,11 @@ class DatabaseHelper {
 // insert ads data
   Future<List<UserAdsListDataModel>> storeAllAdminSubmittedAds() async {
     try {
-      QuerySnapshot querySnapshot = await fireStoreInstance
-          .collection(DatabaseSynonyms.adsListCollection)
-          .get();
+      QuerySnapshot querySnapshot = await fireStoreInstance.collection(DatabaseSynonyms.adsListCollection).get();
 
       if (querySnapshot.docs.isNotEmpty) {
         return querySnapshot.docs.map((documentSnapshot) {
-          return UserAdsListDataModel.fromMap(
-              documentSnapshot.data() as Map<String, dynamic>,
-              docId: documentSnapshot.id);
+          return UserAdsListDataModel.fromMap(documentSnapshot.data() as Map<String, dynamic>, docId: documentSnapshot.id);
         }).toList();
       } else {
         log("No documents found in collection ${DatabaseSynonyms.adsListCollection}.");
@@ -1033,35 +1000,9 @@ class DatabaseHelper {
     }
   }
 
-  // fetch ads data
-  /*Future<List<AdminSubmitAdDataModel>> getAllAdminSubmittedAds() async {
-    try {
-      QuerySnapshot querySnapshot = await fireStoreInstance
-          .collection(DatabaseSynonyms.adsListCollection)
-          .get();
-
-      if (querySnapshot.docs.isNotEmpty) {
-        return querySnapshot.docs.map((documentSnapshot) {
-          return AdminSubmitAdDataModel.fromMap(
-              documentSnapshot.data() as Map<String, dynamic>,
-              submittedAdDocId: documentSnapshot.id
-          );
-        }).toList();
-      } else {
-        log("No documents found in collection ${DatabaseSynonyms.adsListCollection}.");
-        return [];
-      }
-    } catch (e) {
-      log("Exception while fetching documents: $e");
-      return [];
-    }
-  }*/
-
   Future<int> getsAdminSubmittedAdsListCount() async {
     try {
-      QuerySnapshot snapshot = await fireStoreInstance
-          .collection(DatabaseSynonyms.adsListCollection)
-          .get();
+      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.adsListCollection).get();
       return snapshot.size;
     } catch (e) {
       log("Error fetching document count: $e");
@@ -1069,17 +1010,13 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<String>?> storeAdminSubmittedAdImages(
-      {required List<XFile> filesList,
-      required String uid,
-      required String adId}) async {
+  Future<List<String>?> storeAdminSubmittedAdImages({required List<XFile> filesList, required String uid, required String adId}) async {
     try {
       List<String> uploadedFilesUrl = [];
       for (XFile filesData in filesList) {
         final fileBytes = await filesData.readAsBytes();
         String filepath = 'ADID-$adId/UID-$uid/${filesData.name.split('.')[0]}';
-        Reference storageRef =
-            firebaseStorage.ref().child('user-submitted-ads/$filepath');
+        Reference storageRef = firebaseStorage.ref().child('user-submitted-ads/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -1103,18 +1040,13 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<String>?> storeAdminCreatedAdsImages(
-      {required List<XFile> filesList,
-      required String adminId,
-      required String adName}) async {
+  Future<List<String>?> storeAdminCreatedAdsImages({required List<XFile> filesList, required String adminId, required String adName}) async {
     try {
       List<String> uploadedFilesUrl = [];
       for (XFile filesData in filesList) {
         final fileBytes = await filesData.readAsBytes();
-        String filepath =
-            'adminId-$adminId/adName-$adName/${filesData.name.split('.')[0]}';
-        Reference storageRef =
-            firebaseStorage.ref().child('adsImages/$filepath');
+        String filepath = 'adminId-$adminId/adName-$adName/${filesData.name.split('.')[0]}';
+        Reference storageRef = firebaseStorage.ref().child('adsImages/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -1138,46 +1070,33 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> storeAdminCreatedAds(
-      {required UserAdsListDataModel userAdsListDataModel}) async {
+  Future<String?> storeAdminCreatedAds({required UserAdsListDataModel userAdsListDataModel}) async {
     try {
-      CollectionReference collectionRef =
-          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      DocumentReference documentReference =
-          await collectionRef.add(userAdsListDataModel.toMap());
+      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      DocumentReference documentReference = await collectionRef.add(userAdsListDataModel.toMap());
       return documentReference.id;
     } catch (e) {
       return null;
     }
   }
 
-  Future<List<AdminCommentsListUserData>?> getCommentedUsersData(
-      {required String adId}) async {
+  Future<List<AdminCommentsListUserData>?> getCommentedUsersData({required String adId}) async {
     List<AdminCommentsListUserData> userAdDataList = [];
     try {
       // Fetch comments from userSubmittedAdCollection by adId
-      QuerySnapshot adSnapshot = await fireStoreInstance
-          .collection(DatabaseSynonyms.userSubmittedAdCollection)
-          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
-          .get();
+      QuerySnapshot adSnapshot = await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
 
       // Loop through each comment
       for (var adDoc in adSnapshot.docs) {
         Map<String, dynamic> adData = adDoc.data() as Map<String, dynamic>;
         String userId = adData['uId']; // User ID from the comment collection
-        String comment =
-            adData['comments']; // Comment from the comment collection
+        String comment = adData['comments']; // Comment from the comment collection
 
         // Fetch user details from users collection using the userId
-        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
-            await fireStoreInstance
-                .collection(DatabaseSynonyms.usersCollection)
-                .doc(userId)
-                .get();
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot = await fireStoreInstance.collection(DatabaseSynonyms.usersCollection).doc(userId).get();
 
         if (userSnapshot.exists) {
-          Map<String, dynamic> userData =
-              userSnapshot.data() as Map<String, dynamic>;
+          Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
 
           // Combine user details with comment data
           AdminCommentsListUserData userAdData = AdminCommentsListUserData(
@@ -1198,18 +1117,25 @@ class DatabaseHelper {
     return userAdDataList.isEmpty ? null : userAdDataList;
   }
 
-  Future<String?> updateAdCustomStatus(
-      {required String status, required String adId}) async {
+  Future<String?> updateAdCustomStatus({required String status, required String adId, String? reason, required String action}) async {
     try {
-      CollectionReference adsCollectionReference =
-          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      await adsCollectionReference
-          .doc(adId)
-          .update({DatabaseSynonyms.adStatusField: status});
+      CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      await adsCollectionReference.doc(adId).update({DatabaseSynonyms.adStatusField: status, DatabaseSynonyms.companyAdAction: action, DatabaseSynonyms.adBlockReason: reason});
       return CustomStatus.success;
     } catch (e) {
       log('Exception : $e');
       return null;
+    }
+  }
+
+  Future<String> logoutAdmin() async {
+    try {
+      await firebaseAuth.signOut();
+      await PreferencesManager.deleteUserUid();
+      await PreferencesManager.deleteDrawerIndexes();
+      return CustomStatus.success;
+    } catch (e) {
+      return CustomStatus.failedToLogout;
     }
   }
 }
