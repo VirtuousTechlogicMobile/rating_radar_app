@@ -11,9 +11,11 @@ import '../../../../utility/theme_colors_util.dart';
 import '../components/user_settings_menu_drawer_component.dart';
 
 class UserSettingsMenuDrawerView extends StatelessWidget {
-  UserSettingsMenuDrawerView({super.key});
+  final settingsDrawerController = Get.find<UserSettingsMenuDrawerController>();
 
-  final drawerController = Get.find<UserSettingsMenuDrawerController>();
+  UserSettingsMenuDrawerView({super.key}) {
+    settingsDrawerController.getDrawerIndex();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,23 +53,23 @@ class UserSettingsMenuDrawerView extends StatelessWidget {
           ).marginOnly(bottom: Dimens.thirtyFive, left: Dimens.thirtyFive),
         ),
         ...List.generate(
-          drawerController.menuDataList.length,
+          settingsDrawerController.menuDataList.length,
           (index) {
             return Obx(
               () => UserSettingsMenuDrawerComponent(
-                menuDataModel: drawerController.menuDataList[index],
-                isSelected: index == drawerController.selectedMenuIndex.value,
+                menuDataModel: settingsDrawerController.menuDataList[index],
+                isSelected: index == settingsDrawerController.selectedMenuIndex.value,
                 onSelectMenuItem: (selectedMenu) async {
-                  drawerController.setDrawerIndex(drawerController.menuDataList.indexOf(selectedMenu));
-                  drawerController.selectedMenuIndex.value = drawerController.menuDataList.indexOf(selectedMenu);
-                  if (drawerController.selectedMenuIndex.value == 0) {
-                    RouteManagement.goToUserMyAccountSettingScreenView();
-                  } else if (drawerController.selectedMenuIndex.value == 1) {
-                    // RouteManagement.goToUserAdsListMenuView();
-                  } else if (drawerController.selectedMenuIndex.value == 2) {
-                    // RouteManagement.goToUserWalletScreenView();
+                  settingsDrawerController.setDrawerIndex(settingsDrawerController.menuDataList.indexOf(selectedMenu));
+                  settingsDrawerController.selectedMenuIndex.value = settingsDrawerController.menuDataList.indexOf(selectedMenu);
+                  if (settingsDrawerController.selectedMenuIndex.value == 0) {
+                    RouteManagement.goToUserMyAccountSettingScreen();
+                  } else if (settingsDrawerController.selectedMenuIndex.value == 1) {
+                    RouteManagement.goToUserPaymentMethodSettingScreen();
+                  } else if (settingsDrawerController.selectedMenuIndex.value == 2) {
+                    RouteManagement.goToUserChangePasswordScreen();
                   } else {
-                    // RouteManagement.goToUserSignInView();
+                    RouteManagement.goToUserDeleteAccountScreen();
                   }
                 },
               ).marginOnly(bottom: 16),

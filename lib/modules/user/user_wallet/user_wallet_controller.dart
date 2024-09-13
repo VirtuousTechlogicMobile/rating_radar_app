@@ -27,7 +27,6 @@ class UserWalletController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    // TODO: implement onInit
     super.onInit();
     userId = await PreferencesManager.getUserId();
     await getTransactionData();

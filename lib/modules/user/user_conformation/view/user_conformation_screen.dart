@@ -27,7 +27,6 @@ class _UserConformationScreenState extends State<UserConformationScreen> with Si
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userConformationController.startTimer();
     userConformationController.animationController = AnimationController(
@@ -195,7 +194,7 @@ class _UserConformationScreenState extends State<UserConformationScreen> with Si
                             onTap: () async {
                               String logoutStatus = await userConformationController.onLogout();
                               if (logoutStatus == CustomStatus.success) {
-                                RouteManagement.goToUserSignInView();
+                                RouteManagement.goToUserSignInScreen();
                               } else {
                                 AppUtility.showSnackBar('failed_to_logout'.tr);
                               }
@@ -223,7 +222,8 @@ class _UserConformationScreenState extends State<UserConformationScreen> with Si
                               onTap: () async {
                                 bool isUserVerified = await userConformationController.onRefresh();
                                 if (isUserVerified) {
-                                  RouteManagement.goToUserHomePageView();
+                                  await userConformationController.addReferredByUserAmount();
+                                  RouteManagement.goToUserHomePageScreen();
                                 }
                               },
                               child: Container(

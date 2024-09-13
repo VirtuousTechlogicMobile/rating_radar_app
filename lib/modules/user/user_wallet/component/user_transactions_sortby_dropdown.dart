@@ -28,7 +28,6 @@ class _UserTransactionsSortByDropDownState extends State<UserTransactionsSortByD
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     tempSelectedItem = widget.selectedItem;
   }

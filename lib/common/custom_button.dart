@@ -25,7 +25,7 @@ class CustomButton extends StatelessWidget {
       this.isShowLoading = false,
       this.buttonColor,
       this.borderRadius,
-      this.isShowShadow = true,
+      this.isShowShadow = false,
       this.contentPadding,
       this.btnTextColor});
 
@@ -41,24 +41,21 @@ class CustomButton extends StatelessWidget {
           boxShadow: isShowShadow == true
               ? [
                   BoxShadow(
-                      spreadRadius: 0,
-                      blurRadius: 19,
-                      color: ColorValues.blackColor.withOpacity(0.30),
-                      offset: const Offset(0, 4))
+                    spreadRadius: 0,
+                    blurRadius: 19,
+                    color: ColorValues.blackColor.withOpacity(0.30),
+                    offset: const Offset(0, 4),
+                  ),
                 ]
-              : [],
+              : null,
         ),
         alignment: Alignment.center,
         margin: margin ?? EdgeInsets.zero,
-        padding: !isShowLoading
-            ? contentPadding ?? EdgeInsets.symmetric(vertical: Dimens.fifteen)
-            : EdgeInsets.symmetric(vertical: Dimens.ten),
+        padding: !isShowLoading ? contentPadding ?? EdgeInsets.symmetric(vertical: Dimens.fifteen) : EdgeInsets.symmetric(vertical: Dimens.ten),
         child: !isShowLoading
             ? CommonWidgets.autoSizeText(
                 text: btnText,
-                textStyle: AppStyles.style16Normal.copyWith(
-                    fontWeight: FontWeight.w500,
-                    color: btnTextColor ?? ColorValues.whiteColor),
+                textStyle: AppStyles.style16Normal.copyWith(fontWeight: FontWeight.w500, color: btnTextColor ?? ColorValues.whiteColor),
                 minFontSize: 10,
                 maxFontSize: 16,
                 maxLines: 1,

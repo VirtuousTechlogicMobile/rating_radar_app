@@ -246,6 +246,13 @@ abstract class AppStyles {
     height: defaultFontHeight,
   );
 
+  static TextStyle style22SemiBold = TextStyle(
+    fontSize: Dimens.twentyTwo,
+    fontWeight: FontWeight.w500,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
   static TextStyle style24Black = TextStyle(
     fontSize: Dimens.twentyFour,
     fontWeight: FontWeight.w900,
@@ -298,6 +305,13 @@ abstract class AppStyles {
   static TextStyle style28Normal = TextStyle(
     fontSize: Dimens.twentyEight,
     fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style28SemiBold = TextStyle(
+    fontSize: Dimens.twentyEight,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );
@@ -389,6 +403,13 @@ abstract class AppStyles {
   static TextStyle style40Normal = TextStyle(
     fontSize: Dimens.forty,
     fontWeight: FontWeight.w400,
+    fontFamily: defaultFontFamily,
+    height: defaultFontHeight,
+  );
+
+  static TextStyle style42SemiBold = TextStyle(
+    fontSize: Dimens.fortyTwo,
+    fontWeight: FontWeight.w500,
     fontFamily: defaultFontFamily,
     height: defaultFontHeight,
   );

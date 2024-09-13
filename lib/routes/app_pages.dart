@@ -18,8 +18,14 @@ import 'package:RatingRadar_app/modules/user/user_ads_list_menu/bindings/user_ad
 import 'package:RatingRadar_app/modules/user/user_ads_list_menu/view/user_ads_list_menu_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/bindings/user_all_ads_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_all_ads/view/user_all_ads_list_screen.dart';
+import 'package:RatingRadar_app/modules/user/user_delete_account/bindings/user_delete_account_binding.dart';
+import 'package:RatingRadar_app/modules/user/user_delete_account/view/user_delete_account_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_logout/bindings/user_logout_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_logout/view/user_logout_screen.dart';
+import 'package:RatingRadar_app/modules/user/user_payment_method_setting/bindings/user_payment_method_setting_binding.dart';
+import 'package:RatingRadar_app/modules/user/user_payment_method_setting/view/user_payment_method_setting_screen.dart';
+import 'package:RatingRadar_app/modules/user/user_referral/bindings/user_referral_binding.dart';
+import 'package:RatingRadar_app/modules/user/user_referral/view/user_referral_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/bindings/user_submit_ad_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_submit_ad/view/user_submit_ad_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_wallet/bindings/user_wallet_binding.dart';
@@ -28,6 +34,8 @@ import 'package:get/get.dart';
 
 import '../modules/signin/bindings/signin_binding.dart';
 import '../modules/signin/view/signin_screen.dart';
+import '../modules/user/user_change_password/bindings/user_change_password_binding.dart';
+import '../modules/user/user_change_password/view/user_change_password_screen.dart';
 import '../modules/user/user_conformation/bindings/user_conformation_binding.dart';
 import '../modules/user/user_conformation/view/user_conformation_screen.dart';
 import '../modules/user/user_homepage/bindings/user_homepage_binding.dart';
@@ -116,9 +124,41 @@ abstract class AppPages {
     ),
 
     GetPage(
+      name: _Routes.userReferralScreen,
+      page: UserReferralScreen.new,
+      binding: UserReferralBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
       name: _Routes.userMyAccountScreen,
       page: UserMyAccountSettingScreen.new,
       binding: UserMyAccountSettingBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.userPaymentMethodScreen,
+      page: UserPaymentMethodSettingScreen.new,
+      binding: UserPaymentMethodSettingBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.userChangePasswordScreen,
+      page: UserChangePasswordScreen.new,
+      binding: UserChangePasswordBinding(),
+      transitionDuration: transitionDuration,
+      transition: Transition.fade,
+    ),
+
+    GetPage(
+      name: _Routes.userDeleteAccountScreen,
+      page: UserDeleteAccountScreen.new,
+      binding: UserDeleteAccountBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
     ),

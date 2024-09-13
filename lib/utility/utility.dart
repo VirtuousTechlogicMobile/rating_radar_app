@@ -87,4 +87,12 @@ abstract class AppUtility {
       return status;
     }
   }
+
+  static String generateReferralLink({required String uId}) {
+    if (uId.isNotEmpty) {
+      return 'https://rating-reviews-app.web.app/#/user/signup?user=$uId';
+    } else {
+      return '';
+    }
+  }
 }

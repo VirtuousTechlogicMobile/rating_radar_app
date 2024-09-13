@@ -7,6 +7,7 @@ import '../../../../common/common_widgets.dart';
 import '../../../../constant/assets.dart';
 import '../../../../constant/colors.dart';
 import '../../../../constant/dimens.dart';
+import '../../../../helper/shared_preferences_manager/preferences_manager.dart';
 import '../../../../utility/theme_assets_util.dart';
 import '../../../../utility/theme_colors_util.dart';
 import '../../../../utility/theme_strings_util.dart';
@@ -100,11 +101,13 @@ Widget menuList({required DrawerMenuController drawerController}) {
             drawerController.setDrawerIndex(drawerController.menuDataList.indexOf(selectedMenu));
             drawerController.selectedMenuIndex.value = drawerController.menuDataList.indexOf(selectedMenu);
             if (drawerController.selectedMenuIndex.value == 0) {
-              RouteManagement.goToUserHomePageView();
+              RouteManagement.goToUserHomePageScreen();
             } else if (drawerController.selectedMenuIndex.value == 1) {
-              RouteManagement.goToUserAdsListMenuView();
+              RouteManagement.goToUserAdsListMenuScreen();
             } else if (drawerController.selectedMenuIndex.value == 2) {
-              RouteManagement.goToUserWalletScreenView();
+              RouteManagement.goToUserWalletScreen();
+            } else if (drawerController.selectedMenuIndex.value == 3) {
+              RouteManagement.goToUserReferralScreen();
             } else {
               // RouteManagement.goToUserSignInView();
             }
@@ -129,9 +132,20 @@ Widget endMenuList({required DrawerMenuController drawerController}) {
             drawerController.setDrawerIndex(firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu));
             drawerController.selectedMenuIndex.value = firstMenuListLength + drawerController.endMenuDataList.indexOf(selectedMenu);
             if (drawerController.selectedMenuIndex.value == 4) {
-              RouteManagement.goToUserMyAccountSettingScreenView();
+              int? settingDrawerIndex = await PreferencesManager.getSettingsDrawerIndex();
+              if (settingDrawerIndex == 0) {
+                RouteManagement.goToUserMyAccountSettingScreen();
+              } else if (settingDrawerIndex == 1) {
+                RouteManagement.goToUserPaymentMethodSettingScreen();
+              } else if (settingDrawerIndex == 2) {
+                RouteManagement.goToUserChangePasswordScreen();
+              } else if (settingDrawerIndex == 3) {
+                RouteManagement.goToUserDeleteAccountScreen();
+              } else {
+                RouteManagement.goToUserMyAccountSettingScreen();
+              }
             } else if (drawerController.selectedMenuIndex.value == 6) {
-              RouteManagement.goToLogoutView();
+              RouteManagement.goToUserLogoutScreen();
             }
           },
         ).marginOnly(bottom: 16),

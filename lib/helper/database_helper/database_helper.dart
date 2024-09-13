@@ -54,6 +54,22 @@ class DatabaseHelper {
     }
   }
 
+  Future addReferredByUserAmount(String referredByUserId) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(referredByUserId).get();
+      if (userDoc.exists) {
+        num userCurrentBalance = userDoc['userBalance'] as num;
+        num increasedBalance = userCurrentBalance + 100;
+        await usersCollectionReference.doc(referredByUserId).update({
+          DatabaseSynonyms.userBalanceField: increasedBalance, // Updating the field
+        });
+      }
+    } catch (e) {
+      log("Exception: $e");
+    }
+  }
+
   Future<bool> checkIsUserVerified() async {
     User? user = firebaseAuth.currentUser;
     await user?.reload();
@@ -75,9 +91,8 @@ class DatabaseHelper {
 
   Future<String> logoutUser() async {
     try {
+      await PreferencesManager.deleteAllUserPreferences();
       await firebaseAuth.signOut();
-      await PreferencesManager.deleteUserUid();
-      await PreferencesManager.deleteDrawerIndexes();
       return CustomStatus.success;
     } catch (e) {
       return CustomStatus.failedToLogout;
@@ -778,13 +793,106 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> updateUserProfilePicture({required String profilePictureUrl, required String uId}) async {
+  Future<String?> updateUserProfilePictureInFireStore({required String profilePictureUrl, required String uId}) async {
     try {
       CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
       await usersCollectionReference.doc(uId).update({DatabaseSynonyms.profileImageField: profilePictureUrl});
       return CustomStatus.success;
     } catch (e) {
       log('Exception : $e');
+      return null;
+    }
+  }
+
+  Future<String?> updateUserData({required UserDataModel userDataModel}) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      await usersCollectionReference.doc(userDataModel.uId).update({
+        DatabaseSynonyms.userNameField: userDataModel.username,
+        DatabaseSynonyms.cityField: userDataModel.city,
+        DatabaseSynonyms.genderField: userDataModel.gender,
+        DatabaseSynonyms.panNumberField: userDataModel.panNumber,
+        DatabaseSynonyms.phoneNumberField: userDataModel.phoneNumber,
+        DatabaseSynonyms.stateField: userDataModel.state,
+      });
+      return CustomStatus.success;
+    } catch (e) {
+      log('Exception : $e');
+      return null;
+    }
+  }
+
+  Future<String?> updateUserPassword({required String newPassword}) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+
+      if (user != null) {
+        String? oldPassword;
+        DocumentSnapshot userDoc = await usersCollectionReference.doc(user.uid).get();
+        if (userDoc.exists) {
+          oldPassword = await userDoc[DatabaseSynonyms.passwordField];
+        }
+        if (newPassword != oldPassword) {
+          await user.updatePassword(newPassword);
+
+          /// update user password in user table
+          await usersCollectionReference.doc(user.uid).update({DatabaseSynonyms.passwordField: newPassword});
+          return CustomStatus.success;
+        } else {
+          return CustomStatus.passwordExists;
+        }
+      } else {
+        return null;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        return CustomStatus.requiresRecentLogin;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<String?> deleteUserUsingPassword({required String userPassword}) async {
+    try {
+      User? user = FirebaseAuth.instance.currentUser;
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+
+      if (user != null) {
+        String? password;
+        DocumentSnapshot userDoc = await usersCollectionReference.doc(user.uid).get();
+        if (userDoc.exists) {
+          password = await userDoc[DatabaseSynonyms.passwordField];
+        }
+        if (userPassword == password) {
+          /// delete user in user table
+          await usersCollectionReference.doc(user.uid).delete();
+
+          /// delete user in preferences
+          await PreferencesManager.deleteAllUserPreferences();
+
+          /// delete user in authentication
+          await user.delete();
+
+          return CustomStatus.success;
+        } else {
+          return CustomStatus.wrongEmailPassword;
+        }
+      } else {
+        return null;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'requires-recent-login') {
+        return CustomStatus.requiresRecentLogin;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Exception: $e");
       return null;
     }
   }

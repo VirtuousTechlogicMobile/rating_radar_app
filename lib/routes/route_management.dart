@@ -5,44 +5,60 @@ import 'app_pages.dart';
 abstract class RouteManagement {
   /// user module --------------------------------------------------------------------------
 
-  static void goToUserSignUpView() {
-    Get.toNamed(AppRoutes.signUp);
+  static void goToUserSignUpScreen() {
+    Get.offAllNamed(AppRoutes.signUp);
   }
 
-  static void goToUserSignInView() {
+  static void goToUserSignInScreen() {
     Get.offAllNamed(AppRoutes.signIn);
   }
 
-  static void goToLogoutView() {
+  static void goToUserLogoutScreen() {
     Get.offAllNamed(AppRoutes.userLogout);
   }
 
-  static void goToUserConformationView({required String email}) {
+  static void goToUserConformationScreen({required String email}) {
     Get.toNamed(AppRoutes.emailConformation, parameters: {'email': email});
   }
 
-  static void goToUserHomePageView() {
+  static void goToUserHomePageScreen() {
     Get.offAllNamed(AppRoutes.userHomePage);
   }
 
-  static void goToUserAllAdsListScreenView() {
+  static void goToUserAllAdsListScreen() {
     Get.toNamed(AppRoutes.userAllAds);
   }
 
-  static void goToUserSubmitAdScreenView({required String adDocumentId}) {
+  static void goToUserSubmitAdScreen({required String adDocumentId}) {
     Get.toNamed(AppRoutes.userSubmitAd, parameters: {'adDocumentId': adDocumentId});
   }
 
-  static void goToUserAdsListMenuView() {
+  static void goToUserAdsListMenuScreen() {
     Get.offNamed(AppRoutes.userAdsList);
   }
 
-  static void goToUserWalletScreenView() {
+  static void goToUserWalletScreen() {
     Get.offNamed(AppRoutes.userWalletScreen);
   }
 
-  static void goToUserMyAccountSettingScreenView() {
+  static void goToUserReferralScreen() {
+    Get.offNamed(AppRoutes.userReferralScreen);
+  }
+
+  static void goToUserMyAccountSettingScreen() {
     Get.offNamed(AppRoutes.userMyAccountScreen);
+  }
+
+  static void goToUserPaymentMethodSettingScreen() {
+    Get.offNamed(AppRoutes.userPaymentMethodScreen);
+  }
+
+  static void goToUserChangePasswordScreen() {
+    Get.offNamed(AppRoutes.userChangePasswordScreen);
+  }
+
+  static void goToUserDeleteAccountScreen() {
+    Get.offNamed(AppRoutes.userDeleteAccountScreen);
   }
 
   /// manager module --------------------------------------------------------------------------

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:flutter/animation.dart';
 import 'package:get/get.dart';
 import '../../../helper/database_helper/database_helper.dart';
@@ -36,5 +37,13 @@ class UserConformationController extends GetxController {
   Future<String> onLogout() async {
     String isUserLogout = await DatabaseHelper.instance.deleteUser();
     return isUserLogout;
+  }
+
+  Future addReferredByUserAmount() async {
+    String? referredByUserId = await PreferencesManager.getUserReferredBy();
+    if (referredByUserId != null) {
+      await DatabaseHelper.instance.addReferredByUserAmount(referredByUserId);
+      await PreferencesManager.deleteUserReferredBy();
+    }
   }
 }

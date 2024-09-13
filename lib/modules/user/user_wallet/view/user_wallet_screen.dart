@@ -37,7 +37,6 @@ class _UserWalletScreenState extends State<UserWalletScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userWalletController.scrollController.addListener(
       () => userWalletController.onScroll(),

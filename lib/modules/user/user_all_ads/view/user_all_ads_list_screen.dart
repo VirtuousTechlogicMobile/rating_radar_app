@@ -25,7 +25,6 @@ class _UserAllAdsListScreenState extends State<UserAllAdsListScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     userAllAdsController.getAdsList();
     userAllAdsController.scrollController.addListener(
@@ -137,7 +136,7 @@ Widget screenMainLayout({required ThemeColorsUtil themeUtils, required UserAllAd
                                         adPrice: userAllAdsController.adsList[index].adPrice,
                                       ),
                                       onViewButtonTap: () {
-                                        RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAllAdsController.adsList[index].docId ?? '');
+                                        RouteManagement.goToUserSubmitAdScreen(adDocumentId: userAllAdsController.adsList[index].docId ?? '');
                                       },
                                     );
                                   },

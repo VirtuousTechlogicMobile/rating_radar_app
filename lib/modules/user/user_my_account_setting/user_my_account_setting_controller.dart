@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+
 import '../../../helper/database_helper/database_helper.dart';
 import '../user_signup/model/user_signup_model.dart';
 
@@ -17,8 +18,7 @@ class UserMyAccountSettingController extends GetxController {
   TextEditingController stateController = TextEditingController();
   TextEditingController panNumberController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
-  TextEditingController genderController = TextEditingController();
-  RxString userGender = 'male'.obs;
+  RxString userGender = ''.obs;
   RxBool isShowPassword = false.obs;
   Rxn<XFile> pickedImage = Rxn<XFile>();
   RxString userId = ''.obs;
@@ -26,7 +26,6 @@ class UserMyAccountSettingController extends GetxController {
 
   @override
   Future<void> onInit() async {
-    // TODO: implement onInit
     Get.context?.loaderOverlay.show();
     super.onInit();
     await getUserId();
@@ -47,6 +46,35 @@ class UserMyAccountSettingController extends GetxController {
 
   Future getUserData() async {
     userData.value = await DatabaseHelper.instance.getSpecificUserData(uId: userId.value);
+    fullNameController.text = userData.value?.username ?? '';
+    emailController.text = userData.value?.email ?? '';
+    phoneNumberController.text = userData.value?.phoneNumber ?? '';
+    cityController.text = userData.value?.city ?? '';
+    stateController.text = userData.value?.state ?? '';
+    panNumberController.text = userData.value?.panNumber ?? '';
+    passwordController.text = userData.value?.password ?? '';
+    userGender.value = userData.value?.gender ?? '';
+  }
+
+  Future<String?> updateUserData() async {
+    Get.context?.loaderOverlay.show();
+    String? userUpdateStatus = await DatabaseHelper.instance.updateUserData(
+      userDataModel: UserDataModel(
+        email: '',
+        username: fullNameController.text,
+        phoneNumber: phoneNumberController.text,
+        password: '',
+        panNumber: panNumberController.text,
+        state: stateController.text,
+        city: cityController.text,
+        gender: userGender.value,
+        uId: userId.value,
+        referredBy: '',
+      ),
+    );
+    await getUserData();
+    Get.context?.loaderOverlay.hide();
+    return userUpdateStatus;
   }
 
   Future<String?> pickAndUpdateImage() async {
@@ -65,7 +93,7 @@ class UserMyAccountSettingController extends GetxController {
 
         /// update profile picture in users table
         if (profilePictureUrl != null) {
-          String? updateStatus = await DatabaseHelper.instance.updateUserProfilePicture(profilePictureUrl: profilePictureUrl, uId: userId.value);
+          String? updateStatus = await DatabaseHelper.instance.updateUserProfilePictureInFireStore(profilePictureUrl: profilePictureUrl, uId: userId.value);
           if (updateStatus == CustomStatus.success) {
             await getUserProfilePicture();
             Get.context?.loaderOverlay.hide();
@@ -92,7 +120,7 @@ class UserMyAccountSettingController extends GetxController {
   Future<String?> removeProfilePicture() async {
     Get.context?.loaderOverlay.show();
     await DatabaseHelper.instance.removeUserProfilePictureInStorage(oldProfileImageUrl: userData.value?.profileImage ?? '');
-    String? updateStatus = await DatabaseHelper.instance.updateUserProfilePicture(profilePictureUrl: '', uId: userId.value);
+    String? updateStatus = await DatabaseHelper.instance.updateUserProfilePictureInFireStore(profilePictureUrl: '', uId: userId.value);
     if (updateStatus == CustomStatus.success) {
       await getUserProfilePicture();
       Get.context?.loaderOverlay.hide();

@@ -180,7 +180,7 @@ class UserAdsListMenuScreen extends StatelessWidget {
                                         onExit: (_) => userAdsListMenuController.isHoveredList[index].value = false,
                                         child: InkWell(
                                           onTap: () {
-                                            RouteManagement.goToUserSubmitAdScreenView(adDocumentId: userAdsListMenuController.userSubmittedAdsList[index].adId);
+                                            RouteManagement.goToUserSubmitAdScreen(adDocumentId: userAdsListMenuController.userSubmittedAdsList[index].adId);
                                           },
                                           child: Container(
                                             decoration: BoxDecoration(

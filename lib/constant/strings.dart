@@ -20,6 +20,8 @@ abstract class CustomStatus {
   static const userNotFound = 'UserNotFound';
   static const wrongEmailPassword = 'WrongEmailPassword';
   static const failedToLogout = 'FailedToLogout';
+  static const passwordExists = 'PasswordExists';
+  static const requiresRecentLogin = 'RequiresRecentLogin';
 
   /// custom ad and transaction statuses
   static const approved = 'approved';

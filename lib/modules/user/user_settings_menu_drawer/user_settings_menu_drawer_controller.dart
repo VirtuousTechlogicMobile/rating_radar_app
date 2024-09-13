@@ -9,13 +9,6 @@ class UserSettingsMenuDrawerController extends GetxController {
   RxBool isShowExpandedContent = false.obs;
   RxInt selectedMenuIndex = 0.obs;
 
-  @override
-  void onInit() {
-    // TODO: implement onInit
-    super.onInit();
-    getDrawerIndex();
-  }
-
   getDrawerIndex() async {
     selectedMenuIndex.value = await PreferencesManager.getSettingsDrawerIndex();
   }
