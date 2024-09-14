@@ -995,7 +995,7 @@ class DatabaseHelper {
     }
   }
 
-// fetch users data
+// fetch Limited users data
   Future<List<AdminHomepageRecentUserCompanyModel>?> getLimitedUserList({
     required int limit,
   }) async {
@@ -1219,7 +1219,8 @@ class DatabaseHelper {
         }
       }
     } catch (e) {
-      print("Error fetching data: $e");
+      log("Error fetching data: $e");
+      return null;
     }
 
     return userAdDataList.isEmpty ? null : userAdDataList;
@@ -1246,4 +1247,99 @@ class DatabaseHelper {
       return CustomStatus.failedToLogout;
     }
   }
+
+  Future<List<AdminHomepageRecentUserCompanyModel>?> getAllUsersList({
+    required int nDataPerPage,
+    required int sortBy,
+    String? searchTerm,
+    DocumentSnapshot? lastDocument, // Optional last document for pagination
+  }) async {
+    try {
+      Query query = fireStoreInstance.collection(DatabaseSynonyms.usersCollection).orderBy(DatabaseSynonyms.createdAtField, descending: sortBy == 0).limit(nDataPerPage);
+
+      if (searchTerm?.isNotEmpty ?? false) {
+        String startSearch = searchTerm!;
+        String endSearch = '$searchTerm\uf8ff';
+        query = query.where(DatabaseSynonyms.userNameField, isGreaterThanOrEqualTo: startSearch).where(DatabaseSynonyms.userNameField, isLessThanOrEqualTo: endSearch);
+      }
+
+      if (lastDocument != null) {
+        query = query.startAfterDocument(lastDocument);
+      }
+
+      QuerySnapshot querySnapshot = await query.get();
+
+      List<AdminHomepageRecentUserCompanyModel> userList =
+          querySnapshot.docs.map((doc) => AdminHomepageRecentUserCompanyModel.fromMap(doc.data() as Map<String, dynamic>, docId: doc.id // Store the full document for pagination
+              )).toList();
+
+      return userList;
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+/*  Future<List<AdminHomepageRecentUserCompanyModel>?> getAllUserPaginatedList({
+    required int nDataPerPage,
+    required int sortBy,
+    String? searchTerm,
+  }) async {
+    try {
+      // Collection reference
+      CollectionReference adminAllUserCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+
+      List<AdminHomepageRecentUserCompanyModel> adminAllUsersAdsList = [];
+
+      // Initial query with search term handling
+      Query initialQuery;
+      if (searchTerm?.isNotEmpty ?? false) {
+        String startSearch = searchTerm!;
+        String endSearch = '$searchTerm\uf8ff';
+        initialQuery = adminAllUserCollectionReference
+            .where(DatabaseSynonyms.userNameField, isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.userNameField, isLessThanOrEqualTo: endSearch)
+            .orderBy(DatabaseSynonyms.createdAtField, descending: true); // Order by createdAt field.
+      } else {
+        initialQuery = adminAllUserCollectionReference;
+      }
+
+      QuerySnapshot? startSnapshot;
+      if (nDataPerPage > 0) {
+        // Initial query to get the first set of documents
+        startSnapshot = await initialQuery.limit(nDataPerPage).get();
+      }
+
+      Query paginatedQuery;
+
+      // Check if pagination should happen
+      if (startSnapshot != null && startSnapshot.docs.isNotEmpty) {
+        DocumentSnapshot startDocument = startSnapshot.docs.last;
+        paginatedQuery = initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
+      } else {
+        paginatedQuery = initialQuery.limit(nDataPerPage); // First page
+      }
+
+      QuerySnapshot querySnapshot = await paginatedQuery.get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        for (var snapshotData in querySnapshot.docs) {
+          // Safely extract data to avoid any missing field errors
+          adminAllUsersAdsList.add(
+            AdminHomepageRecentUserCompanyModel(
+              name: snapshotData[DatabaseSynonyms.userNameField] ?? 'Username',
+              createdAt: (snapshotData[DatabaseSynonyms.createdAtField] as Timestamp).toDate(),
+              email: snapshotData[DatabaseSynonyms.emailField] ?? 'No Email',
+              imageUrl: snapshotData[DatabaseSynonyms.profileImageField] ?? '',
+            ),
+          );
+        }
+      }
+
+      return adminAllUsersAdsList;
+    } catch (e) {
+      log("Exception occurred while fetching data: $e");
+      return null; // Return empty list on error or no data found
+    }
+  }*/
 }

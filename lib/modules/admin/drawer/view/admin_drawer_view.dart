@@ -123,7 +123,7 @@ class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProv
               adminDrawerController.setAdminDrawerIndex(firstMenuListLength + adminDrawerController.adminEndMenuDataList.indexOf(selectedMenu));
               adminDrawerController.selectedMenuIndex.value = firstMenuListLength + adminDrawerController.adminEndMenuDataList.indexOf(selectedMenu);
               if (adminDrawerController.selectedMenuIndex.value == 4) {
-                RouteManagement.goToUserMyAccountSettingScreenView();
+                // RouteManagement.goToUserMyAccountSettingScreenView();
               } else if (adminDrawerController.selectedMenuIndex.value == 8) {
                 RouteManagement.goToAdminLogoutView();
               }

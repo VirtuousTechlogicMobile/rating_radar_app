@@ -31,16 +31,11 @@ class _AdminAllUserViewState extends State<AdminAllUserView> {
   @override
   void initState() {
     super.initState();
-    adminAllUserController.scrollController1.addListener(adminAllUserController.updateScrollbar1Position);
-
-    adminAllUserController.getUserList();
+    adminAllUserController.getUserList(sortBy: adminAllUserController.selectedDropDownIndex.value);
   }
 
   @override
   void dispose() {
-    adminAllUserController.scrollController1.removeListener(adminAllUserController.updateScrollbar1Position);
-    adminAllUserController.scrollController1.dispose();
-
     super.dispose();
   }
 
@@ -57,7 +52,9 @@ class _AdminAllUserViewState extends State<AdminAllUserView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 adminHeader(),
-                adminScreenMainLayout(themeUtils: themeUtils),
+                adminScreenMainLayout(
+                  themeUtils: themeUtils,
+                ),
               ],
             ),
           )
@@ -180,6 +177,22 @@ class _AdminAllUserViewState extends State<AdminAllUserView> {
                                         controller: adminAllUserController.searchController,
                                         onChange: (value) {
                                           // search
+                                          Future.delayed(const Duration(milliseconds: 500), () {
+                                            if (value != null && value.isNotEmpty) {
+                                              // Fetch the user list with the current sort order and the entered search term
+                                              adminAllUserController.getUserList(
+                                                // The number of users per page
+                                                sortBy: adminAllUserController.selectedDropDownIndex.value, // Sort by field
+                                                searchTerm: value, // The search term from input
+                                              );
+                                            } else {
+                                              // If the search term is cleared, fetch the user list without any search term
+                                              adminAllUserController.getUserList(
+                                                sortBy: adminAllUserController.selectedDropDownIndex.value,
+                                                searchTerm: null, // No search term, fetch all data
+                                              );
+                                            }
+                                          });
                                         },
                                         borderRadius: BorderRadius.circular(Dimens.twenty),
                                         fillColor: themeUtils.darkGrayOfWhiteSwitchColor,
@@ -206,7 +219,7 @@ class _AdminAllUserViewState extends State<AdminAllUserView> {
                                       selectedItem: adminAllUserController.adsListDropDownList[adminAllUserController.selectedDropDownIndex.value],
                                       onItemSelected: (index) {
                                         adminAllUserController.selectedDropDownIndex.value = index;
-                                        // adminAllUserController.getAdsData(sortBy: adminAllUserController.selectedDropDownIndex.value);
+                                        adminAllUserController.getUserList(sortBy: adminAllUserController.selectedDropDownIndex.value);
                                       },
                                     ),
                                   ),
@@ -216,15 +229,7 @@ class _AdminAllUserViewState extends State<AdminAllUserView> {
                           ),
                         ),
                         AdminAllUsersCompanyComponent(
-                          listScrollController: adminAllUserController.scrollController1,
-                          scrollBarTop: adminAllUserController.scrollbar1Top.value,
-                          scrollBarHeight: adminAllUserController.scrollbar1Height.value,
-                          onPanUpaDate: (DragUpdateDetails details) {
-                            adminAllUserController.onScrollbarPan1Update(details);
-                            adminAllUserController.update(); // Force UI update
-                          },
                           userList: adminAllUserController.userList.value,
-                          showScrollbar: (adminAllUserController.userList.value?.length ?? 0) > 3,
                         ),
                       ],
                     ),

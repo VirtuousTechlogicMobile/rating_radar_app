@@ -90,8 +90,7 @@ class AppThemeController extends GetxController {
       cardColor: ColorValues.lightDialogColor,
       shadowColor: ColorValues.shadowColor.withAlpha(12),
       cardTheme: const CardTheme(color: ColorValues.lightDialogColor),
-      dialogTheme:
-          const DialogTheme(backgroundColor: ColorValues.lightDialogColor),
+      dialogTheme: const DialogTheme(backgroundColor: ColorValues.lightDialogColor),
       dialogBackgroundColor: ColorValues.lightDialogColor,
       bottomSheetTheme: const BottomSheetThemeData().copyWith(
         backgroundColor: ColorValues.lightDialogColor,
@@ -209,8 +208,7 @@ class AppThemeController extends GetxController {
       appBarTheme: const AppBarTheme(backgroundColor: ColorValues.darkBgColor),
       cardColor: ColorValues.darkDialogColor,
       cardTheme: const CardTheme(color: ColorValues.darkDialogColor),
-      dialogTheme:
-          const DialogTheme(backgroundColor: ColorValues.darkDialogColor),
+      dialogTheme: const DialogTheme(backgroundColor: ColorValues.darkDialogColor),
       dialogBackgroundColor: ColorValues.darkDialogColor,
       bottomSheetTheme: const BottomSheetThemeData().copyWith(
         backgroundColor: ColorValues.darkDialogColor,
