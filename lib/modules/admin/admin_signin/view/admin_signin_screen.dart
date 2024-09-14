@@ -145,7 +145,8 @@ class AdmSignInScreen extends StatelessWidget {
                     onTap: () async {
                       if (adminSignInScreenController.emailController.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_email'.tr);
-                      } else if (adminSignInScreenController.emailController.text.trim().isNotEmpty && !Validators.isValidEmail(adminSignInScreenController.emailController.text)) {
+                      } else if (adminSignInScreenController.emailController.text.trim().isNotEmpty &&
+                          !Validators.isValidEmail(adminSignInScreenController.emailController.text)) {
                         AppUtility.showSnackBar('please_enter_valid_email'.tr);
                       } else if (adminSignInScreenController.passwordController.text.trim().isEmpty) {
                         AppUtility.showSnackBar('please_enter_password'.tr);

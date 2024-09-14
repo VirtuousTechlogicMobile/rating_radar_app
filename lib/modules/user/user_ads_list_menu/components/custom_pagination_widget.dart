@@ -44,9 +44,10 @@ class CustomPaginationWidget extends StatelessWidget {
         children: [
           CommonWidgets.autoSizeText(
             // showing_data 1 to 9 of  256K entries
-            text: "${'showing_data'.tr} ${calculateStartIndex(currentPage)} ${'to'.tr} ${calculateEndIndex(currentPage)} ${'of'.tr} $totalCount ${'entries'.tr}",
+            text:
+                "${'showing_data'.tr} ${calculateStartIndex(currentPage)} ${'to'.tr} ${calculateEndIndex(currentPage)} ${'of'.tr} $totalCount ${'entries'.tr}",
             textStyle: AppStyles.style14SemiBold.copyWith(
-              color: themeUtils.fontColorBlackWhiteSwitchColor,
+              color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50), //themeUtils.fontColorBlackWhiteSwitchColor,
             ),
             maxLines: 2,
             minFontSize: 8,
@@ -88,7 +89,8 @@ class CustomPaginationWidget extends StatelessWidget {
                     margin: EdgeInsets.only(left: Dimens.twelve),
                     padding: EdgeInsets.symmetric(vertical: Dimens.six, horizontal: Dimens.ten),
                     decoration: BoxDecoration(
-                        color: pageIndex == currentPage ? themeUtils.primaryColorSwitch : themeUtils.darkGrayOfWhiteSwitchColor, borderRadius: BorderRadius.circular(Dimens.four)),
+                        color: pageIndex == currentPage ? themeUtils.primaryColorSwitch : themeUtils.darkGrayOfWhiteSwitchColor,
+                        borderRadius: BorderRadius.circular(Dimens.four)),
                     child: Text(
                       pageIndex.toString(),
                       style: AppStyles.style12Normal.copyWith(
@@ -168,7 +170,8 @@ class CustomPaginationWidget extends StatelessWidget {
                   margin: EdgeInsets.only(left: Dimens.twelve),
                   padding: EdgeInsets.symmetric(vertical: Dimens.six, horizontal: Dimens.ten),
                   decoration: BoxDecoration(
-                      color: pageIndex == currentPage ? themeUtils.primaryColorSwitch : themeUtils.darkGrayOfWhiteSwitchColor, borderRadius: BorderRadius.circular(Dimens.four)),
+                      color: pageIndex == currentPage ? themeUtils.primaryColorSwitch : themeUtils.darkGrayOfWhiteSwitchColor,
+                      borderRadius: BorderRadius.circular(Dimens.four)),
                   child: Text(
                     pageIndex.toString(),
                     style: AppStyles.style12Normal.copyWith(

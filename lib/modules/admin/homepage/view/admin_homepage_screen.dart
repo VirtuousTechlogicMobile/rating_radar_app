@@ -79,7 +79,7 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Dimens.sixtyFive, vertical: Dimens.sixty),
+          padding: EdgeInsets.symmetric(horizontal: Dimens.sixtySeven, vertical: Dimens.sixty),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -118,24 +118,27 @@ class _AdminHomepageScreenState extends State<AdminHomepageScreen> {
                 ],
               ),
               // Grid Section
-              LayoutBuilder(
-                builder: (context, constraints) {
-                  double spacing = _calculateGridSpacing(constraints.maxWidth, Dimens.twoHundredTwenty);
+              Container(
+                // padding: Dimens.edgeInsetsLeftRight67,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    double spacing = _calculateGridSpacing(constraints.maxWidth, Dimens.twoHundredTwenty);
 
-                  return Wrap(
-                    spacing: spacing,
-                    runSpacing: Dimens.sixTeen, // Vertical spacing
-                    children: List.generate(
-                      4,
-                      (index) => AdminHomepageViewComponent(
-                        themeUtils: themeUtils,
-                        index: index,
-                        listLength: 4,
-                        viewsModel: AdminHomepageAdsViewsDataModel(totalViews: 1265, isMarketValueUp: true, marketValuePercentage: 11.02),
+                    return Wrap(
+                      spacing: spacing,
+                      runSpacing: Dimens.sixTeen, // Vertical spacing
+                      children: List.generate(
+                        4,
+                        (index) => AdminHomepageViewComponent(
+                          themeUtils: themeUtils,
+                          index: index,
+                          listLength: 4,
+                          viewsModel: AdminHomepageAdsViewsDataModel(totalViews: 1265, isMarketValueUp: true, marketValuePercentage: 11.02),
+                        ),
                       ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
               // Members Section
               Padding(

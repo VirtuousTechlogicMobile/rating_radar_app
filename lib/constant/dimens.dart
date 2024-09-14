@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 /// all over the application.
 abstract class Dimens {
   static EdgeInsets edgeInsets16 = EdgeInsets.all(sixTeen);
+  static EdgeInsets edgeInsetsLeftRight67 = EdgeInsets.symmetric(horizontal: sixtySeven);
 
   static EdgeInsets edgeInsets16_12 = EdgeInsets.symmetric(
     vertical: sixTeen,
@@ -95,6 +96,7 @@ abstract class Dimens {
   static double sixtyTwo = 62.r;
   static double sixtyFour = 64.r;
   static double sixtyFive = 65.r;
+  static double sixtySeven = 67.r;
   static double sixtyNine = 69.r;
   static double ten = 10.r;
   static double thirteen = 13.r;

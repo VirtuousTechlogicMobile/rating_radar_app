@@ -57,7 +57,8 @@ class _DrawerViewState extends State<DrawerView> with SingleTickerProviderStateM
           decoration: BoxDecoration(
             color: themeUtils.drawerBgWhiteSwitchColor,
             boxShadow: [
-              BoxShadow(offset: const Offset(0, 10), blurRadius: 60, spreadRadius: 0, color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50)),
+              BoxShadow(
+                  offset: const Offset(0, 10), blurRadius: 60, spreadRadius: 0, color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50)),
             ],
           ),
           child: Stack(
@@ -162,7 +163,8 @@ Widget animatedContainer({required DrawerMenuController drawerController, requir
       width: Dimens.twoHundredFifty,
       padding: EdgeInsets.all(Dimens.seven),
       decoration: BoxDecoration(
-          color: themeUtils.primaryColorSwitch, borderRadius: drawerController.isExpanded.value ? BorderRadius.circular(Dimens.thirty) : BorderRadius.circular(Dimens.fifty)),
+          color: themeUtils.primaryColorSwitch,
+          borderRadius: drawerController.isExpanded.value ? BorderRadius.circular(Dimens.thirty) : BorderRadius.circular(Dimens.fifty)),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -216,8 +218,11 @@ Widget animatedContainer({required DrawerMenuController drawerController, requir
                         onTap: () async {
                           drawerController.toggleDashboardProfileMenu();
                         },
-                        child:
-                            CommonWidgets.fromSvg(svgAsset: SvgAssets.downArrowIcon, color: themeUtils.blackWhiteSwitchColor, width: Dimens.twentyFour, height: Dimens.twentyFour),
+                        child: CommonWidgets.fromSvg(
+                            svgAsset: SvgAssets.downArrowIcon,
+                            color: themeUtils.blackWhiteSwitchColor,
+                            width: Dimens.twentyFour,
+                            height: Dimens.twentyFour),
                       ),
                     ),
                   ),
@@ -242,7 +247,7 @@ Widget animatedContainer({required DrawerMenuController drawerController, requir
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CommonWidgets.fromSvg(svgAsset: ThemeAssetsUtil(context).themeButton, height: Dimens.thirteen, width: Dimens.thirteen),
+                    CommonWidgets.fromSvg(svgAsset: ThemeAssetsUtil(context).themeButton, height: Dimens.fourteen, width: Dimens.fourteen),
                     Padding(
                       padding: EdgeInsets.only(left: Dimens.sevenTeen),
                       child: Text(

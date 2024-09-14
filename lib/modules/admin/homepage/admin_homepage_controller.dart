@@ -88,7 +88,7 @@ class AdminHomepageController extends GetxController {
     });
   }
 
-  List<String> adminDropdownItemList = ['today'.tr, 'lastWeek'.tr, 'lastMonth'.tr, 'lastYear'.tr, 'allTime'.tr];
+  List<String> adminDropdownItemList = ['today'.tr, 'last_week'.tr, 'last_month'.tr, 'last_year'.tr, 'all_time'.tr];
   RxInt selectedDropdownItemIndex = 0.obs;
   RxList<bool> isViewComponentHoveredList = List.generate(1, (index) => false).obs;
 
