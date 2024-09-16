@@ -6,7 +6,7 @@ abstract class AssetValues {
 abstract class SvgAssets {
   static const managerRoundedIcon = 'assets/svgs/manager_rounded_icon.svg';
   static const userRoundedIcon = 'assets/svgs/user_rounded_icon.svg';
-  static const darkBrightnessIcon = 'assets/svgs/dark_mode_svgs/moon2.svg';
+  static const darkBrightnessIcon = 'assets/svgs/dark_mode_svgs/moon5.svg';
   static const lightBrightnessIcon = 'assets/svgs/light_mode_svgs/brightness_icon.svg';
   static const darkThemeSmallSwitchIcon = 'assets/svgs/dark_mode_svgs/small_switch_icon.svg';
   static const lightThemeSmallSwitchIcon = 'assets/svgs/light_mode_svgs/small_switch_icon.svg';

@@ -91,7 +91,7 @@ class CustomTextField extends StatelessWidget {
         suffixIconConstraints: BoxConstraints(maxWidth: Dimens.thirty, maxHeight: Dimens.thirty, minWidth: Dimens.fifteen, minHeight: Dimens.fifteen),
         filled: true,
         fillColor: fillColor,
-        hintText: hintText ?? ' ',
+        hintText: " ${hintText ?? ''}",
         hintStyle: WidgetStateTextStyle.resolveWith((Set<MaterialState> states) {
           if (states.contains(WidgetState.focused)) {
             return hintStyle ?? AppStyles.style14SemiLight.copyWith(color: themeColors.primaryColorSwitch.withOpacity(0.80));

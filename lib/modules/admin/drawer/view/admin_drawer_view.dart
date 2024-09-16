@@ -53,7 +53,8 @@ class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProv
           decoration: BoxDecoration(
             color: themeUtils.drawerBgWhiteSwitchColor,
             boxShadow: [
-              BoxShadow(offset: const Offset(0, 10), blurRadius: 60, spreadRadius: 0, color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50)),
+              BoxShadow(
+                  offset: const Offset(0, 10), blurRadius: 60, spreadRadius: 0, color: themeUtils.drawerShadowBlackSwitchColor.withOpacity(0.50)),
             ],
           ),
           child: Stack(
@@ -101,6 +102,8 @@ class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProv
                 RouteManagement.goToAdminAdsMenuView();
               } else if (adminDrawerController.selectedMenuIndex.value == 3) {
                 RouteManagement.goToAdminAllUserView();
+              } else if (adminDrawerController.selectedMenuIndex.value == 4) {
+                RouteManagement.goToAdminManagerView();
               }
             },
           ).marginOnly(bottom: 16),
@@ -134,7 +137,8 @@ class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProv
     );
   }
 
-  Widget animatedContainer({required AdminDrawerMenuController adminDrawerController, required ThemeColorsUtil themeUtils, required BuildContext context}) {
+  Widget animatedContainer(
+      {required AdminDrawerMenuController adminDrawerController, required ThemeColorsUtil themeUtils, required BuildContext context}) {
     return Obx(
       () => AnimatedContainer(
         duration: const Duration(milliseconds: 500),
@@ -176,7 +180,10 @@ class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProv
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       CommonWidgets.autoSizeText(
-                          text: 'admin'.tr, textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor), minFontSize: 10, maxFontSize: 14),
+                          text: 'admin'.tr,
+                          textStyle: AppStyles.style14SemiBold.copyWith(color: themeUtils.blackWhiteSwitchColor),
+                          minFontSize: 10,
+                          maxFontSize: 14),
                       Padding(
                         padding: EdgeInsets.only(top: Dimens.five),
                         child: CommonWidgets.autoSizeText(
@@ -235,8 +242,8 @@ class _AdminDrawerViewState extends State<AdminDrawerView> with SingleTickerProv
                     children: [
                       CommonWidgets.fromSvg(
                         svgAsset: ThemeAssetsUtil(context).themeButton,
-                        height: Dimens.thirteen,
-                        width: Dimens.thirteen,
+                        height: Dimens.fourteen,
+                        width: Dimens.fourteen,
                       ),
                       Padding(
                         padding: EdgeInsets.only(left: Dimens.sevenTeen),

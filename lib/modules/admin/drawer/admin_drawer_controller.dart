@@ -45,18 +45,12 @@ class AdminDrawerMenuController extends GetxController {
   late Animation<double> animation;
 
   List<AdminMenuDataModel> adminMenuDataList = [
-    AdminMenuDataModel(
-        prefixSvgIcon: SvgAssets.drawerDashboardIcon, menuName: 'dashboard'.tr),
-    AdminMenuDataModel(
-        prefixSvgIcon: SvgAssets.drawerAdsListIcon, menuName: 'ads_list'.tr),
-    AdminMenuDataModel(
-        prefixSvgIcon: SvgAssets.drawerWalletIcon, menuName: 'wallet_user'.tr),
-    AdminMenuDataModel(
-        prefixSvgIcon: SvgAssets.drawerUserIcon, menuName: 'users'.tr),
-    AdminMenuDataModel(
-        prefixSvgIcon: SvgAssets.drawerCompanyIcon, menuName: 'compnays'.tr),
-    AdminMenuDataModel(
-        prefixSvgIcon: SvgAssets.drawerPaymentsIcon, menuName: 'payments'.tr),
+    AdminMenuDataModel(prefixSvgIcon: SvgAssets.drawerDashboardIcon, menuName: 'dashboard'.tr),
+    AdminMenuDataModel(prefixSvgIcon: SvgAssets.drawerAdsListIcon, menuName: 'ads_list'.tr),
+    AdminMenuDataModel(prefixSvgIcon: SvgAssets.drawerWalletIcon, menuName: 'wallet_user'.tr),
+    AdminMenuDataModel(prefixSvgIcon: SvgAssets.drawerUserIcon, menuName: 'users'.tr),
+    AdminMenuDataModel(prefixSvgIcon: SvgAssets.drawerCompanyIcon, menuName: 'manager'.tr),
+    AdminMenuDataModel(prefixSvgIcon: SvgAssets.drawerPaymentsIcon, menuName: 'payments'.tr),
   ];
 
   List<AdminMenuDataModel> adminEndMenuDataList = [

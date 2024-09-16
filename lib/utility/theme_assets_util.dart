@@ -7,7 +7,7 @@ class ThemeAssetsUtil {
   ThemeAssetsUtil(BuildContext context) : isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
   String get themeButton {
-    return isDarkTheme ? Assets.darkModeSvgsMoon2 : SvgAssets.lightBrightnessIcon;
+    return isDarkTheme ? SvgAssets.darkBrightnessIcon : SvgAssets.lightBrightnessIcon;
   }
 
   String get themeSwitchSmallButton {

@@ -103,6 +103,10 @@ abstract class RouteManagement {
     Get.offAllNamed(AppRoutes.adminLogout);
   }
 
+  static void goToAdminManagerView() {
+    Get.offAllNamed(AppRoutes.adminManager);
+  }
+
   /// Go to back Page / Close Pages --------------------------------------------
 
   static void goToBack() {

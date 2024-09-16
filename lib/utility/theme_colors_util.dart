@@ -4,29 +4,22 @@ import '../constant/colors.dart';
 
 class ThemeColorsUtil {
   final bool isDarkTheme;
-  ThemeColorsUtil(BuildContext context)
-      : isDarkTheme = Theme.of(context).brightness == Brightness.dark;
+  ThemeColorsUtil(BuildContext context) : isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
   Color get darkGrayWhiteSwitchColor {
     return isDarkTheme ? ColorValues.darkGrayColor : ColorValues.whiteColor;
   }
 
   Color get interiorUpColor {
-    return isDarkTheme
-        ? ColorValues.lightBlackColor
-        : ColorValues.primaryColorBlue;
+    return isDarkTheme ? ColorValues.lightBlackColor : ColorValues.primaryColorBlue;
   }
 
   Color get primaryColorSwitch {
-    return isDarkTheme
-        ? ColorValues.primaryColorYellow
-        : ColorValues.primaryColorBlue;
+    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.primaryColorBlue;
   }
 
   Color get primaryLightColorSwitch {
-    return isDarkTheme
-        ? ColorValues.primaryColorLightYellow
-        : ColorValues.primaryColorLightBlue;
+    return isDarkTheme ? ColorValues.primaryColorLightYellow : ColorValues.primaryColorLightBlue;
   }
 
   Color get deepBlackWhiteSwitchColor {
@@ -46,9 +39,7 @@ class ThemeColorsUtil {
   }
 
   Color get deepBlackBlueSwitchColor {
-    return isDarkTheme
-        ? ColorValues.deepBlackColor
-        : ColorValues.primaryColorBlue;
+    return isDarkTheme ? ColorValues.deepBlackColor : ColorValues.primaryColorBlue;
   }
 
   Color get blackPrimaryBlueSwitchColor {
@@ -68,9 +59,7 @@ class ThemeColorsUtil {
   }
 
   Color get lightGrayC4SwitchColor {
-    return isDarkTheme
-        ? ColorValues.lightGrayC4Color.withOpacity(0.50)
-        : ColorValues.lightGrayC4Color;
+    return isDarkTheme ? ColorValues.lightGrayC4Color.withOpacity(0.50) : ColorValues.lightGrayC4Color;
   }
 
   Color get whiteDarkCharcoalSwitchColor {
@@ -86,15 +75,11 @@ class ThemeColorsUtil {
   }
 
   Color get blackColorWithWhiteColor {
-    return isDarkTheme
-        ? ColorValues.whiteColor
-        : ColorValues.blackColorRecentText;
+    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.blackColorRecentText;
   }
 
   Color get boxShadowContainerColor {
-    return isDarkTheme
-        ? ColorValues.primaryColorYellow.withOpacity(0.15)
-        : ColorValues.primaryColorBlue.withOpacity(0.15);
+    return isDarkTheme ? ColorValues.primaryColorYellow.withOpacity(0.15) : ColorValues.primaryColorBlue.withOpacity(0.15);
   }
 
   Color get fontColorBlackWhiteSwitchColor {
@@ -102,21 +87,15 @@ class ThemeColorsUtil {
   }
 
   Color get dividerSwitchColor {
-    return isDarkTheme
-        ? ColorValues.dividerGreyColor.withOpacity(0.50)
-        : ColorValues.dividerGreyColor;
+    return isDarkTheme ? ColorValues.dividerGreyColor.withOpacity(0.50) : ColorValues.dividerGreyColor;
   }
 
   Color get borderTableHoverColor {
-    return isDarkTheme
-        ? ColorValues.primaryColorYellow
-        : ColorValues.blackColor;
+    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.blackColor;
   }
 
   Color get adsTextFieldBorderColor {
-    return isDarkTheme
-        ? ColorValues.primaryColorYellow
-        : ColorValues.adsTextFieldBorderColor;
+    return isDarkTheme ? ColorValues.primaryColorYellow : ColorValues.adsTextFieldBorderColor;
   }
 
   Color get midNightBlackWhiteSwitchColor {
@@ -128,8 +107,6 @@ class ThemeColorsUtil {
   }
 
   Color get commentViewAdColor {
-    return isDarkTheme
-        ? ColorValues.commentDarkColor
-        : ColorValues.commentColor;
+    return isDarkTheme ? ColorValues.commentDarkColor : ColorValues.commentColor;
   }
 }

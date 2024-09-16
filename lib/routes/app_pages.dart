@@ -4,6 +4,8 @@ import 'package:RatingRadar_app/modules/admin/admin_create_ad/bindings/admin_cre
 import 'package:RatingRadar_app/modules/admin/admin_create_ad/view/admin_create_ad_screen.dart';
 import 'package:RatingRadar_app/modules/admin/admin_logout/bindings/admin_logout_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_logout/view/admin_logout_screen.dart';
+import 'package:RatingRadar_app/modules/admin/admin_manager/bindings/admin_manager_binding.dart';
+import 'package:RatingRadar_app/modules/admin/admin_manager/view/admin_manager_view.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/bindings/admin_signin_binding.dart';
 import 'package:RatingRadar_app/modules/admin/admin_signin/view/admin_signin_screen.dart';
 import 'package:RatingRadar_app/modules/admin/admin_user/bindings/admin_all_user_binding.dart';
@@ -226,6 +228,14 @@ abstract class AppPages {
       name: _Routes.adminLogout,
       page: AdminLogoutScreen.new,
       binding: AdminLogoutBinding(),
+      transitionDuration: transitionDuration,
+      transition: defaultTransition,
+    ),
+
+    GetPage(
+      name: _Routes.adminManager,
+      page: AdminManagerView.new,
+      binding: AdminManagerBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
     ),
