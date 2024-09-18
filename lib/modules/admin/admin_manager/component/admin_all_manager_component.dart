@@ -2,8 +2,10 @@ import 'package:RatingRadar_app/modules/admin/homepage/components/admin_homepage
 import 'package:RatingRadar_app/modules/admin/homepage/model/admin_homepage_recent_manager_model.dart';
 import 'package:flutter/material.dart';
 
+import '../model/manager_model.dart';
+
 class AdminAllManagerComponent extends StatelessWidget {
-  final List<AdminHomepageRecentManagerModel>? managerList;
+  final List<ManagerModel>? managerList;
   const AdminAllManagerComponent({super.key, required this.managerList});
 
   @override
@@ -30,7 +32,7 @@ class AdminAllManagerComponent extends StatelessWidget {
                   managerList!.length,
                   (index) {
                     return AdminHomepageRecentManagerComponent(
-                      adminHomepageRecentManagerModel: managerList![index],
+                      managerModel: managerList![index],
                     );
                   },
                 ),

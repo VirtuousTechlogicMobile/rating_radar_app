@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 abstract class Dimens {
   static EdgeInsets edgeInsets16 = EdgeInsets.all(sixTeen);
   static EdgeInsets edgeInsetsLeftRight67 = EdgeInsets.symmetric(horizontal: sixtySeven);
+  static EdgeInsets edgeInsetsLeftRight48 = EdgeInsets.symmetric(horizontal: fortyEight);
 
   static EdgeInsets edgeInsets16_12 = EdgeInsets.symmetric(
     vertical: sixTeen,
@@ -123,6 +124,13 @@ abstract class Dimens {
   static double two = 2.r;
   static double zero = 0.r;
   static double screensHorizontalPadding = thirtyEight;
+
+  static SizedBox boxHeight15 = SizedBox(height: fifteen);
+  static SizedBox boxHeight25 = SizedBox(height: twentyFive);
+  static SizedBox boxHeight35 = SizedBox(height: thirtyFive);
+
+  static SizedBox boxWidth15 = SizedBox(width: fifteen);
+  static SizedBox boxWidth30 = SizedBox(width: thirty);
 
   /// Get the height with the percent value of the screen height.
   static double percentHeight(double percentValue) => percentValue.sh;

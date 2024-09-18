@@ -9,6 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../constant/strings.dart';
+import '../../modules/admin/admin_manager/model/manager_model.dart';
 import '../../modules/admin/admin_signin/model/admin_signin_model.dart';
 import '../../modules/admin/admin_view_ad/admin_ad_comments_data.dart';
 import '../../modules/admin/homepage/model/admin_homepage_recent_user_company_model.dart';
@@ -1035,7 +1036,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<AdminHomepageRecentManagerModel>?> getLimitedManagerList({
+  Future<List<ManagerModel>?> getLimitedManagerList({
     required int limit,
   }) async {
     try {
@@ -1045,8 +1046,11 @@ class DatabaseHelper {
           .limit(limit);
 
       QuerySnapshot querySnapshot = await query.get();
-      List<AdminHomepageRecentManagerModel> managerList =
-          querySnapshot.docs.map((docs) => AdminHomepageRecentManagerModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList();
+      List<ManagerModel> managerList = querySnapshot.docs
+          .map((docs) => ManagerModel.fromMap(
+                docs.data() as Map<String, dynamic>,
+              ))
+          .toList();
       return managerList;
     } catch (e) {
       log("Exception: $e");
@@ -1332,7 +1336,7 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<AdminHomepageRecentManagerModel>?> getAllManagersList({
+  Future<List<ManagerModel>?> getAllManagersList({
     required int nDataPerPage,
     required int sortBy,
     String? searchTerm,
@@ -1364,10 +1368,10 @@ class DatabaseHelper {
       QuerySnapshot querySnapshot = await query.get();
       print("querySnapshot ${querySnapshot.docs}");
 
-      List<AdminHomepageRecentManagerModel> managerList = querySnapshot.docs
-          .map((doc) =>
-              AdminHomepageRecentManagerModel.fromMap(doc.data() as Map<String, dynamic>, docId: doc.id // Store the full document for pagination
-                  ))
+      List<ManagerModel> managerList = querySnapshot.docs
+          .map((doc) => ManagerModel.fromMap(
+                doc.data() as Map<String, dynamic>, // Store the full document for pagination
+              ))
           .toList();
 
       // Add print statement to log the fetched data

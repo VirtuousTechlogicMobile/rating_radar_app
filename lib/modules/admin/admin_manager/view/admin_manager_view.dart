@@ -138,12 +138,26 @@ class _AdminManagerViewState extends State<AdminManagerView> {
                               Row(
                                 children: [
                                   InkWell(
-                                    onTap: () {
-                                      //pending add component.
-                                      showDialog(
+                                    onTap: () async {
+                                      adminManagerController.isCancle.value = true;
+                                      await showDialog(
                                         context: context,
-                                        builder: (context) {
-                                          return AddManagerCompoent();
+                                        barrierDismissible: false,
+                                        builder: (dialogContext) {
+                                          return Dialog(
+                                            elevation: 0,
+                                            insetPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                            alignment: const AlignmentDirectional(0, 0).resolve(Directionality.of(context)),
+                                            child: GestureDetector(
+                                              onTap: () => FocusScope.of(dialogContext).unfocus(),
+                                              child: Container(
+                                                height: MediaQuery.sizeOf(context).height * 0.7,
+                                                width: MediaQuery.sizeOf(context).width * 0.5,
+                                                child: AddManagerCompoent(),
+                                              ),
+                                            ),
+                                          );
                                         },
                                       );
                                     },

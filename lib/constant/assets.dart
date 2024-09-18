@@ -44,5 +44,14 @@ abstract class SvgAssets {
   static const walletDepositIcon = 'assets/svgs/wallet_deposit_icon.svg';
   static const myAccountIcon = 'assets/svgs/my_account_icon.svg';
   static const lockIcon = 'assets/svgs/lock_icon.svg';
-  static const deleteAccountIcon = 'assets/svgs/delete_account_icon.svg';
+  static const deleteIcon = 'assets/svgs/delete_account_icon.svg';
+  static const viewIcon = 'assets/svgs/view.svg';
+  static const editIcon = 'assets/svgs/edit.svg';
+  static const blockIcon = 'assets/svgs/block.svg';
+  static const uploadIcon = 'assets/svgs/upload.svg';
+  static const emailIcon = 'assets/svgs/emailIcon.svg';
+  static const panIcon = 'assets/svgs/panIcon.svg';
+  static const locationIcon = 'assets/svgs/locationIcon.svg';
+  static const phoneIcon = 'assets/svgs/phoneIcon.svg';
+  static const genderIcon = 'assets/svgs/genderIcon.svg';
 }

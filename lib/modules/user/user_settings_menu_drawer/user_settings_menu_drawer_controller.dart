@@ -21,6 +21,6 @@ class UserSettingsMenuDrawerController extends GetxController {
     MenuDataModel(prefixSvgIcon: SvgAssets.myAccountIcon, menuName: 'my_account'.tr),
     MenuDataModel(prefixSvgIcon: SvgAssets.drawerPaymentsIcon, menuName: 'payment_method'.tr),
     MenuDataModel(prefixSvgIcon: SvgAssets.lockIcon, menuName: 'change_password'.tr),
-    MenuDataModel(prefixSvgIcon: SvgAssets.deleteAccountIcon, menuName: 'delete_account'.tr),
+    MenuDataModel(prefixSvgIcon: SvgAssets.deleteIcon, menuName: 'delete_account'.tr),
   ];
 }
