@@ -161,7 +161,7 @@ class AdminHomepageRecentManagerComponent extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () => FocusScope.of(dialogContext).unfocus(),
                             child: Container(
-                              height: MediaQuery.sizeOf(context).height * 0.4,
+                              height: MediaQuery.sizeOf(context).height * 0.493,
                               width: MediaQuery.sizeOf(context).width * 0.5,
                               child: ViewDetailsUserAndManager(
                                 title: 'manager_details'.tr,
@@ -197,7 +197,9 @@ class AdminHomepageRecentManagerComponent extends StatelessWidget {
                             child: Container(
                               height: MediaQuery.sizeOf(context).height * 0.7,
                               width: MediaQuery.sizeOf(context).width * 0.5,
-                              child: AddManagerCompoent(),
+                              child: AddManagerCompoent(
+                                managerModel: managerModel,
+                              ),
                             ),
                           ),
                         );

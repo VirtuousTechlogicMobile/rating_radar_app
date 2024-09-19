@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
-import '../constant/colors.dart';
 import '../constant/dimens.dart';
 import '../constant/styles.dart';
 import '../routes/route_management.dart';
@@ -71,19 +70,19 @@ class ViewDetailsUserAndManager extends StatelessWidget {
                   ),
                   Dimens.boxHeight25,
                   CommonWidgets.autoSizeText(
-                    text: name ?? '',
+                    text: name ?? 'N/A',
                     textStyle: AppStyles.style20Bold.copyWith(color: themeUtils.whiteBlackSwitchColor),
                     minFontSize: 11,
                     maxFontSize: 20,
                   ),
                   CommonWidgets.autoSizeText(
-                    text: userOrManager ?? '',
+                    text: userOrManager ?? 'N/A',
                     textStyle: AppStyles.style20Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
                     minFontSize: 11,
                     maxFontSize: 20,
                   ),
                   CommonWidgets.autoSizeText(
-                    text: "GSTIN:${gstNumber ?? ''}",
+                    text: "GSTIN:${gstNumber ?? 'No Data'}",
                     textStyle: AppStyles.style14Normal.copyWith(
                       color: themeUtils.whiteBlackSwitchColor.withOpacity(0.50),
                     ),
@@ -125,7 +124,7 @@ class ViewDetailsUserAndManager extends StatelessWidget {
                               maxFontSize: 21,
                             ),
                             CommonWidgets.autoSizeText(
-                              text: " : $panNumber",
+                              text: " : $panNumber" ?? 'No Data',
                               textStyle: AppStyles.style21Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
                               minFontSize: 11,
                               maxFontSize: 21,
@@ -146,7 +145,7 @@ class ViewDetailsUserAndManager extends StatelessWidget {
                               maxFontSize: 21,
                             ),
                             CommonWidgets.autoSizeText(
-                              text: " : $city,$state",
+                              text: " : $city,$state" ?? 'No Data',
                               textStyle: AppStyles.style21Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
                               minFontSize: 11,
                               maxFontSize: 21,
@@ -167,7 +166,7 @@ class ViewDetailsUserAndManager extends StatelessWidget {
                               maxFontSize: 21,
                             ),
                             CommonWidgets.autoSizeText(
-                              text: " : $gender",
+                              text: " : $gender" ?? 'No Data',
                               textStyle: AppStyles.style21Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
                               minFontSize: 11,
                               maxFontSize: 22,
@@ -188,7 +187,7 @@ class ViewDetailsUserAndManager extends StatelessWidget {
                               maxFontSize: 21,
                             ),
                             CommonWidgets.autoSizeText(
-                              text: " : $phone",
+                              text: " : $phone" ?? 'No Data',
                               textStyle: AppStyles.style21Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
                               minFontSize: 11,
                               maxFontSize: 21,
@@ -209,7 +208,7 @@ class ViewDetailsUserAndManager extends StatelessWidget {
                               maxFontSize: 21,
                             ),
                             CommonWidgets.autoSizeText(
-                              text: " : $email",
+                              text: " : $email" ?? 'No Data',
                               textStyle: AppStyles.style21Normal.copyWith(color: themeUtils.whiteBlackSwitchColor),
                               minFontSize: 11,
                               maxFontSize: 21,

@@ -16,9 +16,11 @@ import '../../../../routes/route_management.dart';
 import '../../../../utility/theme_colors_util.dart';
 import '../../../../utility/utility.dart';
 import '../../../user/user_my_account_setting/components/user_edit_profile_dialog_component.dart';
+import '../model/manager_model.dart';
 
 class AddManagerCompoent extends StatelessWidget {
-  AddManagerCompoent({super.key});
+  final ManagerModel? managerModel;
+  AddManagerCompoent({super.key, this.managerModel});
 
   final adminManagerController = Get.find<AdminManagerController>();
 
@@ -26,6 +28,11 @@ class AddManagerCompoent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     themeUtils = ThemeColorsUtil(context);
+    if (managerModel != null) {
+      adminManagerController.setManagerData(managerModel!);
+    } else {
+      adminManagerController.ClearManagerData();
+    }
     return Container(
       decoration: BoxDecoration(
         color: themeUtils.blackWhiteSwitchColor,
@@ -479,7 +486,7 @@ class AddManagerCompoent extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         CustomButton(
-                            btnText: adminManagerController.isCancle.value ? 'cancel'.tr : 'edit'.tr,
+                            btnText: 'cancel'.tr,
                             contentPadding: EdgeInsets.symmetric(vertical: Dimens.eleven, horizontal: Dimens.sixtyFive),
                             borderRadius: BorderRadius.circular(Dimens.thirty),
                             margin: EdgeInsets.only(top: Dimens.fifteen, left: Dimens.fifteen),
@@ -496,7 +503,7 @@ class AddManagerCompoent extends StatelessWidget {
                               }
                             }),
                         CustomButton(
-                          btnText: 'save'.tr,
+                          btnText: adminManagerController.isCancle.value ? 'save'.tr : 'edit'.tr,
                           contentPadding: EdgeInsets.symmetric(vertical: Dimens.eleven, horizontal: Dimens.sixtyFive),
                           borderRadius: BorderRadius.circular(Dimens.thirty),
                           margin: EdgeInsets.only(top: Dimens.fifteen, left: Dimens.fifteen),
