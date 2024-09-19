@@ -7,6 +7,7 @@ class UserDataModel {
   String phoneNumber;
   String password;
   String referredBy;
+  String referredByUserAmountAdded;
   DateTime? createdAt;
   String? profileImage;
   num? userBalance;
@@ -14,7 +15,6 @@ class UserDataModel {
   String? city;
   String? state;
   String? panNumber;
-  List<UserCardData>? userCardsList;
   List<UserBankData>? userBanksDataList;
 
   UserDataModel({
@@ -24,6 +24,7 @@ class UserDataModel {
     required this.phoneNumber,
     required this.password,
     required this.referredBy,
+    required this.referredByUserAmountAdded,
     this.createdAt,
     this.profileImage,
     this.userBalance,
@@ -31,7 +32,6 @@ class UserDataModel {
     this.city,
     this.state,
     this.panNumber,
-    this.userCardsList,
     this.userBanksDataList,
   });
 
@@ -46,7 +46,7 @@ class UserDataModel {
     String? newCity,
     String? newState,
     String? newPanNumber,
-    List<UserCardData>? newUserCardsList,
+    String? newReferredByUserAmountAdded,
     List<UserBankData>? newUserBanksDataList,
   }) {
     return UserDataModel(
@@ -63,7 +63,7 @@ class UserDataModel {
       state: newState ?? state,
       referredBy: referredBy,
       userBanksDataList: newUserBanksDataList ?? userBanksDataList,
-      userCardsList: newUserCardsList ?? userCardsList,
+      referredByUserAmountAdded: newReferredByUserAmountAdded ?? referredByUserAmountAdded,
     );
   }
 
@@ -81,8 +81,8 @@ class UserDataModel {
       'state': state,
       'panNumber': panNumber,
       'referredBy': referredBy,
+      'referredByUserAmountAdded': referredByUserAmountAdded,
       'userBanksDataList': userBanksDataList?.map((bankData) => bankData.toMap()).toList() ?? [],
-      'userCardsList': userCardsList?.map((cardData) => cardData.toMap()).toList() ?? [],
     };
   }
 
@@ -100,35 +100,8 @@ class UserDataModel {
       state: map['state'],
       panNumber: map['panNumber'],
       referredBy: map['referredBy'],
+      referredByUserAmountAdded: map['referredByUserAmountAdded'],
       userBanksDataList: List<UserBankData>.from(map['userBanksDataList']?.map((bankData) => UserBankData.fromMap(bankData)) ?? []),
-      userCardsList: List<UserCardData>.from(map['userCardsList']?.map((cardData) => UserCardData.fromMap(cardData)) ?? []),
-    );
-  }
-}
-
-class UserCardData {
-  String holderName;
-  DateTime expDate;
-  String cvv;
-  String cardNumber;
-
-  UserCardData({required this.holderName, required this.expDate, required this.cvv, required this.cardNumber});
-
-  Map<String, dynamic> toMap() {
-    return {
-      'holderName': holderName,
-      'expDate': expDate,
-      'cvv': cvv,
-      'cardNumber': cardNumber,
-    };
-  }
-
-  factory UserCardData.fromMap(Map<String, dynamic> map) {
-    return UserCardData(
-      holderName: map['holderName'],
-      expDate: map['expDate'],
-      cvv: map['cvv'],
-      cardNumber: map['cardNumber'],
     );
   }
 }

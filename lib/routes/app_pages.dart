@@ -24,6 +24,7 @@ import 'package:RatingRadar_app/modules/user/user_submit_ad/bindings/user_submit
 import 'package:RatingRadar_app/modules/user/user_submit_ad/view/user_submit_ad_screen.dart';
 import 'package:RatingRadar_app/modules/user/user_wallet/bindings/user_wallet_binding.dart';
 import 'package:RatingRadar_app/modules/user/user_wallet/view/user_wallet_screen.dart';
+import 'package:RatingRadar_app/routes/auth_middleware.dart';
 import 'package:get/get.dart';
 
 import '../modules/signin/bindings/signin_binding.dart';
@@ -51,6 +52,7 @@ abstract class AppPages {
       binding: UserSignUpBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -59,6 +61,7 @@ abstract class AppPages {
       binding: UserSignInBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -67,6 +70,7 @@ abstract class AppPages {
       binding: UserLogoutBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -75,6 +79,7 @@ abstract class AppPages {
       binding: UserConformationBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -83,6 +88,7 @@ abstract class AppPages {
       binding: UserHomepageBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -91,6 +97,7 @@ abstract class AppPages {
       binding: UserAllAdsBinding(),
       transitionDuration: const Duration(milliseconds: 700),
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -99,6 +106,7 @@ abstract class AppPages {
       binding: UserSubmitAdBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -107,6 +115,7 @@ abstract class AppPages {
       binding: UserAdsListMenuBinding(),
       transitionDuration: const Duration(milliseconds: 800),
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -115,6 +124,7 @@ abstract class AppPages {
       binding: UserWalletBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -123,6 +133,7 @@ abstract class AppPages {
       binding: UserReferralBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -131,6 +142,7 @@ abstract class AppPages {
       binding: UserMyAccountSettingBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -139,6 +151,7 @@ abstract class AppPages {
       binding: UserPaymentMethodSettingBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -147,6 +160,7 @@ abstract class AppPages {
       binding: UserChangePasswordBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     GetPage(
@@ -155,6 +169,7 @@ abstract class AppPages {
       binding: UserDeleteAccountBinding(),
       transitionDuration: transitionDuration,
       transition: Transition.fade,
+      middlewares: [AuthMiddleware()],
     ),
 
     /// manager module ------------------------------------------------------------------------
@@ -165,6 +180,7 @@ abstract class AppPages {
       binding: ManagerSignUpBinding(),
       transitionDuration: transitionDuration,
       transition: defaultTransition,
+      middlewares: [AuthMiddleware()],
     ),
 
     /// admin module ------------------------------------------------------------------------

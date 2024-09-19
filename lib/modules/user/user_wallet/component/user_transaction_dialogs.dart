@@ -1,5 +1,4 @@
 import 'dart:ui';
-
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/common/custom_button.dart';
 import 'package:RatingRadar_app/common/custom_textfield.dart';

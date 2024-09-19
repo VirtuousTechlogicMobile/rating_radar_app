@@ -31,4 +31,6 @@ abstract class DatabaseSynonyms {
   static const uIdField = 'uId';
   static const transactionTypeField = 'transactionType';
   static const userBalanceField = 'userBalance';
+  static const referredByUserAmountAddedField = 'referredByUserAmountAdded';
+  static const referredByField = 'referredBy';
 }

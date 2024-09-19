@@ -12,10 +12,16 @@ class DrawerMenuController extends GetxController {
   RxBool isShowExpandedContent = false.obs;
   RxInt selectedMenuIndex = 0.obs;
   RxString userName = ''.obs;
+  RxString userProfilePicture = ''.obs;
 
   getUserName() async {
     String userId = await PreferencesManager.getUserId() ?? '';
     userName.value = await DatabaseHelper.instance.getUserName(uId: userId) ?? '';
+  }
+
+  getUserProfilePicture() async {
+    String userId = await PreferencesManager.getUserId() ?? '';
+    userProfilePicture.value = await DatabaseHelper.instance.getUserProfilePicture(uId: userId) ?? '';
   }
 
   getDrawerIndex() async {

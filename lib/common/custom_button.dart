@@ -16,18 +16,21 @@ class CustomButton extends StatelessWidget {
   final Function()? onTap;
   final bool? isShowShadow;
   final Color? btnTextColor;
+  final TextStyle? btnTextStyle;
 
-  const CustomButton(
-      {super.key,
-      required this.btnText,
-      this.margin,
-      this.onTap,
-      this.isShowLoading = false,
-      this.buttonColor,
-      this.borderRadius,
-      this.isShowShadow = false,
-      this.contentPadding,
-      this.btnTextColor});
+  const CustomButton({
+    super.key,
+    required this.btnText,
+    this.margin,
+    this.onTap,
+    this.isShowLoading = false,
+    this.buttonColor,
+    this.borderRadius,
+    this.isShowShadow = false,
+    this.contentPadding,
+    this.btnTextColor,
+    this.btnTextStyle,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +58,7 @@ class CustomButton extends StatelessWidget {
         child: !isShowLoading
             ? CommonWidgets.autoSizeText(
                 text: btnText,
-                textStyle: AppStyles.style16Normal.copyWith(fontWeight: FontWeight.w500, color: btnTextColor ?? ColorValues.whiteColor),
+                textStyle: btnTextStyle ?? AppStyles.style16Normal.copyWith(fontWeight: FontWeight.w500, color: btnTextColor ?? ColorValues.whiteColor),
                 minFontSize: 10,
                 maxFontSize: 16,
                 maxLines: 1,

@@ -35,9 +35,11 @@ abstract class Dimens {
   static double fortySeven = 47.r;
   static double fortyEight = 48.r;
   static double hundred = 100.r;
+  static double threeHundred = 300.r;
   static double threeHundredSix = 306.r;
   static double threeHundredTwenty = 320.r;
   static double twoHundredFifty = 250.r;
+  static double twoHundredSeventy = 270.r;
   static double twoHundredEighty = 280.r;
   static double nineteen = 19.r;
   static double ninetyEight = 98.r;

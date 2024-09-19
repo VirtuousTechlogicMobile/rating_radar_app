@@ -1,3 +1,4 @@
+import 'package:RatingRadar_app/common/cached_network_image.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/constant/styles.dart';
 import 'package:RatingRadar_app/routes/route_management.dart';
@@ -29,6 +30,7 @@ class _DrawerViewState extends State<DrawerView> with SingleTickerProviderStateM
   void initState() {
     super.initState();
     drawerController.getUserName();
+    drawerController.getUserProfilePicture();
     drawerController.getDrawerIndex();
     drawerController.animationController = AnimationController(
       duration: const Duration(milliseconds: 300), // Duration of the animation
@@ -173,13 +175,18 @@ Widget animatedContainer({required DrawerMenuController drawerController, requir
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               ClipOval(
-                child: Image.network(
+                child: NxNetworkImage(
+                  imageUrl: drawerController.userProfilePicture.value.isNotEmpty ? drawerController.userProfilePicture.value : StringValues.noProfileImageUrl,
+                  width: Dimens.fifty,
+                  height: Dimens.fifty,
+                  imageFit: BoxFit.cover,
+                ), /*Image.network(
                   StringValues.noProfileImageUrl,
                   width: Dimens.fifty,
                   height: Dimens.fifty,
                   fit: BoxFit.cover,
                   isAntiAlias: true,
-                ),
+                ),*/
               ),
               Padding(
                 padding: EdgeInsets.only(left: Dimens.twentyEight),

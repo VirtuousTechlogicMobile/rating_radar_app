@@ -1,6 +1,7 @@
 import 'package:RatingRadar_app/constant/strings.dart';
 import 'package:RatingRadar_app/helper/shared_preferences_manager/preferences_manager.dart';
 import 'package:RatingRadar_app/initial_bindings/initial_bindings.dart';
+import 'package:RatingRadar_app/routes/auth_middleware.dart';
 import 'package:RatingRadar_app/services/translations/app_translations.dart';
 import 'package:RatingRadar_app/theme/theme_controller.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
@@ -114,6 +115,15 @@ class MyApp extends StatelessWidget {
               return Obx(
                 () => GlobalLoaderOverlay(
                   child: GetMaterialApp(
+                    routingCallback: (routing) async {
+                      if (routing?.current != AppRoutes.signIn && routing?.current != AppRoutes.signUp && routing?.current != AppRoutes.emailConformation) {
+                        bool isLoggedIn = await AuthMiddleware().isUserLoggedIn();
+
+                        if (!isLoggedIn) {
+                          Get.offAllNamed(AppRoutes.signIn);
+                        }
+                      }
+                    },
                     initialBinding: InitialBindings(),
                     title: StringValues.appName,
                     debugShowCheckedModeBanner: false,

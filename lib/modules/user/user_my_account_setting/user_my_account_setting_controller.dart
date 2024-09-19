@@ -70,6 +70,7 @@ class UserMyAccountSettingController extends GetxController {
         gender: userGender.value,
         uId: userId.value,
         referredBy: '',
+        referredByUserAmountAdded: 'false',
       ),
     );
     await getUserData();

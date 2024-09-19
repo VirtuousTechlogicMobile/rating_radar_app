@@ -16,6 +16,7 @@ import '../../../../constant/assets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
 import '../../../../utility/utility.dart';
+import '../../drawer/drawer_controller.dart';
 import '../../drawer/view/drawer_view.dart';
 import '../../header/view/header_view.dart';
 import '../../user_settings_menu_drawer/view/user_settings_menu_drawer_view.dart';
@@ -25,6 +26,7 @@ class UserMyAccountSettingScreen extends StatelessWidget {
   UserMyAccountSettingScreen({super.key});
 
   final userMyAccountSettingController = Get.find<UserMyAccountSettingController>();
+  final drawerController = Get.find<DrawerMenuController>();
   late ThemeColorsUtil themeUtils;
   final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
 
@@ -145,6 +147,7 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                                   onChange: () async {
                                                     String? updateImageStatus = await userMyAccountSettingController.pickAndUpdateImage();
                                                     if (updateImageStatus == CustomStatus.success) {
+                                                      drawerController.getUserProfilePicture();
                                                       RouteManagement.goToBack();
                                                       AppUtility.showSnackBar('profile_picture_updated_successfully'.tr);
                                                     } else {
@@ -154,6 +157,7 @@ class UserMyAccountSettingScreen extends StatelessWidget {
                                                   onRemove: () async {
                                                     String? removeStatus = await userMyAccountSettingController.removeProfilePicture();
                                                     if (removeStatus == CustomStatus.success) {
+                                                      drawerController.getUserProfilePicture();
                                                       RouteManagement.goToBack();
                                                       AppUtility.showSnackBar('profile_picture_removed_successfully'.tr);
                                                     } else {

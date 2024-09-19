@@ -88,6 +88,34 @@ abstract class AppUtility {
     }
   }
 
+  static String formatCardNumber(String cardNumber) {
+    // Remove any spaces from the card number
+    cardNumber = cardNumber.replaceAll(' ', '');
+
+    // Ensure the card number is at least 4 digits long
+    if (cardNumber.length <= 4) {
+      return cardNumber;
+    }
+
+    // Determine the number of digits to mask
+    int numDigitsToMask = cardNumber.length - 4;
+
+    // Create the masked part with spaces
+    String maskedPart = '';
+    for (int i = 0; i < numDigitsToMask; i++) {
+      maskedPart += '*';
+      if ((i + 1) % 4 == 0 && i != numDigitsToMask - 1) {
+        maskedPart += ' ';
+      }
+    }
+
+    // Extract the last 4 digits
+    String last4Digits = cardNumber.substring(cardNumber.length - 4);
+
+    // Return the formatted string
+    return '$maskedPart $last4Digits';
+  }
+
   static String generateReferralLink({required String uId}) {
     if (uId.isNotEmpty) {
       return 'https://rating-reviews-app.web.app/#/user/signup?user=$uId';

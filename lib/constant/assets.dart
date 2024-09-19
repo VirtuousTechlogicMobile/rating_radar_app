@@ -45,4 +45,5 @@ abstract class SvgAssets {
   static const myAccountIcon = 'assets/svgs/my_account_icon.svg';
   static const lockIcon = 'assets/svgs/lock_icon.svg';
   static const deleteAccountIcon = 'assets/svgs/delete_account_icon.svg';
+  static const axisBankIcon = 'assets/svgs/axis_bank_icon.svg';
 }

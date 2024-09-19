@@ -38,12 +38,4 @@ class UserConformationController extends GetxController {
     String isUserLogout = await DatabaseHelper.instance.deleteUser();
     return isUserLogout;
   }
-
-  Future addReferredByUserAmount() async {
-    String? referredByUserId = await PreferencesManager.getUserReferredBy();
-    if (referredByUserId != null) {
-      await DatabaseHelper.instance.addReferredByUserAmount(referredByUserId);
-      await PreferencesManager.deleteUserReferredBy();
-    }
-  }
 }

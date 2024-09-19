@@ -44,7 +44,6 @@ class UserSignUpController extends GetxController {
       if (userParamStart != -1) {
         final userParamSubstring = url.substring(userParamStart + 6);
         final id = userParamSubstring.split('&').first;
-        await PreferencesManager.setUserReferredBy(referredByUserId: id);
         return id;
       } else {
         return null;

@@ -69,6 +69,52 @@ class DatabaseHelper {
     }
   }
 
+  Future<String?> getUserReferredByField(String currentUserId) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(currentUserId).get();
+      if (userDoc.exists) {
+        String referredByUserAmountAddedField = await userDoc[DatabaseSynonyms.referredByField];
+        return referredByUserAmountAddedField;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future<String?> getUserReferredByAmountAddedField(String currentUserId) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(currentUserId).get();
+      if (userDoc.exists) {
+        String referredByUserAmountAddedField = await userDoc[DatabaseSynonyms.referredByUserAmountAddedField];
+        return referredByUserAmountAddedField;
+      } else {
+        return null;
+      }
+    } catch (e) {
+      log("Exception: $e");
+      return null;
+    }
+  }
+
+  Future updateUserReferredByAmountAddedField(String currentUserId) async {
+    try {
+      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      DocumentSnapshot userDoc = await usersCollectionReference.doc(currentUserId).get();
+      if (userDoc.exists) {
+        await usersCollectionReference.doc(currentUserId).update({
+          DatabaseSynonyms.referredByUserAmountAddedField: "true", // Updating the field
+        });
+      }
+    } catch (e) {
+      log("Exception: $e");
+    }
+  }
+
   Future<bool> checkIsUserVerified() async {
     User? user = firebaseAuth.currentUser;
     await user?.reload();
@@ -137,6 +183,11 @@ class DatabaseHelper {
     } catch (e) {
       return CustomStatus.userNotFound;
     }
+  }
+
+  Future<String?> getCurrentUserUid() async {
+    User? user = firebaseAuth.currentUser;
+    return user?.uid;
   }
 
   Future<String> signUpManager({required ManagerSignupModel managerSignupModel}) async {

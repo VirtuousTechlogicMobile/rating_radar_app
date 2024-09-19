@@ -1,7 +1,12 @@
+import 'package:RatingRadar_app/common/custom_button.dart';
+import 'package:RatingRadar_app/modules/user/user_payment_method_setting/components/user_payment_components.dart';
 import 'package:RatingRadar_app/modules/user/user_payment_method_setting/user_payment_method_setting_controller.dart';
+import 'package:RatingRadar_app/modules/user/user_signup/model/user_signup_model.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
+import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../common/common_widgets.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/styles.dart';
@@ -86,23 +91,53 @@ class UserPaymentMethodSettingScreen extends StatelessWidget {
                         ),
                       ),
                       Expanded(
-                        child: SingleChildScrollView(
-                          child: Padding(
-                            padding: EdgeInsets.only(left: Dimens.twentyEight, right: Dimens.fifty, bottom: Dimens.twentyEight),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                CommonWidgets.autoSizeText(
-                                  text: 'cards'.tr,
-                                  textStyle: AppStyles.style21SemiBold.copyWith(color: themeUtils.whiteBlackSwitchColor),
-                                  minFontSize: 8,
-                                  maxFontSize: 21,
-                                ).marginOnly(left: Dimens.thirtyFour, top: Dimens.thirty, bottom: Dimens.sevenTeen),
-                              ],
-                            ),
-                          ),
+                        child: Padding(
+                          padding: EdgeInsets.only(left: Dimens.twentyEight, right: Dimens.fifty, bottom: Dimens.twentyEight),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              CommonWidgets.autoSizeText(
+                                text: 'bank_accounts'.tr,
+                                textStyle: AppStyles.style21SemiBold.copyWith(color: themeUtils.whiteBlackSwitchColor),
+                                minFontSize: 8,
+                                maxFontSize: 21,
+                              ).marginOnly(top: Dimens.thirty, bottom: Dimens.thirteen),
+
+                              /// banks details
+                              UserPaymentComponents.userBankAccountCardLayout(
+                                themeUtils: themeUtils,
+                                userBankData: UserBankData(
+                                  bankName: 'Axis Bank',
+                                  ifscCode: '',
+                                  accNumber: AppUtility.formatCardNumber('12345565'),
+                                  accHolderName: '',
+                                ),
+                              ),
+
+                              SizedBox(
+                                width: Dimens.oneHundredEightyOne,
+                                child: CustomButton(
+                                  margin: EdgeInsets.only(top: Dimens.twenty),
+                                  btnText: 'add_account'.tr,
+                                  borderRadius: BorderRadius.circular(Dimens.thirty),
+                                  contentPadding: EdgeInsets.symmetric(vertical: Dimens.seven, horizontal: Dimens.fortyEight),
+                                  btnTextStyle: AppStyles.style13Normal.copyWith(fontWeight: FontWeight.w500, color: themeUtils.blackWhiteSwitchColor),
+                                  onTap: () {
+                                    UserPaymentComponents.showAddAccountDialog(
+                                      context: context,
+                                      onAdd: () {},
+                                      bankNameController: userPaymentMethodSettingController.bankNameController,
+                                      ifscCodeController: userPaymentMethodSettingController.ifscCodeController,
+                                      accNumberController: userPaymentMethodSettingController.accNumberController,
+                                      accHolderNameController: userPaymentMethodSettingController.accHolderNameController,
+                                    );
+                                  },
+                                ),
+                              ),
+                            ],
+                          ).marginOnly(left: Dimens.thirtyFour),
                         ),
                       ),
                     ],
