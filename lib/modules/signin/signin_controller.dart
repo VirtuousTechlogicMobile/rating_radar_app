@@ -32,6 +32,9 @@ class UserSignInController extends GetxController {
     );
   }
 
+  /// Firebase Query
+
+
   void clearControllers() {
     emailOrUserNameController.clear();
     passwordController.clear();

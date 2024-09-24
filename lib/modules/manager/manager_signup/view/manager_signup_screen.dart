@@ -1,6 +1,5 @@
 import 'package:RatingRadar_app/common/common_widgets.dart';
 import 'package:RatingRadar_app/common/custom_textfield.dart';
-
 import 'package:RatingRadar_app/constant/assets.dart';
 import 'package:RatingRadar_app/constant/colors.dart';
 import 'package:RatingRadar_app/constant/strings.dart';
@@ -10,6 +9,7 @@ import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
 import '../../../../common/custom_button.dart';
 import '../../../../common/custom_theme_switch_button.dart';
 import '../../../../constant/dimens.dart';
@@ -77,7 +77,10 @@ class ManagerSignUpScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(40),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(right: Dimens.fortyFour, top: Dimens.forty, left: Dimens.fortyFour),
+            padding: EdgeInsets.only(
+                right: Dimens.fortyFour,
+                top: Dimens.forty,
+                left: Dimens.fortyFour),
             child: Column(
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -94,11 +97,13 @@ class ManagerSignUpScreen extends StatelessWidget {
                         textSpans: [
                           TextSpan(
                             text: 'welcome_to'.tr,
-                            style: AppStyles.style21Normal.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+                            style: AppStyles.style21Normal.copyWith(
+                                color: themeColorsUtil.whiteBlackSwitchColor),
                           ),
                           TextSpan(
                             text: " ${'ratings'.tr}",
-                            style: AppStyles.style21Bold.copyWith(color: themeColorsUtil.primaryColorSwitch),
+                            style: AppStyles.style21Bold.copyWith(
+                                color: themeColorsUtil.primaryColorSwitch),
                           ),
                         ],
                         minFontSize: 10,
@@ -116,13 +121,15 @@ class ManagerSignUpScreen extends StatelessWidget {
                           children: [
                             CommonWidgets.autoSizeText(
                               text: 'have_an_account'.tr,
-                              textStyle: AppStyles.style13Normal.copyWith(color: themeColorsUtil.blackGreySwitchColor),
+                              textStyle: AppStyles.style13Normal.copyWith(
+                                  color: themeColorsUtil.blackGreySwitchColor),
                               minFontSize: 8,
                               maxFontSize: 13,
                             ),
                             CommonWidgets.autoSizeText(
                               text: 'sign_in'.tr,
-                              textStyle: AppStyles.style13Normal.copyWith(color: themeColorsUtil.primaryColorSwitch),
+                              textStyle: AppStyles.style13Normal.copyWith(
+                                  color: themeColorsUtil.primaryColorSwitch),
                               minFontSize: 8,
                               maxFontSize: 13,
                             ),
@@ -134,7 +141,8 @@ class ManagerSignUpScreen extends StatelessWidget {
                 ),
                 CommonWidgets.autoSizeText(
                   text: 'sign_up'.tr,
-                  textStyle: AppStyles.style55SemiBold.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+                  textStyle: AppStyles.style55SemiBold
+                      .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
                   minFontSize: 30,
                   maxFontSize: 55,
                 ),
@@ -144,35 +152,48 @@ class ManagerSignUpScreen extends StatelessWidget {
                       hintText: 'email_address'.tr,
                       labelText: 'enter_your_email_address'.tr,
                       themeColorsUtil: themeColorsUtil,
-                      controller: managerSignUpScreenController.emailController),
+                      controller:
+                          managerSignUpScreenController.emailController),
                 ),
                 Row(
                   children: [
                     Flexible(
                       flex: 1,
                       child: Padding(
-                        padding: EdgeInsets.only(top: Dimens.twentyFive, right: Dimens.nine),
+                        padding: EdgeInsets.only(
+                            top: Dimens.twentyFive, right: Dimens.nine),
                         child: textFieldWithLabel(
-                          hintText: 'user_name'.tr,
+                          hintText: 'full_name'.tr,
                           labelText: 'full_name'.tr,
-                          contentPadding: EdgeInsets.only(left: Dimens.thirteen, top: Dimens.nineteen, bottom: Dimens.nineteen),
+                          contentPadding: EdgeInsets.only(
+                              left: Dimens.thirteen,
+                              top: Dimens.nineteen,
+                              bottom: Dimens.nineteen),
                           themeColorsUtil: themeColorsUtil,
-                          controller: managerSignUpScreenController.userNameController,
+                          controller:
+                              managerSignUpScreenController.userNameController,
                         ),
                       ),
                     ),
                     Flexible(
                       flex: 1,
                       child: Padding(
-                        padding: EdgeInsets.only(top: Dimens.twentyThree, left: Dimens.nine),
+                        padding: EdgeInsets.only(
+                            top: Dimens.twentyThree, left: Dimens.nine),
                         child: textFieldWithLabel(
                           hintText: 'contact_number'.tr,
                           labelText: 'contact_number'.tr,
                           length: 15,
-                          inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-                          contentPadding: EdgeInsets.only(left: Dimens.thirteen, top: Dimens.nineteen, bottom: Dimens.nineteen),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          contentPadding: EdgeInsets.only(
+                              left: Dimens.thirteen,
+                              top: Dimens.nineteen,
+                              bottom: Dimens.nineteen),
                           themeColorsUtil: themeColorsUtil,
-                          controller: managerSignUpScreenController.contactNumberController,
+                          controller: managerSignUpScreenController
+                              .contactNumberController,
                         ),
                       ),
                     ),
@@ -184,7 +205,8 @@ class ManagerSignUpScreen extends StatelessWidget {
                     hintText: 'employee_id_manager_id'.tr,
                     labelText: 'employee_id_manager_id'.tr,
                     themeColorsUtil: themeColorsUtil,
-                    controller: managerSignUpScreenController.managerIdController,
+                    controller:
+                        managerSignUpScreenController.managerIdController,
                   ),
                 ),
                 Padding(
@@ -196,14 +218,21 @@ class ManagerSignUpScreen extends StatelessWidget {
                       themeColorsUtil: themeColorsUtil,
                       suffixIcon: InkWell(
                         onTap: () {
-                          managerSignUpScreenController.isShowPassword.value = !managerSignUpScreenController.isShowPassword.value;
+                          managerSignUpScreenController.isShowPassword.value =
+                              !managerSignUpScreenController
+                                  .isShowPassword.value;
                         },
-                        child: managerSignUpScreenController.isShowPassword.value
-                            ? CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityIcon)
-                            : CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityOffIcon),
+                        child:
+                            managerSignUpScreenController.isShowPassword.value
+                                ? CommonWidgets.fromSvg(
+                                    svgAsset: SvgAssets.eyeVisibilityIcon)
+                                : CommonWidgets.fromSvg(
+                                    svgAsset: SvgAssets.eyeVisibilityOffIcon),
                       ),
-                      controller: managerSignUpScreenController.passwordController1,
-                      obscureText: !managerSignUpScreenController.isShowPassword.value,
+                      controller:
+                          managerSignUpScreenController.passwordController1,
+                      obscureText:
+                          !managerSignUpScreenController.isShowPassword.value,
                     ),
                   ),
                 ),
@@ -215,60 +244,109 @@ class ManagerSignUpScreen extends StatelessWidget {
                       labelText: 'confirm_password'.tr,
                       suffixIcon: InkWell(
                         onTap: () {
-                          managerSignUpScreenController.isShowConfirmPassword.value = !managerSignUpScreenController.isShowConfirmPassword.value;
+                          managerSignUpScreenController
+                                  .isShowConfirmPassword.value =
+                              !managerSignUpScreenController
+                                  .isShowConfirmPassword.value;
                         },
-                        child: managerSignUpScreenController.isShowConfirmPassword.value
-                            ? CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityIcon)
-                            : CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityOffIcon),
+                        child: managerSignUpScreenController
+                                .isShowConfirmPassword.value
+                            ? CommonWidgets.fromSvg(
+                                svgAsset: SvgAssets.eyeVisibilityIcon)
+                            : CommonWidgets.fromSvg(
+                                svgAsset: SvgAssets.eyeVisibilityOffIcon),
                       ),
                       themeColorsUtil: themeColorsUtil,
-                      controller: managerSignUpScreenController.passwordController2,
-                      obscureText: !managerSignUpScreenController.isShowConfirmPassword.value,
+                      controller:
+                          managerSignUpScreenController.passwordController2,
+                      obscureText: !managerSignUpScreenController
+                          .isShowConfirmPassword.value,
                     ),
                   ),
                 ),
                 Obx(
                   () => CustomButton(
                     btnText: 'sign_up'.tr,
-                    isShowLoading: managerSignUpScreenController.isShowLoadingOnButton.value,
-                    margin: EdgeInsets.only(top: Dimens.thirtyFive, bottom: Dimens.fiftySix),
+                    isShowLoading: managerSignUpScreenController
+                        .isShowLoadingOnButton.value,
+                    margin: EdgeInsets.only(
+                        top: Dimens.thirtyFive, bottom: Dimens.fiftySix),
                     onTap: () async {
-                      if (managerSignUpScreenController.emailController.text.trim().isEmpty) {
+                      if (managerSignUpScreenController.emailController.text
+                          .trim()
+                          .isEmpty) {
                         AppUtility.showSnackBar('please_enter_email'.tr);
-                      } else if (managerSignUpScreenController.emailController.text.trim().isNotEmpty &&
-                          !Validators.isValidEmail(managerSignUpScreenController.emailController.text)) {
+                      } else if (managerSignUpScreenController.emailController.text
+                              .trim()
+                              .isNotEmpty &&
+                          !Validators.isValidEmail(managerSignUpScreenController
+                              .emailController.text)) {
                         AppUtility.showSnackBar('please_enter_valid_email'.tr);
-                      } else if (managerSignUpScreenController.userNameController.text.trim().isEmpty) {
+                      } else if (managerSignUpScreenController.userNameController.text
+                          .trim()
+                          .isEmpty) {
                         AppUtility.showSnackBar('please_enter_full_name'.tr);
-                      } else if (managerSignUpScreenController.contactNumberController.text.trim().isEmpty) {
-                        AppUtility.showSnackBar('please_enter_contact_number'.tr);
+                      } else if (managerSignUpScreenController
+                          .contactNumberController.text
+                          .trim()
+                          .isEmpty) {
+                        AppUtility.showSnackBar(
+                            'please_enter_contact_number'.tr);
                       } else if (managerSignUpScreenController.contactNumberController.text.trim().length <= 3 ||
-                          managerSignUpScreenController.contactNumberController.text.trim().length > 15) {
-                        AppUtility.showSnackBar('please_enter_valid_contact_number'.tr);
-                      } else if (managerSignUpScreenController.managerIdController.text.isEmpty) {
-                        AppUtility.showSnackBar('please_enter_employee_id_manager_id'.tr);
-                      } else if (managerSignUpScreenController.passwordController1.text.trim().isEmpty) {
+                          managerSignUpScreenController.contactNumberController.text
+                                  .trim()
+                                  .length >
+                              15) {
+                        AppUtility.showSnackBar(
+                            'please_enter_valid_contact_number'.tr);
+                      } else if (managerSignUpScreenController
+                          .managerIdController.text.isEmpty) {
+                        AppUtility.showSnackBar(
+                            'please_enter_employee_id_manager_id'.tr);
+                      } else if (managerSignUpScreenController.passwordController1.text
+                          .trim()
+                          .isEmpty) {
                         AppUtility.showSnackBar('please_enter_password'.tr);
-                      } else if (managerSignUpScreenController.passwordController1.text.trim().length < 6) {
-                        AppUtility.showSnackBar('password_must_be_at_least_6_characters'.tr);
-                      } else if (managerSignUpScreenController.passwordController2.text.trim().isEmpty) {
-                        AppUtility.showSnackBar('please_enter_confirm_password'.tr);
-                      } else if (managerSignUpScreenController.passwordController1.text != managerSignUpScreenController.passwordController2.text) {
-                        AppUtility.showSnackBar('password_confirm_password_do_not_match'.tr);
+                      } else if (managerSignUpScreenController.passwordController1.text
+                              .trim()
+                              .length <
+                          6) {
+                        AppUtility.showSnackBar(
+                            'password_must_be_at_least_6_characters'.tr);
+                      } else if (managerSignUpScreenController.passwordController2.text
+                          .trim()
+                          .isEmpty) {
+                        AppUtility.showSnackBar(
+                            'please_enter_confirm_password'.tr);
+                      } else if (managerSignUpScreenController.passwordController1.text !=
+                          managerSignUpScreenController.passwordController2.text) {
+                        AppUtility.showSnackBar(
+                            'password_confirm_password_do_not_match'.tr);
                       } else {
                         /// register user
-                        bool isManagerExists = await managerSignUpScreenController.checkManagerExists(email: managerSignUpScreenController.emailController.text);
-                        String registrationStatus = await managerSignUpScreenController.signUpManager(
-                          email: managerSignUpScreenController.emailController.text,
-                          userName: managerSignUpScreenController.userNameController.text,
-                          phoneNumber: managerSignUpScreenController.contactNumberController.text,
-                          managerId: managerSignUpScreenController.managerIdController.text,
-                          password: managerSignUpScreenController.passwordController1.text,
+                        bool isManagerExists =
+                            await managerSignUpScreenController
+                                .checkManagerExists(
+                                    email: managerSignUpScreenController
+                                        .emailController.text);
+                        String registrationStatus =
+                            await managerSignUpScreenController.signUpManager(
+                          email: managerSignUpScreenController
+                              .emailController.text,
+                          userName: managerSignUpScreenController
+                              .userNameController.text,
+                          phoneNumber: managerSignUpScreenController
+                              .contactNumberController.text,
+                          managerId: managerSignUpScreenController
+                              .managerIdController.text,
+                          password: managerSignUpScreenController
+                              .passwordController1.text,
                         );
                         if (registrationStatus == CustomStatus.success) {
                           AppUtility.showSnackBar('sign up successfully');
                           managerSignUpScreenController.clearControllers();
-                        } else if (registrationStatus == CustomStatus.userExists) {
+                        } else if (registrationStatus ==
+                            CustomStatus.userExists) {
                           AppUtility.showSnackBar('user_already_exists'.tr);
                         } else {
                           AppUtility.showSnackBar('something_want_wrong'.tr);
@@ -302,7 +380,8 @@ class ManagerSignUpScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom: Dimens.ten),
           child: CommonWidgets.autoSizeText(
             text: labelText,
-            textStyle: AppStyles.style16Normal.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+            textStyle: AppStyles.style16Normal
+                .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
             minFontSize: 10,
             maxFontSize: 16,
           ),

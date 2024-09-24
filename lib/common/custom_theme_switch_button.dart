@@ -81,30 +81,30 @@ class _CustomThemeSwitchButtonState extends State<CustomThemeSwitchButton> with 
         }
       },
       child: Container(
-        width: Dimens.eighty,
-        height: Dimens.forty,
+        width: Dimens.sixtyTwo,
+        height: Dimens.thirty,
         margin: EdgeInsets.only(
-          right: Dimens.twenty,
+          right: Dimens.fifteen,
           bottom: Dimens.fifteen,
         ),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(38),
+          borderRadius: BorderRadius.circular(34),
           color: backgroundColorAnimation.value,
         ),
         child: Stack(
           alignment: Alignment.centerLeft,
           children: [
             Positioned(
-              left: animation.value * Dimens.forty,
+              left: animation.value * Dimens.thirty,
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                padding: const EdgeInsets.symmetric(horizontal: 6.0),
                 child: CircleAvatar(
-                  radius: Dimens.fifteen,
+                  radius: Dimens.twelve,
                   backgroundColor: switchColorAnimation.value,
                   child: Align(
                     alignment: Alignment.center,
                     child: CircleAvatar(
-                      radius: Dimens.eight,
+                      radius: Dimens.six,
                       backgroundColor: backgroundColorAnimation.value,
                     ),
                   ),

@@ -1,6 +1,6 @@
 import 'dart:developer';
+
 import 'package:RatingRadar_app/helper/database_helper/database_synonyms.dart';
-import 'package:RatingRadar_app/modules/admin/homepage/model/admin_homepage_recent_manager_model.dart';
 import 'package:RatingRadar_app/modules/manager/manager_signup/model/manager_signup_model.dart';
 import 'package:RatingRadar_app/utility/utility.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -8,6 +8,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+
 import '../../constant/strings.dart';
 import '../../modules/admin/admin_manager/model/manager_model.dart';
 import '../../modules/admin/admin_signin/model/admin_signin_model.dart';
@@ -33,16 +34,21 @@ class DatabaseHelper {
   final FirebaseFirestore fireStoreInstance = FirebaseFirestore.instance;
   final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
 
+  ///Sign up User
   Future<String> signUpUser({required UserDataModel userSignupModel}) async {
     try {
-      UserCredential userCredential = await firebaseAuth.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await firebaseAuth.createUserWithEmailAndPassword(
         email: userSignupModel.email,
         password: userSignupModel.password,
       );
       await PreferencesManager.setUserUid(uid: userCredential.user?.uid ?? '');
       await sendLinkToEmail();
 
-      await fireStoreInstance.collection(DatabaseSynonyms.usersCollection).doc(userCredential.user!.uid).set(userSignupModel.toMap());
+      await fireStoreInstance
+          .collection(DatabaseSynonyms.usersCollection)
+          .doc(userCredential.user!.uid)
+          .set(userSignupModel.toMap());
       return CustomStatus.success;
     } on FirebaseAuthException catch (e) {
       if (e.code == "email-already-in-use") {
@@ -56,13 +62,16 @@ class DatabaseHelper {
 
   Future addReferredByUserAmount(String referredByUserId) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
-      DocumentSnapshot userDoc = await usersCollectionReference.doc(referredByUserId).get();
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      DocumentSnapshot userDoc =
+          await usersCollectionReference.doc(referredByUserId).get();
       if (userDoc.exists) {
         num userCurrentBalance = userDoc['userBalance'] as num;
         num increasedBalance = userCurrentBalance + 100;
         await usersCollectionReference.doc(referredByUserId).update({
-          DatabaseSynonyms.userBalanceField: increasedBalance, // Updating the field
+          DatabaseSynonyms.userBalanceField: increasedBalance,
+          // Updating the field
         });
       }
     } catch (e) {
@@ -70,6 +79,7 @@ class DatabaseHelper {
     }
   }
 
+  ///Check Verified User
   Future<bool> checkIsUserVerified() async {
     User? user = firebaseAuth.currentUser;
     await user?.reload();
@@ -77,11 +87,15 @@ class DatabaseHelper {
     return user?.emailVerified ?? false;
   }
 
+  /// Delete User
   Future<String> deleteUser() async {
     try {
       User? user = firebaseAuth.currentUser;
       await user?.delete();
-      await fireStoreInstance.collection(DatabaseSynonyms.usersCollection).doc(user?.uid).delete();
+      await fireStoreInstance
+          .collection(DatabaseSynonyms.usersCollection)
+          .doc(user?.uid)
+          .delete();
       await PreferencesManager.deleteUserUid();
       return CustomStatus.success;
     } catch (e) {
@@ -89,6 +103,7 @@ class DatabaseHelper {
     }
   }
 
+  ///Logout
   Future<String> logoutUser() async {
     try {
       await PreferencesManager.deleteAllUserPreferences();
@@ -99,13 +114,16 @@ class DatabaseHelper {
     }
   }
 
+  ///Send Mail for verification
   Future<void> sendLinkToEmail() async {
     try {
       User? user = firebaseAuth.currentUser;
       await user?.sendEmailVerification();
     } on FirebaseAuthException catch (e) {
       if (e.code == 'too-many-requests') {
-        AppUtility.showSnackBar('weHaveBlockedAllRequestsFromThisDeviceDueToUnusualActivityTryAfterSomeTime'.tr);
+        AppUtility.showSnackBar(
+            'weHaveBlockedAllRequestsFromThisDeviceDueToUnusualActivityTryAfterSomeTime'
+                .tr);
       } else {
         log("FirebaseAuthException: $e");
       }
@@ -114,15 +132,26 @@ class DatabaseHelper {
     }
   }
 
+  /// Sign In User
   Future<String> signInUser({required UserSignInModel userSignInModel}) async {
     try {
-      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await firebaseAuth.signInWithEmailAndPassword(
         email: userSignInModel.email,
         password: userSignInModel.password,
       );
+
+      DocumentSnapshot userDoc = await FirebaseFirestore.instance
+          .collection('user')
+          .doc(userCredential.user?.uid)
+          .get();
+
       if (userCredential.user != null && userCredential.user!.emailVerified) {
+        // if (userDoc.data()!['type'] == "user") {
+        // }
         /// store data in shared preferences
-        await PreferencesManager.setUserUid(uid: userCredential.user?.uid ?? '');
+        await PreferencesManager.setUserUid(
+            uid: userCredential.user?.uid ?? '');
         return CustomStatus.success;
       } else if (userCredential.user?.emailVerified == false) {
         return CustomStatus.userNotVerified;
@@ -140,15 +169,19 @@ class DatabaseHelper {
     }
   }
 
-  Future<String> signUpManager({required ManagerSignupModel managerSignupModel}) async {
+  /// Sign Up Manager
+  Future<String> signUpManager(
+      {required ManagerSignupModel managerSignupModel}) async {
     try {
-      UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
         email: managerSignupModel.email,
         password: managerSignupModel.password,
       );
 
       /// store data in shared preferences
-      await PreferencesManager.setManagerUid(uid: userCredential.user?.uid ?? '');
+      await PreferencesManager.setManagerUid(
+          uid: userCredential.user?.uid ?? '');
 
       await FirebaseFirestore.instance
           .collection(DatabaseSynonyms.managerUsersCollection)
@@ -165,20 +198,25 @@ class DatabaseHelper {
     }
   }
 
-  Future<QuerySnapshot?> getManagerSignInData({required UserSignInModel userSignInModel}) async {
+  Future<QuerySnapshot?> getManagerSignInData(
+      {required UserSignInModel userSignInModel}) async {
     try {
-      CollectionReference collection = fireStoreInstance.collection(DatabaseSynonyms.managerUsersCollection);
+      CollectionReference collection =
+          fireStoreInstance.collection(DatabaseSynonyms.managerUsersCollection);
       Query emailQuery = collection
           .where(DatabaseSynonyms.emailField, isEqualTo: userSignInModel.email)
-          .where(DatabaseSynonyms.passwordField, isEqualTo: userSignInModel.password);
+          .where(DatabaseSynonyms.passwordField,
+              isEqualTo: userSignInModel.password);
       QuerySnapshot emailSnapshot = await emailQuery.get();
 
       if (emailSnapshot.docs.isNotEmpty) {
         return emailSnapshot;
       } else {
         Query userNameQuery = collection
-            .where(DatabaseSynonyms.userNameField, isEqualTo: userSignInModel.email)
-            .where(DatabaseSynonyms.passwordField, isEqualTo: userSignInModel.password);
+            .where(DatabaseSynonyms.userNameField,
+                isEqualTo: userSignInModel.email)
+            .where(DatabaseSynonyms.passwordField,
+                isEqualTo: userSignInModel.password);
         QuerySnapshot userNameSnapshot = await userNameQuery.get();
         if (userNameSnapshot.docs.isNotEmpty) {
           return userNameSnapshot;
@@ -191,13 +229,16 @@ class DatabaseHelper {
     }
   }
 
-  Future<String> signInManager({required UserSignInModel userSignInModel}) async {
+  Future<String> signInManager(
+      {required UserSignInModel userSignInModel}) async {
     try {
-      final snapshot = await getManagerSignInData(userSignInModel: userSignInModel);
+      final snapshot =
+          await getManagerSignInData(userSignInModel: userSignInModel);
 
       if (snapshot?.docs.isNotEmpty ?? false) {
         /// store data in shared preferences
-        await PreferencesManager.setManagerUid(uid: snapshot?.docs.first.id ?? '');
+        await PreferencesManager.setManagerUid(
+            uid: snapshot?.docs.first.id ?? '');
         return CustomStatus.success;
       } else {
         return CustomStatus.wrongEmailPassword;
@@ -209,8 +250,10 @@ class DatabaseHelper {
 
   Future<bool> checkUserExists({required String email}) async {
     try {
-      CollectionReference collection = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
-      Query emailQuery = collection.where(DatabaseSynonyms.emailField, isEqualTo: email);
+      CollectionReference collection =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      Query emailQuery =
+          collection.where(DatabaseSynonyms.emailField, isEqualTo: email);
       QuerySnapshot emailSnapshot = await emailQuery.get();
 
       if (emailSnapshot.docs.isNotEmpty) {
@@ -225,8 +268,10 @@ class DatabaseHelper {
 
   Future<bool> checkManagerExists({required String email}) async {
     try {
-      CollectionReference collection = fireStoreInstance.collection(DatabaseSynonyms.managerUsersCollection);
-      Query emailQuery = collection.where(DatabaseSynonyms.emailField, isEqualTo: email);
+      CollectionReference collection =
+          fireStoreInstance.collection(DatabaseSynonyms.managerUsersCollection);
+      Query emailQuery =
+          collection.where(DatabaseSynonyms.emailField, isEqualTo: email);
       QuerySnapshot emailSnapshot = await emailQuery.get();
 
       if (emailSnapshot.docs.isNotEmpty) {
@@ -241,7 +286,9 @@ class DatabaseHelper {
 
   Future<String?> getUserName({required String uId}) async {
     try {
-      DocumentReference userDocumentReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection).doc(uId);
+      DocumentReference userDocumentReference = fireStoreInstance
+          .collection(DatabaseSynonyms.usersCollection)
+          .doc(uId);
       DocumentSnapshot userDocumentSnapshot = await userDocumentReference.get();
       if (userDocumentSnapshot.exists) {
         return userDocumentSnapshot.get('username');
@@ -264,8 +311,11 @@ class DatabaseHelper {
           .limit(limit);
 
       QuerySnapshot querySnapshot = await query.get();
-      List<UserAdsListDataModel> adsList =
-          querySnapshot.docs.map((docs) => UserAdsListDataModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList();
+      List<UserAdsListDataModel> adsList = querySnapshot.docs
+          .map((docs) => UserAdsListDataModel.fromMap(
+              docs.data() as Map<String, dynamic>,
+              docId: docs.id))
+          .toList();
       return adsList;
     } catch (e) {
       log("Exception: $e");
@@ -367,25 +417,33 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<UserAdsListDataModel>?> getAllAdsList({required int nDataPerPage, UserAdsListDataModel? adLastDocument}) async {
+  Future<List<UserAdsListDataModel>?> getAllAdsList(
+      {required int nDataPerPage, UserAdsListDataModel? adLastDocument}) async {
     try {
-      CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      CollectionReference adsCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
 
       /// store the last document id
       String? lastDocumentId = adLastDocument?.docId;
       List<UserAdsListDataModel> usersAdList = [];
-      Query query = adsCollectionReference.where(DatabaseSynonyms.adStatusField, isEqualTo: CustomStatus.active).limit(nDataPerPage);
+      Query query = adsCollectionReference
+          .where(DatabaseSynonyms.adStatusField, isEqualTo: CustomStatus.active)
+          .limit(nDataPerPage);
 
       if (lastDocumentId != null) {
         /// get the data after last document id
-        DocumentSnapshot lastDocumentSnapshot = await adsCollectionReference.doc(lastDocumentId).get();
+        DocumentSnapshot lastDocumentSnapshot =
+            await adsCollectionReference.doc(lastDocumentId).get();
         query = query.startAfterDocument(lastDocumentSnapshot);
       }
 
       QuerySnapshot querySnapshot = await query.get();
       if (querySnapshot.docs.isNotEmpty) {
-        usersAdList
-            .addAll(querySnapshot.docs.map((docs) => UserAdsListDataModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList());
+        usersAdList.addAll(querySnapshot.docs
+            .map((docs) => UserAdsListDataModel.fromMap(
+                docs.data() as Map<String, dynamic>,
+                docId: docs.id))
+            .toList());
       }
       return usersAdList;
     } catch (e) {
@@ -394,16 +452,21 @@ class DatabaseHelper {
     }
   }
 
-  Future<UserAdsListDataModel?> getAdDataByDocId({required String docId}) async {
+  Future<UserAdsListDataModel?> getAdDataByDocId(
+      {required String docId}) async {
     try {
-      CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      CollectionReference adsCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
 
       UserAdsListDataModel? usersAdData;
 
-      DocumentSnapshot documentSnapshot = await adsCollectionReference.doc(docId).get();
+      DocumentSnapshot documentSnapshot =
+          await adsCollectionReference.doc(docId).get();
       final documentData = documentSnapshot.data();
       if (documentSnapshot.exists) {
-        usersAdData = UserAdsListDataModel.fromMap(documentData as Map<String, dynamic>, docId: docId);
+        usersAdData = UserAdsListDataModel.fromMap(
+            documentData as Map<String, dynamic>,
+            docId: docId);
       }
       return usersAdData;
     } catch (e) {
@@ -412,7 +475,8 @@ class DatabaseHelper {
     }
   }
 
-  Future<int> getTotalSubmittedAdsCountLast24Hours({required String adId}) async {
+  Future<int> getTotalSubmittedAdsCountLast24Hours(
+      {required String adId}) async {
     try {
       DateTime now = DateTime.now();
       DateTime yesterday = now.subtract(const Duration(hours: 24));
@@ -421,7 +485,8 @@ class DatabaseHelper {
       QuerySnapshot snapshot = await fireStoreInstance
           .collection(DatabaseSynonyms.userSubmittedAdCollection)
           .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
-          .where(DatabaseSynonyms.addedDateField, isGreaterThan: yesterdayTimestamp)
+          .where(DatabaseSynonyms.addedDateField,
+              isGreaterThan: yesterdayTimestamp)
           .get();
 
       return snapshot.size;
@@ -431,15 +496,20 @@ class DatabaseHelper {
     }
   }
 
-  Future<UserSubmitAdDataModel?> getUserSubmittedAdDetailData({required String uId, required String adId}) async {
+  Future<UserSubmitAdDataModel?> getUserSubmittedAdDetailData(
+      {required String uId, required String adId}) async {
     try {
-      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
-      QuerySnapshot querySnapshot =
-          await collectionRef.where(DatabaseSynonyms.uIdField, isEqualTo: uId).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
+      CollectionReference collectionRef = fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection);
+      QuerySnapshot querySnapshot = await collectionRef
+          .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
+          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         QueryDocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-        UserSubmitAdDataModel submittedAdData =
-            UserSubmitAdDataModel.fromMap(documentSnapshot.data() as Map<String, dynamic>, submittedAdDocId: documentSnapshot.id);
+        UserSubmitAdDataModel submittedAdData = UserSubmitAdDataModel.fromMap(
+            documentSnapshot.data() as Map<String, dynamic>,
+            submittedAdDocId: documentSnapshot.id);
         return submittedAdData;
       } else {
         return null;
@@ -450,13 +520,17 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<String>?> storeUserSubmittedAdImages({required List<XFile> filesList, required String uid, required String adId}) async {
+  Future<List<String>?> storeUserSubmittedAdImages(
+      {required List<XFile> filesList,
+      required String uid,
+      required String adId}) async {
     try {
       List<String> uploadedFilesUrl = [];
       for (XFile filesData in filesList) {
         final fileBytes = await filesData.readAsBytes();
         String filepath = 'ADID-$adId/UID-$uid/${filesData.name.split('.')[0]}';
-        Reference storageRef = firebaseStorage.ref().child('user-submitted-ads/$filepath');
+        Reference storageRef =
+            firebaseStorage.ref().child('user-submitted-ads/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -480,10 +554,13 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> storeUserSubmittedAds({required UserSubmitAdDataModel userSubmitAdDataModel}) async {
+  Future<String?> storeUserSubmittedAds(
+      {required UserSubmitAdDataModel userSubmitAdDataModel}) async {
     try {
-      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
-      DocumentReference documentReference = await collectionRef.add(userSubmitAdDataModel.toMap());
+      CollectionReference collectionRef = fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection);
+      DocumentReference documentReference =
+          await collectionRef.add(userSubmitAdDataModel.toMap());
       return documentReference.id;
     } catch (e) {
       return null;
@@ -492,8 +569,10 @@ class DatabaseHelper {
 
   Future<int> getsUserSubmittedAdsListCount({required String uId}) async {
     try {
-      QuerySnapshot snapshot =
-          await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).where(DatabaseSynonyms.uIdField, isEqualTo: uId).get();
+      QuerySnapshot snapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection)
+          .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
+          .get();
       return snapshot.size;
     } catch (e) {
       log("Error fetching document count: $e");
@@ -509,7 +588,8 @@ class DatabaseHelper {
     String? searchTerm,
   }) async {
     try {
-      CollectionReference userAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+      CollectionReference userAdsCollectionReference = fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection);
 
       int startAt = (pageNumber - 1) * nDataPerPage;
 
@@ -522,15 +602,17 @@ class DatabaseHelper {
         String startSearch = searchTerm!;
         String endSearch = '$searchTerm\uf8ff';
         initialQuery = userAdsCollectionReference
-            .where(DatabaseSynonyms.adNameField, isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.adNameField,
+                isGreaterThanOrEqualTo: startSearch)
             .where(DatabaseSynonyms.adNameField, isLessThanOrEqualTo: endSearch)
             .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
             .orderBy(
               DatabaseSynonyms.adNameField,
             );
       } else {
-        initialQuery =
-            userAdsCollectionReference.where(DatabaseSynonyms.uIdField, isEqualTo: uId).orderBy(DatabaseSynonyms.uIdField, descending: sortBy == 0);
+        initialQuery = userAdsCollectionReference
+            .where(DatabaseSynonyms.uIdField, isEqualTo: uId)
+            .orderBy(DatabaseSynonyms.uIdField, descending: sortBy == 0);
       }
 
       QuerySnapshot? startSnapshot;
@@ -543,7 +625,8 @@ class DatabaseHelper {
 
       if (startSnapshot != null && startSnapshot.docs.isNotEmpty) {
         DocumentSnapshot startDocument = startSnapshot.docs.last;
-        paginatedQuery = initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
+        paginatedQuery =
+            initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
       } else {
         paginatedQuery = initialQuery.limit(nDataPerPage);
       }
@@ -582,7 +665,9 @@ class DatabaseHelper {
     required bool isTransactionTypeWithdraw,
   }) async {
     try {
-      CollectionReference userTransactionsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection);
+      CollectionReference userTransactionsCollectionReference =
+          fireStoreInstance
+              .collection(DatabaseSynonyms.userTransactionsCollection);
 
       /// store the last document id
       String? lastDocumentId = adLastDocument?.transactionCollectionDocId;
@@ -602,14 +687,18 @@ class DatabaseHelper {
 
       if (lastDocumentId != null) {
         /// get the data after last document id
-        DocumentSnapshot lastDocumentSnapshot = await userTransactionsCollectionReference.doc(lastDocumentId).get();
+        DocumentSnapshot lastDocumentSnapshot =
+            await userTransactionsCollectionReference.doc(lastDocumentId).get();
         query = query.startAfterDocument(lastDocumentSnapshot);
       }
 
       QuerySnapshot querySnapshot = await query.get();
       if (querySnapshot.docs.isNotEmpty) {
-        usersTransactionsList.addAll(
-            querySnapshot.docs.map((docs) => UserTransactionModel.fromMap(docs.data() as Map<String, dynamic>, transactionDocId: docs.id)).toList());
+        usersTransactionsList.addAll(querySnapshot.docs
+            .map((docs) => UserTransactionModel.fromMap(
+                docs.data() as Map<String, dynamic>,
+                transactionDocId: docs.id))
+            .toList());
       }
       return usersTransactionsList.isNotEmpty ? usersTransactionsList : null;
     } catch (e) {
@@ -663,16 +752,20 @@ class DatabaseHelper {
     UserTransactionModel? adLastDocument,
   }) async {
     try {
-      CollectionReference userAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection);
+      CollectionReference userAdsCollectionReference = fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection);
 
       /// store the last document id
       String? lastDocumentId = adLastDocument?.submittedAdDocId;
       List<UserTransactionModel> usersAdsTransactionsList = [];
-      Query query = userAdsCollectionReference.where(DatabaseSynonyms.statusField, isEqualTo: CustomStatus.approved).limit(nDataPerPage);
+      Query query = userAdsCollectionReference
+          .where(DatabaseSynonyms.statusField, isEqualTo: CustomStatus.approved)
+          .limit(nDataPerPage);
 
       if (lastDocumentId != null) {
         /// get the data after last document id
-        DocumentSnapshot lastDocumentSnapshot = await userAdsCollectionReference.doc(lastDocumentId).get();
+        DocumentSnapshot lastDocumentSnapshot =
+            await userAdsCollectionReference.doc(lastDocumentId).get();
         query = query.startAfterDocument(lastDocumentSnapshot);
       }
 
@@ -693,7 +786,9 @@ class DatabaseHelper {
           );
         }
       }
-      return usersAdsTransactionsList.isNotEmpty ? usersAdsTransactionsList : null;
+      return usersAdsTransactionsList.isNotEmpty
+          ? usersAdsTransactionsList
+          : null;
     } catch (e) {
       log("Exception: $e");
       return null;
@@ -702,7 +797,8 @@ class DatabaseHelper {
 
   Future<String?> getUserCurrentBalance({required String uId}) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
 
       DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
       if (userDoc.exists) {
@@ -722,7 +818,8 @@ class DatabaseHelper {
     required num newBalance,
   }) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
 
       DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
       if (userDoc.exists) {
@@ -730,7 +827,8 @@ class DatabaseHelper {
         if (userCurrentBalance >= newBalance) {
           num decreasedBalance = userCurrentBalance - newBalance;
           await usersCollectionReference.doc(uId).update({
-            DatabaseSynonyms.userBalanceField: decreasedBalance, // Updating the field
+            DatabaseSynonyms.userBalanceField: decreasedBalance,
+            // Updating the field
           });
           return SuccessWithdrawResult(decreasedBalance);
         } else {
@@ -750,14 +848,16 @@ class DatabaseHelper {
     required num newBalance,
   }) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
 
       DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
       if (userDoc.exists) {
         num userCurrentBalance = userDoc['userBalance'] as num;
         num increasedBalance = userCurrentBalance + newBalance;
         await usersCollectionReference.doc(uId).update({
-          DatabaseSynonyms.userBalanceField: increasedBalance, // Updating the field
+          DatabaseSynonyms.userBalanceField: increasedBalance,
+          // Updating the field
         });
         return SuccessDepositResult(increasedBalance);
       } else {
@@ -769,10 +869,13 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> storeUserTransaction({required UserTransactionModel userTransactionModel}) async {
+  Future<String?> storeUserTransaction(
+      {required UserTransactionModel userTransactionModel}) async {
     try {
-      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.userTransactionsCollection);
-      DocumentReference documentReference = await collectionRef.add(userTransactionModel.toMap());
+      CollectionReference collectionRef = fireStoreInstance
+          .collection(DatabaseSynonyms.userTransactionsCollection);
+      DocumentReference documentReference =
+          await collectionRef.add(userTransactionModel.toMap());
       return documentReference.id;
     } catch (e) {
       return null;
@@ -781,8 +884,8 @@ class DatabaseHelper {
 
   Future<String?> getUserProfilePicture({required String uId}) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
-
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
       String? userProfileImage;
       DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
       if (userDoc.exists) {
@@ -799,12 +902,14 @@ class DatabaseHelper {
 
   Future<UserDataModel?> getSpecificUserData({required String uId}) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
 
       UserDataModel? userData;
       DocumentSnapshot userDoc = await usersCollectionReference.doc(uId).get();
       if (userDoc.exists) {
-        userData = UserDataModel.fromMap(userDoc.data() as Map<String, dynamic>);
+        userData =
+            UserDataModel.fromMap(userDoc.data() as Map<String, dynamic>);
         return userData;
       } else {
         return null;
@@ -815,10 +920,14 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> updateUserProfilePictureInFireStore({required String profilePictureUrl, required String uId}) async {
+  Future<String?> updateUserProfilePictureInFireStore(
+      {required String profilePictureUrl, required String uId}) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
-      await usersCollectionReference.doc(uId).update({DatabaseSynonyms.profileImageField: profilePictureUrl});
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      await usersCollectionReference
+          .doc(uId)
+          .update({DatabaseSynonyms.profileImageField: profilePictureUrl});
       return CustomStatus.success;
     } catch (e) {
       log('Exception : $e');
@@ -828,7 +937,8 @@ class DatabaseHelper {
 
   Future<String?> updateUserData({required UserDataModel userDataModel}) async {
     try {
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
       await usersCollectionReference.doc(userDataModel.uId).update({
         DatabaseSynonyms.userNameField: userDataModel.username,
         DatabaseSynonyms.cityField: userDataModel.city,
@@ -847,11 +957,13 @@ class DatabaseHelper {
   Future<String?> updateUserPassword({required String newPassword}) async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
 
       if (user != null) {
         String? oldPassword;
-        DocumentSnapshot userDoc = await usersCollectionReference.doc(user.uid).get();
+        DocumentSnapshot userDoc =
+            await usersCollectionReference.doc(user.uid).get();
         if (userDoc.exists) {
           oldPassword = await userDoc[DatabaseSynonyms.passwordField];
         }
@@ -859,7 +971,9 @@ class DatabaseHelper {
           await user.updatePassword(newPassword);
 
           /// update user password in user table
-          await usersCollectionReference.doc(user.uid).update({DatabaseSynonyms.passwordField: newPassword});
+          await usersCollectionReference
+              .doc(user.uid)
+              .update({DatabaseSynonyms.passwordField: newPassword});
           return CustomStatus.success;
         } else {
           return CustomStatus.passwordExists;
@@ -879,14 +993,17 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> deleteUserUsingPassword({required String userPassword}) async {
+  Future<String?> deleteUserUsingPassword(
+      {required String userPassword}) async {
     try {
       User? user = FirebaseAuth.instance.currentUser;
-      CollectionReference usersCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
+      CollectionReference usersCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.usersCollection);
 
       if (user != null) {
         String? password;
-        DocumentSnapshot userDoc = await usersCollectionReference.doc(user.uid).get();
+        DocumentSnapshot userDoc =
+            await usersCollectionReference.doc(user.uid).get();
         if (userDoc.exists) {
           password = await userDoc[DatabaseSynonyms.passwordField];
         }
@@ -919,7 +1036,8 @@ class DatabaseHelper {
     }
   }
 
-  Future removeUserProfilePictureInStorage({required String oldProfileImageUrl}) async {
+  Future removeUserProfilePictureInStorage(
+      {required String oldProfileImageUrl}) async {
     try {
       Reference oldFileRef = firebaseStorage.ref().child(oldProfileImageUrl);
       await oldFileRef.delete();
@@ -938,14 +1056,17 @@ class DatabaseHelper {
       if (newFileData != null) {
         if (oldProfileImage != null && oldProfileImage != '') {
           /// delete old file from firebase storage
-          await removeUserProfilePictureInStorage(oldProfileImageUrl: oldProfileImage);
+          await removeUserProfilePictureInStorage(
+              oldProfileImageUrl: oldProfileImage);
         }
 
         /// convert new file in bytes and store into storage
         String? uploadedFilesUrl;
         final fileBytes = await newFileData.readAsBytes();
-        String filepath = 'Profile-Picture-UID-$uId/${newFileData.name.split('.')[0]}';
-        Reference storageRef = firebaseStorage.ref().child('userProfileImages/$filepath');
+        String filepath =
+            'Profile-Picture-UID-$uId/${newFileData.name.split('.')[0]}';
+        Reference storageRef =
+            firebaseStorage.ref().child('userProfileImages/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -974,15 +1095,18 @@ class DatabaseHelper {
 
   ///  ---------------------------------------------- Admin Methods -------------------------------------------------
 
-  Future<String> signInAdmin({required AdminSignInModel adminSignInModel}) async {
+  Future<String> signInAdmin(
+      {required AdminSignInModel adminSignInModel}) async {
     try {
-      UserCredential userCredential = await firebaseAuth.signInWithEmailAndPassword(
+      UserCredential userCredential =
+          await firebaseAuth.signInWithEmailAndPassword(
         email: adminSignInModel.email,
         password: adminSignInModel.password,
       );
       if (userCredential.user != null) {
         /// store data in shared preferences
-        await PreferencesManager.setAdminUid(adminUid: userCredential.user?.uid ?? '');
+        await PreferencesManager.setAdminUid(
+            adminUid: userCredential.user?.uid ?? '');
         return CustomStatus.success;
       } else if (userCredential.user?.emailVerified == false) {
         return CustomStatus.userNotVerified;
@@ -1000,14 +1124,19 @@ class DatabaseHelper {
     }
   }
 
-  Future<UserAdsListDataModel?> getAdminSubmittedAdDetailData({required String adId}) async {
+  Future<UserAdsListDataModel?> getAdminSubmittedAdDetailData(
+      {required String adId}) async {
     try {
-      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      QuerySnapshot querySnapshot = await collectionRef.where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
+      CollectionReference collectionRef =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      QuerySnapshot querySnapshot = await collectionRef
+          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
+          .get();
       if (querySnapshot.docs.isNotEmpty) {
         QueryDocumentSnapshot documentSnapshot = querySnapshot.docs.first;
-        UserAdsListDataModel submittedAdData =
-            UserAdsListDataModel.fromMap(documentSnapshot.data() as Map<String, dynamic>, docId: documentSnapshot.id);
+        UserAdsListDataModel submittedAdData = UserAdsListDataModel.fromMap(
+            documentSnapshot.data() as Map<String, dynamic>,
+            docId: documentSnapshot.id);
         return submittedAdData;
       } else {
         return null;
@@ -1023,12 +1152,17 @@ class DatabaseHelper {
     required int limit,
   }) async {
     try {
-      Query query =
-          fireStoreInstance.collection(DatabaseSynonyms.usersCollection).orderBy(DatabaseSynonyms.createdAtField, descending: false).limit(limit);
+      Query query = fireStoreInstance
+          .collection(DatabaseSynonyms.usersCollection)
+          .orderBy(DatabaseSynonyms.createdAtField, descending: false)
+          .limit(limit);
 
       QuerySnapshot querySnapshot = await query.get();
-      List<AdminHomepageRecentUserCompanyModel> userList =
-          querySnapshot.docs.map((docs) => AdminHomepageRecentUserCompanyModel.fromMap(docs.data() as Map<String, dynamic>, docId: docs.id)).toList();
+      List<AdminHomepageRecentUserCompanyModel> userList = querySnapshot.docs
+          .map((docs) => AdminHomepageRecentUserCompanyModel.fromMap(
+              docs.data() as Map<String, dynamic>,
+              docId: docs.id))
+          .toList();
       return userList;
     } catch (e) {
       log("Exception: $e");
@@ -1070,7 +1204,8 @@ class DatabaseHelper {
     String? searchTerm,
   }) async {
     try {
-      CollectionReference adminAdsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      CollectionReference adminAdsCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
 
       int startAt = (pageNumber - 1) * nDataPerPage;
 
@@ -1083,13 +1218,15 @@ class DatabaseHelper {
         String startSearch = searchTerm!;
         String endSearch = '$searchTerm\uf8ff';
         initialQuery = adminAdsCollectionReference
-            .where(DatabaseSynonyms.adNameField, isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.adNameField,
+                isGreaterThanOrEqualTo: startSearch)
             .where(DatabaseSynonyms.adNameField, isLessThanOrEqualTo: endSearch)
             .orderBy(
               DatabaseSynonyms.companyAdAction,
             );
       } else {
-        initialQuery = adminAdsCollectionReference.orderBy(DatabaseSynonyms.adStatusField, descending: sortBy == 0);
+        initialQuery = adminAdsCollectionReference
+            .orderBy(DatabaseSynonyms.adStatusField, descending: sortBy == 0);
       }
 
       QuerySnapshot? startSnapshot;
@@ -1102,7 +1239,8 @@ class DatabaseHelper {
 
       if (startSnapshot != null && startSnapshot.docs.isNotEmpty) {
         DocumentSnapshot startDocument = startSnapshot.docs.last;
-        paginatedQuery = initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
+        paginatedQuery =
+            initialQuery.startAfterDocument(startDocument).limit(nDataPerPage);
       } else {
         paginatedQuery = initialQuery.limit(nDataPerPage);
       }
@@ -1138,11 +1276,15 @@ class DatabaseHelper {
 // insert ads data
   Future<List<UserAdsListDataModel>> storeAllAdminSubmittedAds() async {
     try {
-      QuerySnapshot querySnapshot = await fireStoreInstance.collection(DatabaseSynonyms.adsListCollection).get();
+      QuerySnapshot querySnapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.adsListCollection)
+          .get();
 
       if (querySnapshot.docs.isNotEmpty) {
         return querySnapshot.docs.map((documentSnapshot) {
-          return UserAdsListDataModel.fromMap(documentSnapshot.data() as Map<String, dynamic>, docId: documentSnapshot.id);
+          return UserAdsListDataModel.fromMap(
+              documentSnapshot.data() as Map<String, dynamic>,
+              docId: documentSnapshot.id);
         }).toList();
       } else {
         log("No documents found in collection ${DatabaseSynonyms.adsListCollection}.");
@@ -1156,7 +1298,9 @@ class DatabaseHelper {
 
   Future<int> getsAdminSubmittedAdsListCount() async {
     try {
-      QuerySnapshot snapshot = await fireStoreInstance.collection(DatabaseSynonyms.adsListCollection).get();
+      QuerySnapshot snapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.adsListCollection)
+          .get();
       return snapshot.size;
     } catch (e) {
       log("Error fetching document count: $e");
@@ -1164,13 +1308,17 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<String>?> storeAdminSubmittedAdImages({required List<XFile> filesList, required String uid, required String adId}) async {
+  Future<List<String>?> storeAdminSubmittedAdImages(
+      {required List<XFile> filesList,
+      required String uid,
+      required String adId}) async {
     try {
       List<String> uploadedFilesUrl = [];
       for (XFile filesData in filesList) {
         final fileBytes = await filesData.readAsBytes();
         String filepath = 'ADID-$adId/UID-$uid/${filesData.name.split('.')[0]}';
-        Reference storageRef = firebaseStorage.ref().child('user-submitted-ads/$filepath');
+        Reference storageRef =
+            firebaseStorage.ref().child('user-submitted-ads/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -1194,13 +1342,18 @@ class DatabaseHelper {
     }
   }
 
-  Future<List<String>?> storeAdminCreatedAdsImages({required List<XFile> filesList, required String adminId, required String adName}) async {
+  Future<List<String>?> storeAdminCreatedAdsImages(
+      {required List<XFile> filesList,
+      required String adminId,
+      required String adName}) async {
     try {
       List<String> uploadedFilesUrl = [];
       for (XFile filesData in filesList) {
         final fileBytes = await filesData.readAsBytes();
-        String filepath = 'adminId-$adminId/adName-$adName/${filesData.name.split('.')[0]}';
-        Reference storageRef = firebaseStorage.ref().child('adsImages/$filepath');
+        String filepath =
+            'adminId-$adminId/adName-$adName/${filesData.name.split('.')[0]}';
+        Reference storageRef =
+            firebaseStorage.ref().child('adsImages/$filepath');
 
         // Create metadata with the correct MIME type
         final metadata = SettableMetadata(
@@ -1224,34 +1377,46 @@ class DatabaseHelper {
     }
   }
 
-  Future<String?> storeAdminCreatedAds({required UserAdsListDataModel userAdsListDataModel}) async {
+  Future<String?> storeAdminCreatedAds(
+      {required UserAdsListDataModel userAdsListDataModel}) async {
     try {
-      CollectionReference collectionRef = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      DocumentReference documentReference = await collectionRef.add(userAdsListDataModel.toMap());
+      CollectionReference collectionRef =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      DocumentReference documentReference =
+          await collectionRef.add(userAdsListDataModel.toMap());
       return documentReference.id;
     } catch (e) {
       return null;
     }
   }
 
-  Future<List<AdminCommentsListUserData>?> getCommentedUsersData({required String adId}) async {
+  Future<List<AdminCommentsListUserData>?> getCommentedUsersData(
+      {required String adId}) async {
     List<AdminCommentsListUserData> userAdDataList = [];
     try {
       // Fetch comments from userSubmittedAdCollection by adId
-      QuerySnapshot adSnapshot =
-          await fireStoreInstance.collection(DatabaseSynonyms.userSubmittedAdCollection).where(DatabaseSynonyms.adIdField, isEqualTo: adId).get();
+      QuerySnapshot adSnapshot = await fireStoreInstance
+          .collection(DatabaseSynonyms.userSubmittedAdCollection)
+          .where(DatabaseSynonyms.adIdField, isEqualTo: adId)
+          .get();
 
       // Loop through each comment
       for (var adDoc in adSnapshot.docs) {
         Map<String, dynamic> adData = adDoc.data() as Map<String, dynamic>;
         String userId = adData['uId']; // User ID from the comment collection
-        String comment = adData['comments']; // Comment from the comment collection
+        String comment =
+            adData['comments']; // Comment from the comment collection
 
         // Fetch user details from users collection using the userId
-        DocumentSnapshot<Map<String, dynamic>> userSnapshot = await fireStoreInstance.collection(DatabaseSynonyms.usersCollection).doc(userId).get();
+        DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+            await fireStoreInstance
+                .collection(DatabaseSynonyms.usersCollection)
+                .doc(userId)
+                .get();
 
         if (userSnapshot.exists) {
-          Map<String, dynamic> userData = userSnapshot.data() as Map<String, dynamic>;
+          Map<String, dynamic> userData =
+              userSnapshot.data() as Map<String, dynamic>;
 
           // Combine user details with comment data
           AdminCommentsListUserData userAdData = AdminCommentsListUserData(
@@ -1273,12 +1438,19 @@ class DatabaseHelper {
     return userAdDataList.isEmpty ? null : userAdDataList;
   }
 
-  Future<String?> updateAdCustomStatus({required String status, required String adId, String? reason, required String action}) async {
+  Future<String?> updateAdCustomStatus(
+      {required String status,
+      required String adId,
+      String? reason,
+      required String action}) async {
     try {
-      CollectionReference adsCollectionReference = fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
-      await adsCollectionReference
-          .doc(adId)
-          .update({DatabaseSynonyms.adStatusField: status, DatabaseSynonyms.companyAdAction: action, DatabaseSynonyms.adBlockReason: reason});
+      CollectionReference adsCollectionReference =
+          fireStoreInstance.collection(DatabaseSynonyms.adsListCollection);
+      await adsCollectionReference.doc(adId).update({
+        DatabaseSynonyms.adStatusField: status,
+        DatabaseSynonyms.companyAdAction: action,
+        DatabaseSynonyms.adBlockReason: reason
+      });
       return CustomStatus.success;
     } catch (e) {
       log('Exception : $e');
@@ -1313,8 +1485,10 @@ class DatabaseHelper {
         String startSearch = searchTerm!;
         String endSearch = '$searchTerm\uf8ff';
         query = query
-            .where(DatabaseSynonyms.userNameField, isGreaterThanOrEqualTo: startSearch)
-            .where(DatabaseSynonyms.userNameField, isLessThanOrEqualTo: endSearch);
+            .where(DatabaseSynonyms.userNameField,
+                isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.userNameField,
+                isLessThanOrEqualTo: endSearch);
       }
 
       if (lastDocument != null) {
@@ -1324,9 +1498,10 @@ class DatabaseHelper {
       QuerySnapshot querySnapshot = await query.get();
 
       List<AdminHomepageRecentUserCompanyModel> userList = querySnapshot.docs
-          .map((doc) =>
-              AdminHomepageRecentUserCompanyModel.fromMap(doc.data() as Map<String, dynamic>, docId: doc.id // Store the full document for pagination
-                  ))
+          .map((doc) => AdminHomepageRecentUserCompanyModel.fromMap(
+              doc.data() as Map<String, dynamic>,
+              docId: doc.id // Store the full document for pagination
+              ))
           .toList();
 
       return userList;
@@ -1353,8 +1528,10 @@ class DatabaseHelper {
         String startSearch = searchTerm!;
         String endSearch = '$searchTerm\uf8ff';
         query = query
-            .where(DatabaseSynonyms.userNameField, isGreaterThanOrEqualTo: startSearch)
-            .where(DatabaseSynonyms.userNameField, isLessThanOrEqualTo: endSearch);
+            .where(DatabaseSynonyms.userNameField,
+                isGreaterThanOrEqualTo: startSearch)
+            .where(DatabaseSynonyms.userNameField,
+                isLessThanOrEqualTo: endSearch);
       }
 
       print("Query query ${query.parameters}");
@@ -1370,12 +1547,14 @@ class DatabaseHelper {
 
       List<ManagerModel> managerList = querySnapshot.docs
           .map((doc) => ManagerModel.fromMap(
-                doc.data() as Map<String, dynamic>, // Store the full document for pagination
+                doc.data() as Map<String,
+                    dynamic>, // Store the full document for pagination
               ))
           .toList();
 
       // Add print statement to log the fetched data
-      print('Fetched managers: ${managerList.map((manager) => manager.toString()).toList()}');
+      print(
+          'Fetched managers: ${managerList.map((manager) => manager.toString()).toList()}');
 
       return managerList;
     } catch (e) {

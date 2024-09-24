@@ -7,6 +7,7 @@ import 'package:RatingRadar_app/routes/route_management.dart';
 import 'package:RatingRadar_app/utility/theme_colors_util.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../../../common/custom_button.dart';
 import '../../../../constant/dimens.dart';
 import '../../../../constant/strings.dart';
@@ -81,7 +82,10 @@ class UserSignInScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(40),
         child: SingleChildScrollView(
           child: Padding(
-            padding: EdgeInsets.only(right: Dimens.fortyFour, top: Dimens.forty, left: Dimens.fortyFour),
+            padding: EdgeInsets.only(
+                right: Dimens.fortyFour,
+                top: Dimens.forty,
+                left: Dimens.fortyFour),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.start,
@@ -98,11 +102,13 @@ class UserSignInScreen extends StatelessWidget {
                         textSpans: [
                           TextSpan(
                             text: 'welcome_to'.tr,
-                            style: AppStyles.style21Normal.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+                            style: AppStyles.style21Normal.copyWith(
+                                color: themeColorsUtil.whiteBlackSwitchColor),
                           ),
                           TextSpan(
                             text: " ${'ratings'.tr}",
-                            style: AppStyles.style21Bold.copyWith(color: themeColorsUtil.primaryColorSwitch),
+                            style: AppStyles.style21Bold.copyWith(
+                                color: themeColorsUtil.primaryColorSwitch),
                           ),
                         ],
                         minFontSize: 10,
@@ -112,7 +118,8 @@ class UserSignInScreen extends StatelessWidget {
                     Flexible(
                       child: InkWell(
                         onTap: () {
-                          if (userSignInScreenController.selectedRole.value == 1) {
+                          if (userSignInScreenController.selectedRole.value ==
+                              1) {
                             RouteManagement.goToUserSignUpScreen();
                           } else {
                             RouteManagement.goToManagerSignUpView();
@@ -124,13 +131,15 @@ class UserSignInScreen extends StatelessWidget {
                           children: [
                             CommonWidgets.autoSizeText(
                               text: 'no_account'.tr,
-                              textStyle: AppStyles.style13Normal.copyWith(color: themeColorsUtil.blackGreySwitchColor),
+                              textStyle: AppStyles.style13Normal.copyWith(
+                                  color: themeColorsUtil.blackGreySwitchColor),
                               minFontSize: 8,
                               maxFontSize: 13,
                             ),
                             CommonWidgets.autoSizeText(
                               text: 'sign_up'.tr,
-                              textStyle: AppStyles.style13Normal.copyWith(color: themeColorsUtil.primaryColorSwitch),
+                              textStyle: AppStyles.style13Normal.copyWith(
+                                  color: themeColorsUtil.primaryColorSwitch),
                               minFontSize: 8,
                               maxFontSize: 13,
                             ),
@@ -142,7 +151,8 @@ class UserSignInScreen extends StatelessWidget {
                 ),
                 CommonWidgets.autoSizeText(
                   text: 'sign_in'.tr,
-                  textStyle: AppStyles.style55SemiBold.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+                  textStyle: AppStyles.style55SemiBold
+                      .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
                   minFontSize: 30,
                   maxFontSize: 55,
                 ),
@@ -157,12 +167,15 @@ class UserSignInScreen extends StatelessWidget {
                   ),
                 ),
                 textFieldWithLabel(
-                    hintText: 'email_address'.tr,
-                    labelText: 'enter_your_email_address'.tr,
-                    themeColorsUtil: themeColorsUtil,
-                    controller: userSignInScreenController.emailOrUserNameController),
+                  hintText: 'email_address'.tr,
+                  labelText: 'enter_your_email_address'.tr,
+                  themeColorsUtil: themeColorsUtil,
+                  controller:
+                      userSignInScreenController.emailOrUserNameController,
+                ),
                 Padding(
-                  padding: EdgeInsets.only(top: Dimens.thirtyEight, bottom: Dimens.twelve),
+                  padding: EdgeInsets.only(
+                      top: Dimens.thirtyEight, bottom: Dimens.twelve),
                   child: Obx(
                     () => textFieldWithLabel(
                       hintText: 'password'.tr,
@@ -170,14 +183,18 @@ class UserSignInScreen extends StatelessWidget {
                       themeColorsUtil: themeColorsUtil,
                       suffixIcon: InkWell(
                         onTap: () {
-                          userSignInScreenController.isShowPassword.value = !userSignInScreenController.isShowPassword.value;
+                          userSignInScreenController.isShowPassword.value =
+                              !userSignInScreenController.isShowPassword.value;
                         },
                         child: userSignInScreenController.isShowPassword.value
-                            ? CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityIcon)
-                            : CommonWidgets.fromSvg(svgAsset: SvgAssets.eyeVisibilityOffIcon),
+                            ? CommonWidgets.fromSvg(
+                                svgAsset: SvgAssets.eyeVisibilityIcon)
+                            : CommonWidgets.fromSvg(
+                                svgAsset: SvgAssets.eyeVisibilityOffIcon),
                       ),
                       controller: userSignInScreenController.passwordController,
-                      obscureText: !userSignInScreenController.isShowPassword.value,
+                      obscureText:
+                          !userSignInScreenController.isShowPassword.value,
                     ),
                   ),
                 ),
@@ -185,7 +202,8 @@ class UserSignInScreen extends StatelessWidget {
                   alignment: Alignment.bottomRight,
                   child: CommonWidgets.autoSizeText(
                     text: 'forgot_password'.tr,
-                    textStyle: AppStyles.style13Normal.copyWith(color: themeColorsUtil.primaryColorSwitch),
+                    textStyle: AppStyles.style13Normal
+                        .copyWith(color: themeColorsUtil.primaryColorSwitch),
                     minFontSize: 8,
                     maxFontSize: 13,
                   ),
@@ -193,42 +211,74 @@ class UserSignInScreen extends StatelessWidget {
                 Obx(
                   () => CustomButton(
                     btnText: 'sign_in'.tr,
-                    isShowLoading: userSignInScreenController.isShowLoadingOnButton.value,
-                    margin: EdgeInsets.only(top: Dimens.fortyFour, bottom: Dimens.seventy),
+                    isShowLoading:
+                        userSignInScreenController.isShowLoadingOnButton.value,
+                    margin: EdgeInsets.only(
+                        top: Dimens.fortyFour, bottom: Dimens.seventy),
                     onTap: () async {
-                      if (userSignInScreenController.emailOrUserNameController.text.trim().isEmpty) {
+                      if (userSignInScreenController
+                          .emailOrUserNameController.text
+                          .trim()
+                          .isEmpty) {
                         AppUtility.showSnackBar('please_enter_email'.tr);
-                      } else if (userSignInScreenController.passwordController.text.trim().isEmpty) {
+                      } else if (userSignInScreenController
+                          .passwordController.text
+                          .trim()
+                          .isEmpty) {
                         AppUtility.showSnackBar('please_enter_password'.tr);
-                      } else if (userSignInScreenController.passwordController.text.trim().length < 6) {
-                        AppUtility.showSnackBar('please_enter_valid_password'.tr);
+                      } else if (userSignInScreenController
+                              .passwordController.text
+                              .trim()
+                              .length <
+                          6) {
+                        AppUtility.showSnackBar(
+                            'please_enter_valid_password'.tr);
                       } else {
                         /// sign in user
-                        if (userSignInScreenController.selectedRole.value == 1) {
-                          String signInStatus = await userSignInScreenController.signInUser(
-                            email: userSignInScreenController.emailOrUserNameController.text,
-                            password: userSignInScreenController.passwordController.text,
+                        if (userSignInScreenController.selectedRole.value ==
+                            1) {
+                          String signInStatus =
+                              await userSignInScreenController.signInUser(
+                            email: userSignInScreenController
+                                .emailOrUserNameController.text,
+                            password: userSignInScreenController
+                                .passwordController.text,
                           );
                           if (signInStatus == CustomStatus.success) {
                             RouteManagement.goToUserHomePageScreen();
                             userSignInScreenController.clearControllers();
-                          } else if (signInStatus == CustomStatus.wrongEmailPassword) {
+                          } else if (signInStatus ==
+                              CustomStatus.wrongEmailPassword) {
                             AppUtility.showSnackBar('wrong_email_password'.tr);
-                          } else if (signInStatus == CustomStatus.userNotVerified) {
-                            RouteManagement.goToUserConformationScreen(email: userSignInScreenController.emailOrUserNameController.text);
+                          }
+                          /// If type is user
+                          // else if (signInStatus == CustomStatus.userType) {
+                          //   AppUtility.showSnackBar(
+                          //       "invalid_email_or_password".tr);
+                          // }
+                          else if (signInStatus ==
+                              CustomStatus.userNotVerified) {
+                            RouteManagement.goToUserConformationScreen(
+                                email: userSignInScreenController
+                                    .emailOrUserNameController.text);
                           } else {
                             AppUtility.showSnackBar('user_not_found'.tr);
                           }
+                          print("check value signInStatus : ${signInStatus}");
                         } else {
-                          String signInStatus = await userSignInScreenController.signInManager(
-                            email: userSignInScreenController.emailOrUserNameController.text,
-                            password: userSignInScreenController.passwordController.text,
+                          String signInStatus =
+                              await userSignInScreenController.signInManager(
+                            email: userSignInScreenController
+                                .emailOrUserNameController.text,
+                            password: userSignInScreenController
+                                .passwordController.text,
                           );
 
                           if (signInStatus == CustomStatus.success) {
                             AppUtility.showSnackBar('Sign in Successfully');
                             userSignInScreenController.clearControllers();
-                          } else if (signInStatus == CustomStatus.wrongEmailPassword) {
+                          } else if (signInStatus ==
+                              CustomStatus.wrongEmailPassword) {
                             AppUtility.showSnackBar('wrong_email_password'.tr);
                           } else {
                             AppUtility.showSnackBar('user_not_found'.tr);
@@ -260,12 +310,15 @@ class UserSignInScreen extends StatelessWidget {
           padding: EdgeInsets.only(bottom: Dimens.ten),
           child: CommonWidgets.autoSizeText(
             text: labelText,
-            textStyle: AppStyles.style16Normal.copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
+            textStyle: AppStyles.style16Normal
+                .copyWith(color: themeColorsUtil.whiteBlackSwitchColor),
             minFontSize: 10,
             maxFontSize: 16,
           ),
         ),
         CustomTextField(
+          textStyle: AppStyles.style16Normal
+              .copyWith(color: ColorValues.darkCharcoalColor),
           controller: controller,
           hintText: hintText,
           suffixIcon: suffixIcon,

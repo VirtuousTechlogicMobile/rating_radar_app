@@ -267,6 +267,7 @@ class UserSignUpScreen extends StatelessWidget {
                             referredBy: userReferredById ?? '',
                             userBanksDataList: [],
                             userCardsList: [],
+                            type: 'user',
                           ),
                         );
                         if (registrationStatus == CustomStatus.success) {
@@ -314,6 +315,7 @@ class UserSignUpScreen extends StatelessWidget {
           ),
         ),
         CustomTextField(
+          textStyle: AppStyles.style16Normal.copyWith(color: ColorValues.darkCharcoalColor),
           controller: controller,
           hintText: hintText,
           suffixIcon: suffixIcon,

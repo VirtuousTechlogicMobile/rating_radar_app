@@ -14,6 +14,7 @@ class UserDataModel {
   String? city;
   String? state;
   String? panNumber;
+  String type;
   List<UserCardData>? userCardsList;
   List<UserBankData>? userBanksDataList;
 
@@ -24,6 +25,7 @@ class UserDataModel {
     required this.phoneNumber,
     required this.password,
     required this.referredBy,
+    required this.type,
     this.createdAt,
     this.profileImage,
     this.userBalance,
@@ -36,11 +38,11 @@ class UserDataModel {
   });
 
   UserDataModel copyWith({
+    DateTime? newCreatedAt,
     String? newProfileImage,
     String? newUserName,
     String? newPassword,
     String? newPhoneNumber,
-    DateTime? newCreatedAt,
     num? newUserBalance,
     String? newGender,
     String? newCity,
@@ -64,6 +66,7 @@ class UserDataModel {
       referredBy: referredBy,
       userBanksDataList: newUserBanksDataList ?? userBanksDataList,
       userCardsList: newUserCardsList ?? userCardsList,
+      type: type,
     );
   }
 
@@ -81,8 +84,11 @@ class UserDataModel {
       'state': state,
       'panNumber': panNumber,
       'referredBy': referredBy,
-      'userBanksDataList': userBanksDataList?.map((bankData) => bankData.toMap()).toList() ?? [],
-      'userCardsList': userCardsList?.map((cardData) => cardData.toMap()).toList() ?? [],
+      'userBanksDataList':
+          userBanksDataList?.map((bankData) => bankData.toMap()).toList() ?? [],
+      'userCardsList':
+          userCardsList?.map((cardData) => cardData.toMap()).toList() ?? [],
+      "type": type,
     };
   }
 
@@ -100,8 +106,13 @@ class UserDataModel {
       state: map['state'],
       panNumber: map['panNumber'],
       referredBy: map['referredBy'],
-      userBanksDataList: List<UserBankData>.from(map['userBanksDataList']?.map((bankData) => UserBankData.fromMap(bankData)) ?? []),
-      userCardsList: List<UserCardData>.from(map['userCardsList']?.map((cardData) => UserCardData.fromMap(cardData)) ?? []),
+      userBanksDataList: List<UserBankData>.from(map['userBanksDataList']
+              ?.map((bankData) => UserBankData.fromMap(bankData)) ??
+          []),
+      userCardsList: List<UserCardData>.from(map['userCardsList']
+              ?.map((cardData) => UserCardData.fromMap(cardData)) ??
+          []),
+      type: map['type'],
     );
   }
 }
@@ -112,7 +123,11 @@ class UserCardData {
   String cvv;
   String cardNumber;
 
-  UserCardData({required this.holderName, required this.expDate, required this.cvv, required this.cardNumber});
+  UserCardData(
+      {required this.holderName,
+      required this.expDate,
+      required this.cvv,
+      required this.cardNumber});
 
   Map<String, dynamic> toMap() {
     return {
@@ -139,7 +154,11 @@ class UserBankData {
   String accNumber;
   String accHolderName;
 
-  UserBankData({required this.bankName, required this.ifscCode, required this.accNumber, required this.accHolderName});
+  UserBankData(
+      {required this.bankName,
+      required this.ifscCode,
+      required this.accNumber,
+      required this.accHolderName});
 
   Map<String, dynamic> toMap() {
     return {

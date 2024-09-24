@@ -17,7 +17,8 @@ final Map<String, String> enUs = {
   'password': 'Password',
   'enter_your_password': 'Enter your Password',
   'confirm_password': 'Confirm Password',
-  'enter_your_username_or_email_address': 'Enter your username or email address',
+  'enter_your_username_or_email_address':
+      'Enter your username or email address',
   'username_or_email_address': 'Username or email address',
   'forgot_password': 'Forgot Password',
   'no_account': 'No Account ?',
@@ -29,15 +30,18 @@ final Map<String, String> enUs = {
   'please_enter_password': 'Please enter password',
   'please_enter_valid_password': 'Please enter valid password',
   'please_enter_confirm_password': 'Please enter confirm password',
-  'password_confirm_password_do_not_match': 'Password and confirm password do not match',
-  'password_must_be_at_least_6_characters': 'password must be at least 6 characters',
+  'password_confirm_password_do_not_match':
+      'Password and confirm password do not match',
+  'password_must_be_at_least_6_characters':
+      'password must be at least 6 characters',
   'sign_up_successfully': 'Signup successfully',
   'something_want_wrong': 'Something want wrong!',
-  'wrong_email_password': 'Wrong email/password',
+  'wrong_email_password': 'Wrong email or password',
   'user_not_found': 'User not found',
   'resend_email': 'Resend Email',
   'we_sent_a_confirmation_email_to': 'We Sent a Confirmation Email To:',
-  'check_your_email_and_click_on_the_confirmation_link_to_continue': 'Check your Email and click on the\nConfirmation Link to Continue',
+  'check_your_email_and_click_on_the_confirmation_link_to_continue':
+      'Check your Email and click on the\nConfirmation Link to Continue',
   'confirm_your_email_address': 'Confirm your Email address',
   'employee_id_manager_id': 'Employee ID/Manager ID',
   'please_enter_employee_id_manager_id': 'Please enter Employee ID/Manager ID',
@@ -143,7 +147,8 @@ final Map<String, String> enUs = {
   'submitted_in_the_last_24_hours': 'Submitted in the last 24 hours',
   'you_are': 'You are',
   'logged_out': 'Logged Out',
-  'thank_you_for_using_review_and_rating': 'Thank you for using Review and Rating',
+  'thank_you_for_using_review_and_rating':
+      'Thank you for using Review and Rating',
   'in_your_personal_wallet_you_can_store_funds_with_draw_them_and_make_transactions_it_is_completely_safe':
       'In your Personal Wallet, you can  store funds, withdraw them, and\nmake transactions. It is Completely safe.',
   'name': 'Name',
@@ -161,15 +166,20 @@ final Map<String, String> enUs = {
   'credit_card': 'Credit Card',
   'please_enter_amount': 'Please enter amount',
   'please_select_payment_type': 'Please select payment type',
-  'amount_must_be_up_to_500_for_withdrawal': 'Amount must be up to 500 for withdrawal',
+  'amount_must_be_up_to_500_for_withdrawal':
+      'Amount must be up to 500 for withdrawal',
   'insufficient_balance_you_cannot_withdraw_more_than_your_current_balance_of':
       'Insufficient balance. You cannot withdraw more than your current balance of ',
   'success_your_withdrawal_of': 'Success: Your withdrawal of ',
-  'has_been_processed_your_new_balance_is': ' has been processed. Your new balance is ',
+  'has_been_processed_your_new_balance_is':
+      ' has been processed. Your new balance is ',
   'your_deposit_of': 'Your deposit of ',
-  'has_been_successfully_added_your_new_balance_is': ' has been successfully added. Your new balance is ',
-  'withdrawal_request_submitted_awaiting_admin_approval': 'Withdrawal request submitted. Awaiting admin approval.',
-  'deposit_request_submitted_awaiting_admin_approval': 'Deposit request submitted. Awaiting admin approval.',
+  'has_been_successfully_added_your_new_balance_is':
+      ' has been successfully added. Your new balance is ',
+  'withdrawal_request_submitted_awaiting_admin_approval':
+      'Withdrawal request submitted. Awaiting admin approval.',
+  'deposit_request_submitted_awaiting_admin_approval':
+      'Deposit request submitted. Awaiting admin approval.',
   'my_account': 'My Account',
   'payment_method': 'Payment Method',
   'change_password': 'Change Password',
@@ -182,8 +192,10 @@ final Map<String, String> enUs = {
   'pan_number': 'Pan Number',
   'phone_number': 'Phone Number',
   'phone': 'Phone',
-  'profile_picture_updated_successfully': 'Profile picture updated successfully!',
-  'profile_picture_removed_successfully': 'Profile picture removed successfully!',
+  'profile_picture_updated_successfully':
+      'Profile picture updated successfully!',
+  'profile_picture_removed_successfully':
+      'Profile picture removed successfully!',
   'profile_picture': 'Profile picture',
   'enter_reason_for_blocking_ad': 'Enter Reason for blocking Ad',
   'add_user': 'Add User',
@@ -197,14 +209,17 @@ final Map<String, String> enUs = {
   'passwords_do_not_match': 'Passwords do not match!',
   'please_re_enter_password': 'Please Re-Enter Password',
   'password_changed_successfully': 'Password changed successfully',
-  'the_new_password_must_be_different_from_the_old_one': 'The new password must be different from the old one.',
+  'the_new_password_must_be_different_from_the_old_one':
+      'The new password must be different from the old one.',
   'for_security_reasons_you_need_to_log_in_again_before_changing_the_password':
       'For security reasons, you need to log in again before changing the password.',
-  'for_security_reasons_you_need_to_log_in_again_before_delete_account': 'For security reasons, you need to log in again before delete the account.',
+  'for_security_reasons_you_need_to_log_in_again_before_delete_account':
+      'For security reasons, you need to log in again before delete the account.',
   'delete': 'Delete',
   'your_account_deleted_successfully': 'Your account deleted successfully',
   'wrong_password': 'Wrong password',
-  'failed_to_delete_account': 'Something want wrong!. Failed to delete account.',
+  'failed_to_delete_account':
+      'Something want wrong!. Failed to delete account.',
   'cards': 'Cards',
   'add_cards': 'Add Cards',
   'bank_accounts': 'Bank Accounts',
@@ -222,5 +237,6 @@ final Map<String, String> enUs = {
   'manager_name': 'Manager Name',
   'manager_details': 'Manager Details',
   'enter_reason_for_blocking_company': 'Enter Reason for blocking Company',
+  'invalid_email_or_password': 'Invalid email or password. Please try again.'
   // 'Youare': 'Youare',
 };

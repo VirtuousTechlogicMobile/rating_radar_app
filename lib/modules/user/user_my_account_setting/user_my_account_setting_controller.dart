@@ -38,14 +38,20 @@ class UserMyAccountSettingController extends GetxController {
   }
 
   Future getUserProfilePicture() async {
-    String userProfilePicture = await DatabaseHelper.instance.getUserProfilePicture(uId: userId.value) ?? '';
+    String userProfilePicture = await DatabaseHelper.instance
+            .getUserProfilePicture(uId: userId.value) ??
+        '';
+
     if (userData.value != null) {
-      userData.value = userData.value!.copyWith(newProfileImage: userProfilePicture);
+      userData.value = userData.value!.copyWith(
+        newProfileImage: userProfilePicture,
+      );
     }
   }
 
   Future getUserData() async {
-    userData.value = await DatabaseHelper.instance.getSpecificUserData(uId: userId.value);
+    userData.value =
+        await DatabaseHelper.instance.getSpecificUserData(uId: userId.value);
     fullNameController.text = userData.value?.username ?? '';
     emailController.text = userData.value?.email ?? '';
     phoneNumberController.text = userData.value?.phoneNumber ?? '';
@@ -70,6 +76,7 @@ class UserMyAccountSettingController extends GetxController {
         gender: userGender.value,
         uId: userId.value,
         referredBy: '',
+        type: '',
       ),
     );
     await getUserData();
@@ -85,7 +92,8 @@ class UserMyAccountSettingController extends GetxController {
         Get.context?.loaderOverlay.show();
 
         /// update image
-        String? profilePictureUrl = await DatabaseHelper.instance.updateUserProfilePictureInStorage(
+        String? profilePictureUrl =
+            await DatabaseHelper.instance.updateUserProfilePictureInStorage(
           uId: userId.value,
           newFileData: pickedImage.value,
           oldProfileImage: userData.value?.profileImage,
@@ -93,7 +101,9 @@ class UserMyAccountSettingController extends GetxController {
 
         /// update profile picture in users table
         if (profilePictureUrl != null) {
-          String? updateStatus = await DatabaseHelper.instance.updateUserProfilePictureInFireStore(profilePictureUrl: profilePictureUrl, uId: userId.value);
+          String? updateStatus = await DatabaseHelper.instance
+              .updateUserProfilePictureInFireStore(
+                  profilePictureUrl: profilePictureUrl, uId: userId.value);
           if (updateStatus == CustomStatus.success) {
             await getUserProfilePicture();
             Get.context?.loaderOverlay.hide();
@@ -119,8 +129,11 @@ class UserMyAccountSettingController extends GetxController {
 
   Future<String?> removeProfilePicture() async {
     Get.context?.loaderOverlay.show();
-    await DatabaseHelper.instance.removeUserProfilePictureInStorage(oldProfileImageUrl: userData.value?.profileImage ?? '');
-    String? updateStatus = await DatabaseHelper.instance.updateUserProfilePictureInFireStore(profilePictureUrl: '', uId: userId.value);
+    await DatabaseHelper.instance.removeUserProfilePictureInStorage(
+        oldProfileImageUrl: userData.value?.profileImage ?? '');
+    String? updateStatus = await DatabaseHelper.instance
+        .updateUserProfilePictureInFireStore(
+            profilePictureUrl: '', uId: userId.value);
     if (updateStatus == CustomStatus.success) {
       await getUserProfilePicture();
       Get.context?.loaderOverlay.hide();
