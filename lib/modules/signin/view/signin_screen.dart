@@ -251,11 +251,6 @@ class UserSignInScreen extends StatelessWidget {
                               CustomStatus.wrongEmailPassword) {
                             AppUtility.showSnackBar('wrong_email_password'.tr);
                           }
-                          /// If type is user
-                          // else if (signInStatus == CustomStatus.userType) {
-                          //   AppUtility.showSnackBar(
-                          //       "invalid_email_or_password".tr);
-                          // }
                           else if (signInStatus ==
                               CustomStatus.userNotVerified) {
                             RouteManagement.goToUserConformationScreen(

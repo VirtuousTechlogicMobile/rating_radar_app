@@ -237,6 +237,5 @@ final Map<String, String> enUs = {
   'manager_name': 'Manager Name',
   'manager_details': 'Manager Details',
   'enter_reason_for_blocking_company': 'Enter Reason for blocking Company',
-  'invalid_email_or_password': 'Invalid email or password. Please try again.'
   // 'Youare': 'Youare',
 };

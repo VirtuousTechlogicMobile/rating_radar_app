@@ -140,15 +140,7 @@ class DatabaseHelper {
         email: userSignInModel.email,
         password: userSignInModel.password,
       );
-
-      DocumentSnapshot userDoc = await FirebaseFirestore.instance
-          .collection('user')
-          .doc(userCredential.user?.uid)
-          .get();
-
       if (userCredential.user != null && userCredential.user!.emailVerified) {
-        // if (userDoc.data()!['type'] == "user") {
-        // }
         /// store data in shared preferences
         await PreferencesManager.setUserUid(
             uid: userCredential.user?.uid ?? '');
