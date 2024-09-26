@@ -1,9 +1,9 @@
 import 'package:RatingRadar_app/constant/assets.dart';
-import 'package:RatingRadar_app/generated/assets.dart';
 import 'package:flutter/material.dart';
 
 class ThemeAssetsUtil {
   final bool isDarkTheme;
+
   ThemeAssetsUtil(BuildContext context) : isDarkTheme = Theme.of(context).brightness == Brightness.dark;
 
   String get themeButton {
